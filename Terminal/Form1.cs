@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO.Ports;
-using System.Threading;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace Terminal
 {
@@ -28,8 +20,7 @@ namespace Terminal
         int cycle_counter;
         int ttf_counter, counter_S, counter_D, counter_F, counter_R;
         float ttfS, ttfD, ttfF, ttfR;
-        float ttfS_sum,ttfD_sum,ttfF_sum,ttfR_sum;
-
+        float ttfS_sum, ttfD_sum, ttfF_sum, ttfR_sum;
 
         public Form1()
         {
@@ -38,16 +29,47 @@ namespace Terminal
 
         public void Form1_Load(object sender, EventArgs e)
         {
+            ComPortsList1.Items.Add("OFF");
+            ComPortsList2.Items.Add("OFF");
+            ComPortsList3.Items.Add("OFF");
+            ComPortsList4.Items.Add("OFF");
+            ComPortsList5.Items.Add("OFF");
+            ComPortsList6.Items.Add("OFF");
+            ComPortsList7.Items.Add("OFF");
+            ComPortsList8.Items.Add("OFF");
+
+
             // default speed = 115200
-            PortSpeedList.SelectedIndex = 3;
+            PortSpeedList1.SelectedIndex = 3;
+            PortSpeedList2.SelectedIndex = 3;
+            PortSpeedList3.SelectedIndex = 3;
+            PortSpeedList4.SelectedIndex = 3;
+            PortSpeedList5.SelectedIndex = 3;
+            PortSpeedList6.SelectedIndex = 3;
+            PortSpeedList7.SelectedIndex = 3;
+            PortSpeedList8.SelectedIndex = 3;
+
             // scanning available com ports
             string[] ports = SerialPort.GetPortNames();
             for (int i = 0; i < ports.GetLength(0); i++)
             {
-                ComPortsList.Items.Add(ports[i]);
-                ComPortsListBox.Items.Add(ports[i]);
+                ComPortsList1.Items.Add(ports[i]);
+                ComPortsList2.Items.Add(ports[i]);
+                ComPortsList3.Items.Add(ports[i]);
+                ComPortsList4.Items.Add(ports[i]);
+                ComPortsList5.Items.Add(ports[i]);
+                ComPortsList6.Items.Add(ports[i]);
+                ComPortsList7.Items.Add(ports[i]);
+                ComPortsList8.Items.Add(ports[i]);
             }
-            ComPortsList.SelectedIndex = 0;
+            ComPortsList1.SelectedIndex = 0;
+            ComPortsList2.SelectedIndex = 0;
+            ComPortsList3.SelectedIndex = 0;
+            ComPortsList4.SelectedIndex = 0;
+            ComPortsList5.SelectedIndex = 0;
+            ComPortsList6.SelectedIndex = 0;
+            ComPortsList7.SelectedIndex = 0;
+            ComPortsList8.SelectedIndex = 0;
             //Default solution - RTK fixed
             AntSW_soltype.SelectedIndex = 2;
 
@@ -64,8 +86,8 @@ namespace Terminal
 
         void button1_Click(object sender, EventArgs e)
         {
-            Object selectedport = ComPortsList.SelectedItem;
-            CurrentPort = new SerialPort(selectedport.ToString(), Int32.Parse(PortSpeedList.SelectedItem.ToString()));
+            Object selectedport = ComPortsList1.SelectedItem;
+            CurrentPort = new SerialPort(selectedport.ToString(), Int32.Parse(PortSpeedList1.SelectedItem.ToString()));
             try
             {
                 if (!(CurrentPort.IsOpen))
@@ -99,7 +121,11 @@ namespace Terminal
             }
         }
 
-        
+        private void ComPortsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
         void si_DataReceived(string data) 
         {
             TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
