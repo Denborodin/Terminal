@@ -7,7 +7,7 @@ namespace Terminal
 {
     public partial class Form1 : Form
     {
-        SerialPort CurrentPort;
+        SerialPort[] CurrentPort = new SerialPort[8];
 
         private delegate void SetTextDeleg(string text);
 
@@ -21,55 +21,102 @@ namespace Terminal
         int ttf_counter, counter_S, counter_D, counter_F, counter_R;
         float ttfS, ttfD, ttfF, ttfR;
         float ttfS_sum, ttfD_sum, ttfF_sum, ttfR_sum;
+        ComboBox[] ComPortList = new ComboBox[8];
+        ComboBox[] PortSpeedList = new ComboBox[8];
+        Button[] ButtonOpen = new Button[8];
+        Button[] ButtonClose = new Button[8];
 
         public Form1()
         {
             InitializeComponent();
+            CreateComponents();
+        }
+
+        public void CreateComponents()
+        {
+            //Create ComPortList comboboxses
+            for (int i = 0; i < ComPortList.Length; i++)
+            {
+                ComPortList[i] = new ComboBox
+                {
+                    Location = new System.Drawing.Point(8 , 16+ i * 27),
+                    Name = "ComPortList" + i.ToString(),
+                    Size = new System.Drawing.Size(80, 21),
+                    TabIndex = i
+                };
+                ComPortList[i].Items.Add("OFF");
+                this.tabMain.Controls.Add(ComPortList[i]);
+            }
+
+            //Create PortSpeedList comboboxses
+            for (int i = 0; i < PortSpeedList.Length; i++)
+            {
+                PortSpeedList[i] = new ComboBox
+                {
+                    Location = new System.Drawing.Point(93, 16 + i * 27),
+                    Name = "PortSpeedList" + i.ToString(),
+                    Size = new System.Drawing.Size(71, 21),
+                    //TabIndex = i
+                };
+                PortSpeedList[i].Items.AddRange(new object[] {
+                    "9600",
+                    "38400",
+                    "57600",
+                    "115200"});
+                PortSpeedList[i].SelectedIndex = 3;
+                this.tabMain.Controls.Add(PortSpeedList[i]);
+            }
+
+            //Create ButtonOpen Buttons
+            for (int i = 0; i < ButtonOpen.Length; i++)
+            {
+                ButtonOpen[i] = new Button
+                {
+                    Location = new System.Drawing.Point(170, 14 + i * 27),
+                    Name = "ButtonOpen" + i.ToString(),
+                    Size = new System.Drawing.Size(54, 22),
+                    TabIndex = i,
+                    Text = "Open",
+                };
+                this.tabMain.Controls.Add(ButtonOpen[i]);
+            }
+
+            //Create ButtonClose Buttons
+            for (int i = 0; i < ButtonClose.Length; i++)
+            {
+                ButtonClose[i] = new Button
+                {
+                    Location = new System.Drawing.Point(230, 14 + i * 27),
+                    Name = "ButtonClose" + i.ToString(),
+                    Size = new System.Drawing.Size(54, 22),
+                    TabIndex = i,
+                    Text = "Close",
+                };
+                this.tabMain.Controls.Add(ButtonClose[i]);
+            }
         }
 
         public void Form1_Load(object sender, EventArgs e)
         {
-            ComPortsList1.Items.Add("OFF");
-            ComPortsList2.Items.Add("OFF");
-            ComPortsList3.Items.Add("OFF");
-            ComPortsList4.Items.Add("OFF");
-            ComPortsList5.Items.Add("OFF");
-            ComPortsList6.Items.Add("OFF");
-            ComPortsList7.Items.Add("OFF");
-            ComPortsList8.Items.Add("OFF");
-
-
+            
             // default speed = 115200
-            PortSpeedList1.SelectedIndex = 3;
-            PortSpeedList2.SelectedIndex = 3;
-            PortSpeedList3.SelectedIndex = 3;
-            PortSpeedList4.SelectedIndex = 3;
-            PortSpeedList5.SelectedIndex = 3;
-            PortSpeedList6.SelectedIndex = 3;
-            PortSpeedList7.SelectedIndex = 3;
-            PortSpeedList8.SelectedIndex = 3;
+
 
             // scanning available com ports
             string[] ports = SerialPort.GetPortNames();
             for (int i = 0; i < ports.GetLength(0); i++)
             {
-                ComPortsList1.Items.Add(ports[i]);
-                ComPortsList2.Items.Add(ports[i]);
-                ComPortsList3.Items.Add(ports[i]);
-                ComPortsList4.Items.Add(ports[i]);
-                ComPortsList5.Items.Add(ports[i]);
-                ComPortsList6.Items.Add(ports[i]);
-                ComPortsList7.Items.Add(ports[i]);
-                ComPortsList8.Items.Add(ports[i]);
+                for (int j = 0; j < ComPortList.Length; j++)
+                {
+                    ComPortList[j].Items.Add(ports[i]);
+                }               
             }
-            ComPortsList1.SelectedIndex = 0;
-            ComPortsList2.SelectedIndex = 0;
-            ComPortsList3.SelectedIndex = 0;
-            ComPortsList4.SelectedIndex = 0;
-            ComPortsList5.SelectedIndex = 0;
-            ComPortsList6.SelectedIndex = 0;
-            ComPortsList7.SelectedIndex = 0;
-            ComPortsList8.SelectedIndex = 0;
+
+            for (int j = 0; j < ComPortList.Length; j++)
+            {
+                ComPortList[j].SelectedIndex = 0;
+            }
+
             //Default solution - RTK fixed
             AntSW_soltype.SelectedIndex = 2;
 
@@ -84,17 +131,17 @@ namespace Terminal
 
         }
 
-        void button1_Click(object sender, EventArgs e)
+        void ButtonOpen_Click(object sender, EventArgs e)
         {
-            Object selectedport = ComPortsList1.SelectedItem;
-            CurrentPort = new SerialPort(selectedport.ToString(), Int32.Parse(PortSpeedList1.SelectedItem.ToString()));
+            Object selectedport = ComPortList[1].SelectedItem;
+            CurrentPort[0] = new SerialPort(selectedport.ToString(), Int32.Parse(PortSpeedList[0].SelectedItem.ToString()));
             try
             {
-                if (!(CurrentPort.IsOpen))
+                if (!(CurrentPort[0].IsOpen))
                 {
-                CurrentPort.Open();
-                ButtonOpen.Enabled = false;
-                ButtonClose.Enabled = true;
+                CurrentPort[0].Open();
+                ButtonOpen[0].Enabled = false;
+                ButtonClose[0].Enabled = true;
                 AntSWStart.Enabled = true;
                 }
             }
@@ -103,7 +150,7 @@ namespace Terminal
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);         
             }
   
-            CurrentPort.DataReceived += CurrentPort_DataReceived;
+            CurrentPort[0].DataReceived += CurrentPort_DataReceived;
         }
 
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -112,7 +159,7 @@ namespace Terminal
             try
             {
                 string data = port.ReadLine();
-                this.BeginInvoke(new SetTextDeleg(si_DataReceived), new object[] { data }); 
+                this.BeginInvoke(new SetTextDeleg(Si_DataReceived), new object[] { data }); 
             }
             catch (Exception ex)
             {
@@ -126,7 +173,7 @@ namespace Terminal
 
         }
 
-        void si_DataReceived(string data) 
+        void Si_DataReceived(string data) 
         {
             TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
             SolutionLabel.Text = SolType(data);
@@ -134,9 +181,9 @@ namespace Terminal
         
         void ButtonClose_Click(object sender, EventArgs e)
         {
-            CurrentPort.Close();
-            ButtonOpen.Enabled = true;
-            ButtonClose.Enabled = false;
+            CurrentPort[0].Close();
+            ButtonOpen[0].Enabled = true;
+            ButtonClose[0].Enabled = false;
             SolutionLabel.Text = "N/A";
             AntSWStart.Enabled = false;
         }
@@ -294,7 +341,7 @@ namespace Terminal
                         }
                         else
                         {
-                            CurrentPort.WriteLine(AntResetCommand1.Text);
+                            CurrentPort[0].WriteLine(AntResetCommand1.Text);
                             //TextBox_Console.AppendText(AntResetCommand1.Text + Environment.NewLine);
                             string data = AntResetTimeout_int.ToString();
                             this.BeginInvoke(new SetTextDeleg(RTKResetTimeoutChange), new object[] { data });
@@ -312,7 +359,7 @@ namespace Terminal
                         }
                         else
                         {
-                            CurrentPort.WriteLine(AntResetCommand2.Text);
+                            CurrentPort[0].WriteLine(AntResetCommand2.Text);
                             //TextBox_Console.AppendText(AntResetCommand2.Text + Environment.NewLine);
                             string data = AntEnableTimeout_int.ToString();
                             this.BeginInvoke(new SetTextDeleg(RTKEnableTimeoutChange), new object[] { data });
