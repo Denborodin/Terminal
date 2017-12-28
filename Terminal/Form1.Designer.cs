@@ -48,7 +48,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.AntResetTimeout = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.AntSW_soltype = new System.Windows.Forms.ComboBox();
+            this.TTFSW_soltype = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabStatistics = new System.Windows.Forms.TabPage();
@@ -61,6 +61,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.label5 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -76,16 +77,18 @@
             this.tabControl1.Controls.Add(this.tabMain);
             this.tabControl1.Controls.Add(this.tabStatistics);
             this.tabControl1.Controls.Add(this.tabTerminal);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(650, 262);
+            this.tabControl1.Size = new System.Drawing.Size(718, 358);
             this.tabControl1.TabIndex = 8;
             // 
             // tabMain
             // 
             this.tabMain.BackColor = System.Drawing.Color.Transparent;
             this.tabMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabMain.Controls.Add(this.label5);
             this.tabMain.Controls.Add(this.label18);
             this.tabMain.Controls.Add(this.label16);
             this.tabMain.Controls.Add(this.label14);
@@ -98,7 +101,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(642, 236);
+            this.tabMain.Size = new System.Drawing.Size(710, 332);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Main";
             // 
@@ -175,9 +178,9 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.AntResetTimeout);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.AntSW_soltype);
+            this.groupBox1.Controls.Add(this.TTFSW_soltype);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(423, 14);
+            this.groupBox1.Location = new System.Drawing.Point(496, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(206, 209);
             this.groupBox1.TabIndex = 7;
@@ -256,17 +259,17 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Timeout 1, s:";
             // 
-            // AntSW_soltype
+            // TTFSW_soltype
             // 
-            this.AntSW_soltype.FormattingEnabled = true;
-            this.AntSW_soltype.Items.AddRange(new object[] {
+            this.TTFSW_soltype.FormattingEnabled = true;
+            this.TTFSW_soltype.Items.AddRange(new object[] {
             "Standalone",
             "DGNSS",
             "RTK Fixed"});
-            this.AntSW_soltype.Location = new System.Drawing.Point(117, 24);
-            this.AntSW_soltype.Name = "AntSW_soltype";
-            this.AntSW_soltype.Size = new System.Drawing.Size(83, 21);
-            this.AntSW_soltype.TabIndex = 7;
+            this.TTFSW_soltype.Location = new System.Drawing.Point(117, 24);
+            this.TTFSW_soltype.Name = "TTFSW_soltype";
+            this.TTFSW_soltype.Size = new System.Drawing.Size(83, 21);
+            this.TTFSW_soltype.TabIndex = 7;
             // 
             // label2
             // 
@@ -292,7 +295,7 @@
             this.tabStatistics.Location = new System.Drawing.Point(4, 22);
             this.tabStatistics.Name = "tabStatistics";
             this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatistics.Size = new System.Drawing.Size(642, 236);
+            this.tabStatistics.Size = new System.Drawing.Size(710, 332);
             this.tabStatistics.TabIndex = 1;
             this.tabStatistics.Text = "Statistics";
             this.tabStatistics.UseVisualStyleBackColor = true;
@@ -305,10 +308,11 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 6);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(303, 266);
+            this.dataGridView1.Size = new System.Drawing.Size(704, 326);
             this.dataGridView1.TabIndex = 0;
             // 
             // Column1
@@ -327,26 +331,36 @@
             this.tabTerminal.Location = new System.Drawing.Point(4, 22);
             this.tabTerminal.Name = "tabTerminal";
             this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(642, 236);
+            this.tabTerminal.Size = new System.Drawing.Size(710, 332);
             this.tabTerminal.TabIndex = 2;
             this.tabTerminal.Text = "Terminal";
             this.tabTerminal.UseVisualStyleBackColor = true;
             // 
             // TextBox_Console
             // 
-            this.TextBox_Console.Location = new System.Drawing.Point(6, 6);
+            this.TextBox_Console.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox_Console.Location = new System.Drawing.Point(3, 3);
             this.TextBox_Console.Multiline = true;
             this.TextBox_Console.Name = "TextBox_Console";
             this.TextBox_Console.ReadOnly = true;
             this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(628, 238);
+            this.TextBox_Console.Size = new System.Drawing.Size(704, 326);
             this.TextBox_Console.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(89, 235);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(63, 13);
+            this.label5.TabIndex = 49;
+            this.label5.Text = "To Terminal";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(672, 284);
+            this.ClientSize = new System.Drawing.Size(718, 358);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -396,9 +410,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox AntResetTimeout;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox AntSW_soltype;
+        private System.Windows.Forms.ComboBox TTFSW_soltype;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label5;
     }
 }
 

@@ -9,7 +9,7 @@ namespace Terminal
     {
         SerialPort[] CurrentPort = new SerialPort[8];
 
-        private delegate void SetTextDeleg(string text);
+        private delegate void SetTextDeleg(string text, int index);
 
         System.Timers.Timer aTimer;
         System.Timers.Timer ttfTimer;
@@ -21,7 +21,7 @@ namespace Terminal
         int ttf_counter, counter_S, counter_D, counter_F, counter_R;
         float ttfS, ttfD, ttfF, ttfR;
         float ttfS_sum, ttfD_sum, ttfF_sum, ttfR_sum;
-        ComboBox[] ComPortList = new ComboBox[8];
+        ComboBox[] ComPortList = new ComboBox[9];
         ComboBox[] PortSpeedList = new ComboBox[8];
         Button[] ButtonOpen = new Button[8];
         Button[] ButtonClose = new Button[8];
@@ -43,13 +43,14 @@ namespace Terminal
                     Location = new System.Drawing.Point(8 , 16+ i * 27),
                     Name = "ComPortList" + i.ToString(),
                     Size = new System.Drawing.Size(80, 21),
-                    TabIndex = i
+                    TabIndex = i,
+                    Tag = i,
                 };
                 ComPortList[i].Items.Add("OFF");
                 this.tabMain.Controls.Add(ComPortList[i]);
             }
 
-            //Create PortSpeedList comboboxses
+            //Create PortSpeedList comboboxes
             for (int i = 0; i < PortSpeedList.Length; i++)
             {
                 PortSpeedList[i] = new ComboBox
@@ -57,6 +58,7 @@ namespace Terminal
                     Location = new System.Drawing.Point(93, 16 + i * 27),
                     Name = "PortSpeedList" + i.ToString(),
                     Size = new System.Drawing.Size(71, 21),
+                    Tag = i,
                     //TabIndex = i
                 };
                 PortSpeedList[i].Items.AddRange(new object[] {
@@ -77,9 +79,11 @@ namespace Terminal
                     Name = "ButtonOpen" + i.ToString(),
                     Size = new System.Drawing.Size(54, 22),
                     TabIndex = i,
+                    Tag = i,
                     Text = "Open",
                 };
                 this.tabMain.Controls.Add(ButtonOpen[i]);
+                this.ButtonOpen[i].Click += new System.EventHandler(this.ButtonOpen_Click);
             }
 
             //Create ButtonClose Buttons
@@ -91,9 +95,12 @@ namespace Terminal
                     Name = "ButtonClose" + i.ToString(),
                     Size = new System.Drawing.Size(54, 22),
                     TabIndex = i,
+                    Tag = i,
                     Text = "Close",
+                    Enabled = false,
                 };
                 this.tabMain.Controls.Add(ButtonClose[i]);
+                this.ButtonClose[i].Click += new System.EventHandler(this.ButtonClose_Click);
             }
 
             //Create SoluionLabel Labels
@@ -103,20 +110,27 @@ namespace Terminal
                 {
                     Location = new System.Drawing.Point(341, 19 + i * 27),
                     Name = "SolutionLabel" + i.ToString(),
-                    Size = new System.Drawing.Size(27, 13),
+                    Size = new System.Drawing.Size(100, 13),
                     TabIndex = i,
                     Text = "N/A",
                 };
                 this.tabMain.Controls.Add(SolutionLabel[i]);
             }
+
+            //Initializing table
+            {
+                dataGridView1.Rows.Add(4);
+                dataGridView1[0, 0].Value = "Cycle count";
+                dataGridView1[0, 1].Value = "Standalone TTF";
+                dataGridView1[0, 2].Value = "DGNSS TTF";
+                dataGridView1[0, 3].Value = "RTK Float TTF";
+                dataGridView1[0, 4].Value = "RTK Fix TTF";
+            }
+
         }
 
         public void Form1_Load(object sender, EventArgs e)
         {
-            
-            // default speed = 115200
-
-
             // scanning available com ports
             string[] ports = SerialPort.GetPortNames();
             for (int i = 0; i < ports.GetLength(0); i++)
@@ -127,36 +141,30 @@ namespace Terminal
                 }               
             }
 
+            //Default port = OFF
             for (int j = 0; j < ComPortList.Length; j++)
             {
                 ComPortList[j].SelectedIndex = 0;
             }
 
             //Default solution - RTK fixed
-            AntSW_soltype.SelectedIndex = 2;
-
-            //Initializing table
-            
-            dataGridView1.Rows.Add(4);
-            dataGridView1[0, 0].Value = "Cycle count";
-            dataGridView1[0, 1].Value = "Standalone TTF";
-            dataGridView1[0, 2].Value = "DGNSS TTF";
-            dataGridView1[0, 3].Value = "RTK Float TTF";
-            dataGridView1[0, 4].Value = "RTK Fix TTF";
-
+            TTFSW_soltype.SelectedIndex = 2;
         }
 
         void ButtonOpen_Click(object sender, EventArgs e)
         {
-            Object selectedport = ComPortList[1].SelectedItem;
-            CurrentPort[0] = new SerialPort(selectedport.ToString(), Int32.Parse(PortSpeedList[0].SelectedItem.ToString()));
+            int i = (int)(sender as Button).Tag;
+            //int index = Array.IndexOf(ButtonOpen, (Button)sender);
+            //MessageBox.Show(index.ToString());
+            Object selectedport = ComPortList[i].SelectedItem;
+            CurrentPort[i] = new SerialPort(selectedport.ToString(), Int32.Parse(PortSpeedList[i].SelectedItem.ToString()));
             try
             {
-                if (!(CurrentPort[0].IsOpen))
+                if (!(CurrentPort[i].IsOpen))
                 {
-                CurrentPort[0].Open();
-                ButtonOpen[0].Enabled = false;
-                ButtonClose[0].Enabled = true;
+                CurrentPort[i].Open();
+                ButtonOpen[i].Enabled = false;
+                ButtonClose[i].Enabled = true;
                 AntSWStart.Enabled = true;
                 }
             }
@@ -165,16 +173,18 @@ namespace Terminal
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);         
             }
   
-            CurrentPort[0].DataReceived += CurrentPort_DataReceived;
+            CurrentPort[i].DataReceived += CurrentPort_DataReceived;
+            
         }
 
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var port = (SerialPort)sender;
+            int index = Array.IndexOf(CurrentPort, (SerialPort)sender);
             try
             {
                 string data = port.ReadLine();
-                this.BeginInvoke(new SetTextDeleg(Si_DataReceived), new object[] { data }); 
+                this.BeginInvoke(new SetTextDeleg(Si_DataReceived), new object[] { data, index }); 
             }
             catch (Exception ex)
             {
@@ -183,23 +193,23 @@ namespace Terminal
             }
         }
 
-        private void ComPortsList_SelectedIndexChanged(object sender, EventArgs e)
+        void Si_DataReceived(string data, int index) 
         {
-
-        }
-
-        void Si_DataReceived(string data) 
-        {
-            TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
-            SolutionLabel[0].Text = SolType(data);
+            if (ComPortList[index].Text == ComPortList[8].Text)
+            {
+                TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
+            }
+            
+            SolutionLabel[index].Text = SolType(data);
         }  
         
         void ButtonClose_Click(object sender, EventArgs e)
         {
-            CurrentPort[0].Close();
-            ButtonOpen[0].Enabled = true;
-            ButtonClose[0].Enabled = false;
-            SolutionLabel[0].Text = "N/A";
+            int i = (int)(sender as Button).Tag;
+            CurrentPort[i].Close();
+            ButtonOpen[i].Enabled = true;
+            ButtonClose[i].Enabled = false;
+            SolutionLabel[i].Text = "N/A";
             AntSWStart.Enabled = false;
         }
 
@@ -220,7 +230,7 @@ namespace Terminal
                             ttfS = ttfS_sum / counter_S;
                            //StatisticChange();
                         }
-                        if (AntSW_soltype.SelectedIndex == 0)
+                        if (TTFSW_soltype.SelectedIndex == 0)
                         {
                             if (AntSWmode == 0)
                             {
@@ -236,7 +246,7 @@ namespace Terminal
                             ttfD = ttfD_sum / counter_D;
                             //StatisticChange();
                         }
-                        if (AntSW_soltype.SelectedIndex == 1)
+                        if (TTFSW_soltype.SelectedIndex == 1)
                         {
                             if (AntSWmode == 0)
                             {
@@ -255,7 +265,7 @@ namespace Terminal
                             ttfR = ttfR_sum / counter_R;
                             //StatisticChange();
                         }
-                        if (AntSW_soltype.SelectedIndex == 2)
+                        if (TTFSW_soltype.SelectedIndex == 2)
                         {
                             if (AntSWmode == 0)
                             {
@@ -283,7 +293,7 @@ namespace Terminal
 
         public void RTKSWStart_Click(object sender, EventArgs e)
         {
-            AntSW_soltype.Enabled = false;
+            TTFSW_soltype.Enabled = false;
             AntSWStart.Enabled = false;
             AntSWStop.Enabled = true;
             AntResetTimeout.Enabled = false;
@@ -318,7 +328,7 @@ namespace Terminal
 
         public void RTKSWStop_Click(object sender, EventArgs e)
         {
-            AntSW_soltype.Enabled = true;
+            TTFSW_soltype.Enabled = true;
             AntSWStart.Enabled = true;
             AntSWStop.Enabled = false;
             AntResetTimeout.Enabled = true;
@@ -331,9 +341,9 @@ namespace Terminal
             ttfTimer.Close();
             AntSWmode = 0;
             string data = AntResetTimeout_int.ToString();
-            this.BeginInvoke(new SetTextDeleg(RTKResetTimeoutChange), new object[] { data });
+            //this.BeginInvoke(new SetTextDeleg(RTKResetTimeoutChange), new object[] { data });
             data = AntEnableTimeout_int.ToString();
-            this.BeginInvoke(new SetTextDeleg(RTKEnableTimeoutChange), new object[] { data });
+            //this.BeginInvoke(new SetTextDeleg(RTKEnableTimeoutChange), new object[] { data });
         }
 
         public void OnttfTimedEvent(Object source, ElapsedEventArgs e)
@@ -343,7 +353,7 @@ namespace Terminal
 
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-
+            /*
             switch (AntSWmode)
             {
                 case 0:
@@ -385,6 +395,7 @@ namespace Terminal
                     break;
 
             }
+            */
         }
 
         void RTKResetTimeoutChange (string data)
