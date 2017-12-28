@@ -25,6 +25,7 @@ namespace Terminal
         ComboBox[] PortSpeedList = new ComboBox[8];
         Button[] ButtonOpen = new Button[8];
         Button[] ButtonClose = new Button[8];
+        Label[] SolutionLabel = new Label[8];
 
         public Form1()
         {
@@ -93,6 +94,20 @@ namespace Terminal
                     Text = "Close",
                 };
                 this.tabMain.Controls.Add(ButtonClose[i]);
+            }
+
+            //Create SoluionLabel Labels
+            for (int i = 0; i < ButtonClose.Length; i++)
+            {
+                SolutionLabel[i] = new Label
+                {
+                    Location = new System.Drawing.Point(341, 19 + i * 27),
+                    Name = "SolutionLabel" + i.ToString(),
+                    Size = new System.Drawing.Size(27, 13),
+                    TabIndex = i,
+                    Text = "N/A",
+                };
+                this.tabMain.Controls.Add(SolutionLabel[i]);
             }
         }
 
@@ -176,7 +191,7 @@ namespace Terminal
         void Si_DataReceived(string data) 
         {
             TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
-            SolutionLabel.Text = SolType(data);
+            SolutionLabel[0].Text = SolType(data);
         }  
         
         void ButtonClose_Click(object sender, EventArgs e)
@@ -184,7 +199,7 @@ namespace Terminal
             CurrentPort[0].Close();
             ButtonOpen[0].Enabled = true;
             ButtonClose[0].Enabled = false;
-            SolutionLabel.Text = "N/A";
+            SolutionLabel[0].Text = "N/A";
             AntSWStart.Enabled = false;
         }
 
@@ -198,7 +213,7 @@ namespace Terminal
                     case 0:
                         return "None Solution";
                     case 1:
-                        if (SolutionLabel.Text == "None Solution")
+                        if (SolutionLabel[0].Text == "None Solution")
                         {
                             ttfS_sum = ttfS_sum + ttf_counter;
                             counter_S = counter_S + 1;
@@ -214,7 +229,7 @@ namespace Terminal
                         }
                         return "Standalone";
                     case 2:
-                        if (SolutionLabel.Text == "Standalone" | SolutionLabel.Text == "None Solution")
+                        if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution")
                         {
                             ttfD_sum = ttfD_sum + ttf_counter;
                             counter_D = counter_D + 1;
@@ -232,8 +247,8 @@ namespace Terminal
                     case 3:
                         return "PPS";
                     case 4:
-                        if (SolutionLabel.Text == "Standalone" | SolutionLabel.Text == "None Solution" | 
-                                        SolutionLabel.Text == "RTK Float" |  SolutionLabel.Text == "DGNSS")
+                        if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | 
+                                        SolutionLabel[0].Text == "RTK Float" |  SolutionLabel[0].Text == "DGNSS")
                         {
                             ttfR_sum = ttfR_sum + ttf_counter;
                             counter_R = counter_R + 1;
@@ -250,7 +265,7 @@ namespace Terminal
                         return "RTK Fix";
                     case 5:
 
-                        if (SolutionLabel.Text == "Standalone" | SolutionLabel.Text == "None Solution" | SolutionLabel.Text == "DGNSS")
+                        if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | SolutionLabel[0].Text == "DGNSS")
                         {
                             ttfF_sum = ttfF_sum + ttf_counter;
                             counter_F = counter_F + 1;
