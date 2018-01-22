@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.IO.Ports;
+using System.Text;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -8,6 +10,7 @@ namespace Terminal
     public partial class Form1 : Form
     {
         SerialPort[] CurrentPort = new SerialPort[8];
+        FileStream[] fstream = new FileStream[8];
 
         private delegate void SetTextDeleg(string text, int index);
 
@@ -21,7 +24,7 @@ namespace Terminal
         int[] counter_S = new int[8];
         int[] counter_D = new int[8];
         int[] counter_F = new int[8];
-        int[] counter_R = new int[8];
+        int[] counter_R = new int[8];                                    
         float[] ttfS = new float[8];
         float[] ttfD = new float[8];
         float[] ttfF = new float[8];
@@ -30,6 +33,7 @@ namespace Terminal
         float[] ttfD_sum = new float[8];
         float[] ttfF_sum = new float[8];
         float[] ttfR_sum = new float[8];
+        string filename;
 
         ComboBox[] ComPortList = new ComboBox[9];
         ComboBox[] PortSpeedList = new ComboBox[8];
@@ -136,7 +140,6 @@ namespace Terminal
                 dataGridView1[0, 3].Value = "RTK Float TTF";
                 dataGridView1[0, 4].Value = "RTK Fix TTF";
             }
-
         }
 
         public void Form1_Load(object sender, EventArgs e)
@@ -220,6 +223,13 @@ namespace Terminal
                 TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
             }
             
+            // запись массива байтов в файл
+            if (fstream[index]!=null)
+            {
+                byte[] input = Encoding.Default.GetBytes(data+"\n");
+                fstream[index].Write(input, 0, input.Length);
+            }
+            
             SolutionLabel[index].Text = SolType(data,index);
         }  
         
@@ -301,7 +311,7 @@ namespace Terminal
             return "N/A"; 
         }
 
-        public void RTKSWStart_Click(object sender, EventArgs e)
+        public void TTFSWStart_Click(object sender, EventArgs e)
         {
             TTFSW_soltype.Enabled = false;
             AntSWStart.Enabled = false;
@@ -334,8 +344,25 @@ namespace Terminal
             ttfD[i] = 0;
             ttfF[i] = 0;
             ttfR[i] = 0;
+                //Creating log files for each open Com Port
+                if (ComPortList[i].Text != "OFF")
+                {
+                    try
+                    {
+                        filename = "ComPort" + ComPortList[i].Text.Substring(3) +" "+ DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".gga";
+                        filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
+                        fstream[i] = new FileStream(filename, FileMode.Create,FileAccess.ReadWrite,FileShare.Read,bufferSize:8);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw;
+                    }
+                }
+                //Disabling Open/Close buttons
+                ButtonClose[i].Enabled = false;
+                ButtonOpen[i].Enabled = false;
             }
-
 
             //starting ttf timer
             ttfTimer = new System.Timers.Timer(100);
@@ -344,7 +371,7 @@ namespace Terminal
             ttfTimer.Enabled = true;
         }
 
-        public void RTKSWStop_Click(object sender, EventArgs e)
+        public void TTFSWStop_Click(object sender, EventArgs e)
         {
             TTFSW_soltype.Enabled = true;
             AntSWStart.Enabled = true;
@@ -360,8 +387,20 @@ namespace Terminal
             for (int i = 0; i < 8; i++)
             {
             TTFSWmode[i] = 0;
-            }
-            
+                if (fstream[i]!= null)
+                {
+                    fstream[i].Close();
+                    fstream[i] = null;
+                }
+                if (ComPortList[i].Text != "OFF")
+                {
+                    ButtonClose[i].Enabled = true;
+                }
+                else
+                {
+                    ButtonOpen[i].Enabled = true;
+                }
+            }    
             string data = TTF_Timeout1.ToString();
             //this.BeginInvoke(new SetTextDeleg(RTKResetTimeoutChange), new object[] { data });
             data = TTF_Timeout2.ToString();

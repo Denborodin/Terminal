@@ -196,7 +196,7 @@
             this.AntSWStop.TabIndex = 15;
             this.AntSWStop.Text = "Stop";
             this.AntSWStop.UseVisualStyleBackColor = true;
-            this.AntSWStop.Click += new System.EventHandler(this.RTKSWStop_Click);
+            this.AntSWStop.Click += new System.EventHandler(this.TTFSWStop_Click);
             // 
             // AntSWStart
             // 
@@ -207,7 +207,7 @@
             this.AntSWStart.TabIndex = 14;
             this.AntSWStart.Text = "Start";
             this.AntSWStart.UseVisualStyleBackColor = true;
-            this.AntSWStart.Click += new System.EventHandler(this.RTKSWStart_Click);
+            this.AntSWStart.Click += new System.EventHandler(this.TTFSWStart_Click);
             // 
             // AntResetCommand2
             // 
