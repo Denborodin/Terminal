@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Text;
@@ -7,11 +9,28 @@ using System.Windows.Forms;
 
 namespace Terminal
 {
+    public struct TTFcycle
+    {
+        public int number, channel;
+        public float TTFS, TTFD, TTFR, TTFF;
+
+        public TTFcycle(int number_, int channel_, float TTFS_,float TTFD_, float TTFF_, float TTFR_)
+        {
+            number = number_;
+            channel = channel_;
+            TTFS = TTFS_;
+            TTFD = TTFD_;
+            TTFF = TTFF_;
+            TTFR = TTFR_;
+        }
+    }
+
     public partial class Form1 : Form
     {
         SerialPort[] CurrentPort = new SerialPort[8];
         FileStream[] fstream = new FileStream[8];
-
+        ArrayList Cycles;
+        
         private delegate void SetTextDeleg(string text, int index);
 
         System.Timers.Timer aTimer;
@@ -20,7 +39,7 @@ namespace Terminal
         int[] TTF_Timeout1 = new int[8];
         int[] TTF_Timeout2 = new int[8];
         int[] cycle_counter = new int[8];
-        int[] ttf_counter = new int[8];
+        float[] ttf_counter = new float[8];
         int[] counter_S = new int[8];
         int[] counter_D = new int[8];
         int[] counter_F = new int[8];
@@ -29,10 +48,8 @@ namespace Terminal
         float[] ttfD = new float[8];
         float[] ttfF = new float[8];
         float[] ttfR = new float[8];
-        float[] ttfS_sum = new float[8];
-        float[] ttfD_sum = new float[8];
-        float[] ttfF_sum = new float[8];
-        float[] ttfR_sum = new float[8];
+        double ttfS_50, ttfD_50, ttfF_50, ttfR_50;
+        double ttfS_90, ttfD_90, ttfF_90, ttfR_90;
         string filename;
 
         ComboBox[] ComPortList = new ComboBox[9];
@@ -45,6 +62,7 @@ namespace Terminal
         {
             InitializeComponent();
             CreateComponents();
+            Cycles = new ArrayList();
         }
 
         public void CreateComponents()
@@ -133,12 +151,17 @@ namespace Terminal
 
             //Initializing table
             {
-                dataGridView1.Rows.Add(4);
-                dataGridView1[0, 0].Value = "Cycle count";
-                dataGridView1[0, 1].Value = "Standalone TTF";
-                dataGridView1[0, 2].Value = "DGNSS TTF";
-                dataGridView1[0, 3].Value = "RTK Float TTF";
-                dataGridView1[0, 4].Value = "RTK Fix TTF";
+                dataGridView1.Rows.Add(9);
+                for (int i = 1; i < 9; i++)
+                {
+                    dataGridView1[0, 0].Value = "Port ID";
+                    dataGridView1[1, 0].Value = "Cycle count";
+                    dataGridView1[2, 0].Value = "Standalone TTF (50/90%)";
+                    dataGridView1[3, 0].Value = "DGNSS TTF (50/90%)";
+                    dataGridView1[4, 0].Value = "RTK Float TTF (50/90%)";
+                    dataGridView1[5, 0].Value = "RTK Fix TTF (50/90%)";
+                }
+                
             }
         }
 
@@ -161,7 +184,7 @@ namespace Terminal
             }
 
             //Default solution - RTK fixed
-            TTFSW_soltype.SelectedIndex = 2;
+            TTFSW_soltypeList.SelectedIndex = 2;
         }
 
         void ButtonOpen_Click(object sender, EventArgs e)
@@ -178,7 +201,7 @@ namespace Terminal
                 CurrentPort[i].Open();
                 ButtonOpen[i].Enabled = false;
                 ButtonClose[i].Enabled = true;
-                AntSWStart.Enabled = true;
+                TTFStartButton.Enabled = true;
                 }
             }
             catch (Exception ex)
@@ -197,7 +220,7 @@ namespace Terminal
                     ButtonOpen[i].Enabled = true;
                     ButtonClose[i].Enabled = false;
                     SolutionLabel[i].Text = "N/A";
-                    AntSWStart.Enabled = false;
+                    TTFStartButton.Enabled = false;
                 }
 
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -245,12 +268,14 @@ namespace Terminal
                     case 1:
                         if (SolutionLabel[i].Text == "None Solution")
                         {
-                            ttfS_sum[i] = ttfS_sum[i] + ttf_counter[i];
-                            counter_S[i] = counter_S[i] + 1;
-                            ttfS[i] = ttfS_sum[i] / counter_S[i];
-                           //StatisticChange();
+                            ttfS[i] = ttf_counter[i];
+                            if (!TTFStartButton.Enabled)
+                            {
+                                StatisticChange(i);
+                            }
+                            
                         }
-                        if (TTFSW_soltype.SelectedIndex == 0)
+                        if (TTFSW_soltypeList.SelectedIndex == 0)
                         {
                             if (TTFSWmode[i] == 0)
                             {
@@ -261,12 +286,13 @@ namespace Terminal
                     case 2:
                         if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution")
                         {
-                            ttfD_sum[i] = ttfD_sum[i] + ttf_counter[i];
-                            counter_D[i] = counter_D[i] + 1;
-                            ttfD[i] = ttfD_sum[i] / counter_D[i];
-                            //StatisticChange();
+                            ttfD[i] = ttf_counter[i];
+                            if (!TTFStartButton.Enabled)
+                            {
+                                StatisticChange(i);
+                            }
                         }
-                        if (TTFSW_soltype.SelectedIndex == 1)
+                        if (TTFSW_soltypeList.SelectedIndex == 1)
                         {
                             if (TTFSWmode[i] == 0)
                             {
@@ -280,12 +306,13 @@ namespace Terminal
                         if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | 
                                         SolutionLabel[0].Text == "RTK Float" |  SolutionLabel[0].Text == "DGNSS")
                         {
-                            ttfR_sum[i] = ttfR_sum[i] + ttf_counter[i];
-                            counter_R[i] = counter_R[i] + 1;
-                            ttfR[i] = ttfR_sum[i] / counter_R[i];
-                            //StatisticChange();
+                            ttfR[i] = ttf_counter[i];
+                            if (!TTFStartButton.Enabled)
+                            {
+                                StatisticChange(i);
+                            }
                         }
-                        if (TTFSW_soltype.SelectedIndex == 2)
+                        if (TTFSW_soltypeList.SelectedIndex == 2)
                         {
                             if (TTFSWmode[i] == 0)
                             {
@@ -297,12 +324,11 @@ namespace Terminal
 
                         if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | SolutionLabel[0].Text == "DGNSS")
                         {
-                            ttfF_sum[i] = ttfF_sum[i] + ttf_counter[i];
-                            counter_F[i] = counter_F[i] + 1;
-                            ttfF[i] = ttfF_sum[i] / counter_F[i];
-                            //StatisticChange();
+                            if (!TTFStartButton.Enabled)
+                            {
+                                StatisticChange(i);
+                            }
                         }
-
                         return "RTK Float";
                     default:
                         return "N/A";
@@ -313,17 +339,17 @@ namespace Terminal
 
         public void TTFSWStart_Click(object sender, EventArgs e)
         {
-            TTFSW_soltype.Enabled = false;
-            AntSWStart.Enabled = false;
-            AntSWStop.Enabled = true;
-            AntResetTimeout.Enabled = false;
-            AntEnableTimeout.Enabled = false;
-            AntResetCommand1.Enabled = false;
-            AntResetCommand2.Enabled = false;
+            TTFSW_soltypeList.Enabled = false;
+            TTFStartButton.Enabled = false;
+            TTFStopButton.Enabled = true;
+            Timeout1TextBox.Enabled = false;
+            Timeout2TextBox.Enabled = false;
+            Command1TextBox.Enabled = false;
+            Command2TextBox.Enabled = false;
             for (int i = 0; i < 8; i++)
             {
-            TTF_Timeout1[i] = int.Parse(AntResetTimeout.Text);
-            TTF_Timeout2[i] = int.Parse(AntEnableTimeout.Text);
+            TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
+            TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
             }
 
             //starting command timer
@@ -358,6 +384,7 @@ namespace Terminal
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         throw;
                     }
+                    dataGridView1[0,i+1].Value = ComPortList[i].Text;
                 }
                 //Disabling Open/Close buttons
                 ButtonClose[i].Enabled = false;
@@ -373,13 +400,13 @@ namespace Terminal
 
         public void TTFSWStop_Click(object sender, EventArgs e)
         {
-            TTFSW_soltype.Enabled = true;
-            AntSWStart.Enabled = true;
-            AntSWStop.Enabled = false;
-            AntResetTimeout.Enabled = true;
-            AntEnableTimeout.Enabled = true;
-            AntResetCommand1.Enabled = true;
-            AntResetCommand2.Enabled = true;
+            TTFSW_soltypeList.Enabled = true;
+            TTFStartButton.Enabled = true;
+            TTFStopButton.Enabled = false;
+            Timeout1TextBox.Enabled = true;
+            Timeout2TextBox.Enabled = true;
+            Command1TextBox.Enabled = true;
+            Command2TextBox.Enabled = true;
             aTimer.Enabled = false;
             aTimer.Close();
             ttfTimer.Enabled = false;
@@ -402,19 +429,15 @@ namespace Terminal
                 }
             }    
             string data = TTF_Timeout1.ToString();
-            //this.BeginInvoke(new SetTextDeleg(RTKResetTimeoutChange), new object[] { data });
             data = TTF_Timeout2.ToString();
-            //this.BeginInvoke(new SetTextDeleg(RTKEnableTimeoutChange), new object[] { data });
         }
-
-        
+    
         public void OnttfTimedEvent(Object source, ElapsedEventArgs e)
         {
             for (int i = 0; i < 8; i++)
             {
                 ttf_counter[i]++;
             }
-            
         }
         
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
@@ -432,14 +455,14 @@ namespace Terminal
                         }
                         else
                         {
-                            CurrentPort[i].WriteLine(AntResetCommand1.Text);
-                            //TextBox_Console.AppendText(AntResetCommand1.Text + Environment.NewLine);
+                            //sent command 1
+                            CurrentPort[i].WriteLine(Command1TextBox.Text);
                             cycle_counter[i]++;
                             TTFSWmode[i] = 2;
-                            TTF_Timeout1[i] = int.Parse(AntResetTimeout.Text);
+                            TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
 
-                            StatisticChange(i);
-                            //sent command 1
+                            AddCycleResult(i);
+
                         }
                         break;
                     case 2:
@@ -449,36 +472,97 @@ namespace Terminal
                         }
                         else
                         {
-                            CurrentPort[i].WriteLine(AntResetCommand2.Text);
-                            //TextBox_Console.AppendText(AntResetCommand2.Text + Environment.NewLine);
                             //sent command 2
+                            CurrentPort[i].WriteLine(Command2TextBox.Text);
                             ttf_counter[i] = 0;
                             TTFSWmode[i] = 0;
-                            TTF_Timeout2[i] = int.Parse(AntEnableTimeout.Text);
+                            TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
                         }
-                        break;
-
+                    break;
                 }
             }
         }
 
-        void RTKResetTimeoutChange (string data)
+        void Timeout1Change (string data)
         {
-            AntResetTimeout.Text = data;
+            Timeout1TextBox.Text = data;
         }
 
-        void RTKEnableTimeoutChange(string data)
+        void Timeout2Change (string data)
         {
-            AntEnableTimeout.Text = data;
+            Timeout2TextBox.Text = data;
+        }
+
+        void AddCycleResult(int i)
+        {
+            Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i]));
         }
 
         void StatisticChange(int i)
         {
-            dataGridView1[1, 0].Value = cycle_counter[i].ToString();
-            dataGridView1[1, 1].Value = Math.Round((ttfS[i] / 10), 2).ToString();
-            dataGridView1[1, 2].Value = Math.Round((ttfD[i] / 10), 2).ToString();
-            dataGridView1[1, 3].Value = Math.Round((ttfF[i] / 10), 2).ToString();
-            dataGridView1[1, 4].Value = Math.Round((ttfR[i] / 10), 2).ToString();
+            List<double> ttfS_ = new List<double>();
+            List<double> ttfD_ = new List<double>();
+            List<double> ttfF_ = new List<double>();
+            List<double> ttfR_ = new List<double>();
+
+            foreach (TTFcycle TTFtemp in Cycles)
+            {
+                if (TTFtemp.channel == i)
+                {
+                    ttfS_.Add(TTFtemp.TTFS);
+                    ttfD_.Add(TTFtemp.TTFD);
+                    ttfF_.Add(TTFtemp.TTFF);
+                    ttfR_.Add(TTFtemp.TTFR);
+                    /*Calculating average TTF
+                    ttfS_sum = ttfS_sum + TTFtemp.TTFS;
+                    ttfD_sum = ttfD_sum + TTFtemp.TTFD;
+                    ttfR_sum = ttfR_sum + TTFtemp.TTFR;
+                    ttfF_sum = ttfF_sum + TTFtemp.TTFF;
+                    */
+                }
+            }
+            /*Calculating average TTF
+            ttfS_avg = ttfS_sum / cycle_counter[i];
+            ttfD_avg = ttfD_sum / cycle_counter[i];
+            ttfF_avg = ttfF_sum / cycle_counter[i];
+            ttfR_avg = ttfR_sum / cycle_counter[i];
+            */
+
+            ttfS_50 = Percentile(ttfS_.ToArray(),0.5);
+            ttfD_50 = Percentile(ttfD_.ToArray(),0.5); 
+            ttfF_50 = Percentile(ttfF_.ToArray(),0.5);
+            ttfR_50 = Percentile(ttfR_.ToArray(),0.5);
+
+            ttfS_90 = Percentile(ttfS_.ToArray(), 0.9);
+            ttfD_90 = Percentile(ttfD_.ToArray(), 0.9);
+            ttfF_90 = Percentile(ttfF_.ToArray(), 0.9);
+            ttfR_90 = Percentile(ttfR_.ToArray(), 0.9);
+
+
+            dataGridView1[1, i + 1].Value = cycle_counter[i].ToString();
+            dataGridView1[2, i + 1].Value = Math.Round((ttfS_50 / 10), 2).ToString() + " / " + Math.Round((ttfS_90 / 10), 2).ToString();
+            dataGridView1[3, i + 1].Value = Math.Round((ttfD_50 / 10), 2).ToString() + " / " + Math.Round((ttfD_90 / 10), 2).ToString();
+            dataGridView1[4, i + 1].Value = Math.Round((ttfF_50 / 10), 2).ToString() + " / " + Math.Round((ttfF_90 / 10), 2).ToString();
+            dataGridView1[5, i + 1].Value = Math.Round((ttfR_50 / 10), 2).ToString() + " / " + Math.Round((ttfR_90 / 10), 2).ToString();
+
+            
+        }
+
+        public double Percentile(double[] sequence, double excelPercentile)
+        {
+            
+            Array.Sort(sequence);
+            int N = sequence.Length;
+            double n = (N - 1) * excelPercentile + 1;
+            // Another method: double n = (N + 1) * excelPercentile;
+            if (n == 1d) return sequence[0];
+            else if (n == N) return sequence[N - 1];
+            else
+            {
+                int k = (int)n;
+                double d = n - k;
+                return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
+            }
         }
     }
 }
