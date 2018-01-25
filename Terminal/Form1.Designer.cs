@@ -54,18 +54,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabStatistics = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.tabTerminal = new System.Windows.Forms.TabPage();
-            this.TextBox_Console = new System.Windows.Forms.TextBox();
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabTerminal = new System.Windows.Forms.TabPage();
+            this.TextBox_Console = new System.Windows.Forms.TextBox();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.SendCheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -183,6 +184,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.SendCheckBox);
             this.groupBox1.Controls.Add(this.TTFStopButton);
             this.groupBox1.Controls.Add(this.TTFStartButton);
             this.groupBox1.Controls.Add(this.Command2TextBox);
@@ -200,48 +202,48 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TTF switch";
             // 
-            // AntSWStop
+            // TTFStopButton
             // 
             this.TTFStopButton.Enabled = false;
             this.TTFStopButton.Location = new System.Drawing.Point(66, 181);
-            this.TTFStopButton.Name = "AntSWStop";
+            this.TTFStopButton.Name = "TTFStopButton";
             this.TTFStopButton.Size = new System.Drawing.Size(54, 22);
             this.TTFStopButton.TabIndex = 15;
             this.TTFStopButton.Text = "Stop";
             this.TTFStopButton.UseVisualStyleBackColor = true;
             this.TTFStopButton.Click += new System.EventHandler(this.TTFSWStop_Click);
             // 
-            // AntSWStart
+            // TTFStartButton
             // 
             this.TTFStartButton.Enabled = false;
             this.TTFStartButton.Location = new System.Drawing.Point(6, 181);
-            this.TTFStartButton.Name = "AntSWStart";
+            this.TTFStartButton.Name = "TTFStartButton";
             this.TTFStartButton.Size = new System.Drawing.Size(54, 22);
             this.TTFStartButton.TabIndex = 14;
             this.TTFStartButton.Text = "Start";
             this.TTFStartButton.UseVisualStyleBackColor = true;
             this.TTFStartButton.Click += new System.EventHandler(this.TTFSWStart_Click);
             // 
-            // AntResetCommand2
+            // Command2TextBox
             // 
             this.Command2TextBox.Location = new System.Drawing.Point(9, 129);
-            this.Command2TextBox.Name = "AntResetCommand2";
+            this.Command2TextBox.Name = "Command2TextBox";
             this.Command2TextBox.Size = new System.Drawing.Size(191, 20);
             this.Command2TextBox.TabIndex = 13;
             this.Command2TextBox.Text = "set,lock/gps/sat,y;set,lock/glo/fcn,y";
             // 
-            // AntResetCommand1
+            // Command1TextBox
             // 
             this.Command1TextBox.Location = new System.Drawing.Point(9, 77);
-            this.Command1TextBox.Name = "AntResetCommand1";
+            this.Command1TextBox.Name = "Command1TextBox";
             this.Command1TextBox.Size = new System.Drawing.Size(191, 20);
             this.Command1TextBox.TabIndex = 12;
             this.Command1TextBox.Text = "set,lock/gps/sat,n;set,lock/glo/fcn,n";
             // 
-            // AntEnableTimeout
+            // Timeout2TextBox
             // 
             this.Timeout2TextBox.Location = new System.Drawing.Point(145, 103);
-            this.Timeout2TextBox.Name = "AntEnableTimeout";
+            this.Timeout2TextBox.Name = "Timeout2TextBox";
             this.Timeout2TextBox.Size = new System.Drawing.Size(55, 20);
             this.Timeout2TextBox.TabIndex = 11;
             this.Timeout2TextBox.Text = "10";
@@ -255,10 +257,10 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Timeout 2, s:";
             // 
-            // AntResetTimeout
+            // Timeout1TextBox
             // 
             this.Timeout1TextBox.Location = new System.Drawing.Point(145, 51);
-            this.Timeout1TextBox.Name = "AntResetTimeout";
+            this.Timeout1TextBox.Name = "Timeout1TextBox";
             this.Timeout1TextBox.Size = new System.Drawing.Size(55, 20);
             this.Timeout1TextBox.TabIndex = 9;
             this.Timeout1TextBox.Text = "10";
@@ -272,7 +274,7 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Timeout 1, s:";
             // 
-            // TTFSW_soltype
+            // TTFSW_soltypeList
             // 
             this.TTFSW_soltypeList.FormattingEnabled = true;
             this.TTFSW_soltypeList.Items.AddRange(new object[] {
@@ -280,7 +282,7 @@
             "DGNSS",
             "RTK Fixed"});
             this.TTFSW_soltypeList.Location = new System.Drawing.Point(117, 24);
-            this.TTFSW_soltypeList.Name = "TTFSW_soltype";
+            this.TTFSW_soltypeList.Name = "TTFSW_soltypeList";
             this.TTFSW_soltypeList.Size = new System.Drawing.Size(83, 21);
             this.TTFSW_soltypeList.TabIndex = 7;
             // 
@@ -332,28 +334,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(704, 326);
             this.dataGridView1.TabIndex = 0;
             // 
-            // tabTerminal
-            // 
-            this.tabTerminal.Controls.Add(this.TextBox_Console);
-            this.tabTerminal.Location = new System.Drawing.Point(4, 22);
-            this.tabTerminal.Name = "tabTerminal";
-            this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(710, 332);
-            this.tabTerminal.TabIndex = 2;
-            this.tabTerminal.Text = "Terminal";
-            this.tabTerminal.UseVisualStyleBackColor = true;
-            // 
-            // TextBox_Console
-            // 
-            this.TextBox_Console.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBox_Console.Location = new System.Drawing.Point(3, 3);
-            this.TextBox_Console.Multiline = true;
-            this.TextBox_Console.Name = "TextBox_Console";
-            this.TextBox_Console.ReadOnly = true;
-            this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(704, 326);
-            this.TextBox_Console.TabIndex = 1;
-            // 
             // Column1
             // 
             this.Column1.HeaderText = "Column1";
@@ -383,6 +363,38 @@
             // 
             this.Column6.HeaderText = "Column6";
             this.Column6.Name = "Column6";
+            // 
+            // tabTerminal
+            // 
+            this.tabTerminal.Controls.Add(this.TextBox_Console);
+            this.tabTerminal.Location = new System.Drawing.Point(4, 22);
+            this.tabTerminal.Name = "tabTerminal";
+            this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTerminal.Size = new System.Drawing.Size(710, 332);
+            this.tabTerminal.TabIndex = 2;
+            this.tabTerminal.Text = "Terminal";
+            this.tabTerminal.UseVisualStyleBackColor = true;
+            // 
+            // TextBox_Console
+            // 
+            this.TextBox_Console.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox_Console.Location = new System.Drawing.Point(3, 3);
+            this.TextBox_Console.Multiline = true;
+            this.TextBox_Console.Name = "TextBox_Console";
+            this.TextBox_Console.ReadOnly = true;
+            this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TextBox_Console.Size = new System.Drawing.Size(704, 326);
+            this.TextBox_Console.TabIndex = 1;
+            // 
+            // SendCheckBox
+            // 
+            this.SendCheckBox.AutoSize = true;
+            this.SendCheckBox.Location = new System.Drawing.Point(9, 156);
+            this.SendCheckBox.Name = "SendCheckBox";
+            this.SendCheckBox.Size = new System.Drawing.Size(161, 17);
+            this.SendCheckBox.TabIndex = 16;
+            this.SendCheckBox.Text = "Send second line before test";
+            this.SendCheckBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -446,6 +458,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.CheckBox SendCheckBox;
     }
 }
 

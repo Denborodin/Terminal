@@ -151,17 +151,13 @@ namespace Terminal
 
             //Initializing table
             {
-                dataGridView1.Rows.Add(9);
-                for (int i = 1; i < 9; i++)
-                {
+                dataGridView1.Rows.Add(8);
                     dataGridView1[0, 0].Value = "Port ID";
                     dataGridView1[1, 0].Value = "Cycle count";
                     dataGridView1[2, 0].Value = "Standalone TTF (50/90%)";
                     dataGridView1[3, 0].Value = "DGNSS TTF (50/90%)";
                     dataGridView1[4, 0].Value = "RTK Float TTF (50/90%)";
-                    dataGridView1[5, 0].Value = "RTK Fix TTF (50/90%)";
-                }
-                
+                    dataGridView1[5, 0].Value = "RTK Fix TTF (50/90%)";   
             }
         }
 
@@ -246,7 +242,7 @@ namespace Terminal
                 TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
             }
             
-            // запись массива байтов в файл
+            // запись массива байт в файл
             if (fstream[index]!=null)
             {
                 byte[] input = Encoding.Default.GetBytes(data+"\n");
@@ -346,11 +342,6 @@ namespace Terminal
             Timeout2TextBox.Enabled = false;
             Command1TextBox.Enabled = false;
             Command2TextBox.Enabled = false;
-            for (int i = 0; i < 8; i++)
-            {
-            TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
-            TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
-            }
 
             //starting command timer
             aTimer = new System.Timers.Timer(1000);
@@ -360,16 +351,18 @@ namespace Terminal
 
             for (int i = 0; i < 8; i++)
             {
-            cycle_counter[i] = 0;
-            ttf_counter[i] = 0;
-            counter_S[i] = 0;
-            counter_D[i] = 0;
-            counter_F[i] = 0;
-            counter_R[i] = 0;
-            ttfS[i] = 0;
-            ttfD[i] = 0;
-            ttfF[i] = 0;
-            ttfR[i] = 0;
+                cycle_counter[i] = 0;
+                ttf_counter[i] = 0;
+                counter_S[i] = 0;
+                counter_D[i] = 0;
+                counter_F[i] = 0;
+                counter_R[i] = 0;
+                ttfS[i] = 0;
+                ttfD[i] = 0;
+                ttfF[i] = 0;
+                ttfR[i] = 0;
+                TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
+                TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
                 //Creating log files for each open Com Port
                 if (ComPortList[i].Text != "OFF")
                 {
@@ -378,6 +371,11 @@ namespace Terminal
                         filename = "ComPort" + ComPortList[i].Text.Substring(3) +" "+ DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".gga";
                         filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
                         fstream[i] = new FileStream(filename, FileMode.Create,FileAccess.ReadWrite,FileShare.Read,bufferSize:8);
+                        //Sending command2, if the option is checked
+                        if (SendCheckBox.Checked)
+                        {
+                            CurrentPort[i].WriteLine(Command2TextBox.Text);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -390,7 +388,6 @@ namespace Terminal
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
             }
-
             //starting ttf timer
             ttfTimer = new System.Timers.Timer(100);
             ttfTimer.Elapsed += OnttfTimedEvent;// Hook up the Elapsed event for the timer. 
@@ -430,6 +427,10 @@ namespace Terminal
             }    
             string data = TTF_Timeout1.ToString();
             data = TTF_Timeout2.ToString();
+            //saving statistics
+            filename = "Result" +  " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
+            filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
+            WriteCSV(dataGridView1, filename);
         }
     
         public void OnttfTimedEvent(Object source, ElapsedEventArgs e)
@@ -527,7 +528,6 @@ namespace Terminal
             ttfF_avg = ttfF_sum / cycle_counter[i];
             ttfR_avg = ttfR_sum / cycle_counter[i];
             */
-
             ttfS_50 = Percentile(ttfS_.ToArray(),0.5);
             ttfD_50 = Percentile(ttfD_.ToArray(),0.5); 
             ttfF_50 = Percentile(ttfF_.ToArray(),0.5);
@@ -553,6 +553,10 @@ namespace Terminal
             
             Array.Sort(sequence);
             int N = sequence.Length;
+            if (N == 0)
+            {
+                return 0;
+            }
             double n = (N - 1) * excelPercentile + 1;
             // Another method: double n = (N + 1) * excelPercentile;
             if (n == 1d) return sequence[0];
@@ -564,5 +568,74 @@ namespace Terminal
                 return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
             }
         }
+
+        public void WriteCSV(DataGridView gridIn, string outputFile)
+        {
+            //test to see if the DataGridView has any rows
+            if (gridIn.RowCount > 0)
+            {
+                string value = "";
+                DataGridViewRow dr = new DataGridViewRow();
+                StreamWriter swOut = new StreamWriter(outputFile);
+
+                //write header rows to csv
+                /*
+                for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                {
+                    if (i > 0)
+                    {
+                        swOut.Write(",");
+                    }
+                    swOut.Write(gridIn.Columns[i].HeaderText);
+                }
+
+                swOut.WriteLine();
+                */
+                //write DataGridView rows to csv
+                for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
+                {
+                    if (j > 0)
+                    {
+                        swOut.WriteLine();
+                    }
+
+                    dr = gridIn.Rows[j];
+                    if (dr.Cells[0].Value==null)
+                    {
+                        continue;    
+                    }
+
+                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                    {
+                        
+                        if (i > 0)
+                        {
+                            swOut.Write(";");
+                        }
+
+                        if (dr.Cells[i].Value == null)
+                        {
+                            value = "";
+                        }
+                        else
+                        { 
+                            value = dr.Cells[i].Value.ToString();
+                        }
+                        
+                        
+                        //replace comma's with spaces
+                        value = value.Replace(',', ' ');
+                        //replace embedded newlines with spaces
+                        value = value.Replace(Environment.NewLine, " ");
+
+                        swOut.Write(value);
+                    }
+                }
+                swOut.Close();
+            }
+        }
+
+
+
     }
-}
+    }
