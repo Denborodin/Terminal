@@ -348,7 +348,8 @@ namespace Terminal
             aTimer.Elapsed += OnTimedEvent;// Hook up the Elapsed event for the timer. 
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
-
+            
+            //Creating log files for each open Com Port and variables init
             for (int i = 0; i < 8; i++)
             {
                 cycle_counter[i] = 0;
@@ -363,6 +364,8 @@ namespace Terminal
                 ttfR[i] = 0;
                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
+                TTFSWmode[i] = 0;
+
                 //Creating log files for each open Com Port
                 if (ComPortList[i].Text != "OFF")
                 {
@@ -374,7 +377,7 @@ namespace Terminal
                         //Sending command2, if the option is checked
                         if (SendCheckBox.Checked)
                         {
-                            CurrentPort[i].WriteLine(Command2TextBox.Text);
+                            CurrentPort[i].WriteLine(Command1TextBox.Text);
                         }
                     }
                     catch (Exception ex)
@@ -384,10 +387,12 @@ namespace Terminal
                     }
                     dataGridView1[0,i+1].Value = ComPortList[i].Text;
                 }
+                
                 //Disabling Open/Close buttons
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
             }
+            
             //starting ttf timer
             ttfTimer = new System.Timers.Timer(100);
             ttfTimer.Elapsed += OnttfTimedEvent;// Hook up the Elapsed event for the timer. 
@@ -419,6 +424,7 @@ namespace Terminal
                 if (ComPortList[i].Text != "OFF")
                 {
                     ButtonClose[i].Enabled = true;
+                    CurrentPort[i].WriteLine(Command2TextBox.Text);
                 }
                 else
                 {
@@ -432,7 +438,8 @@ namespace Terminal
             filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
             WriteCSV(dataGridView1, filename);
         }
-    
+        
+        //TTF timer, 0.1 sec interval
         public void OnttfTimedEvent(Object source, ElapsedEventArgs e)
         {
             for (int i = 0; i < 8; i++)
@@ -441,6 +448,7 @@ namespace Terminal
             }
         }
         
+        //Command Timer
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             for (int i = 0; i < 8; i++)
@@ -635,7 +643,5 @@ namespace Terminal
             }
         }
 
-
-
     }
-    }
+}
