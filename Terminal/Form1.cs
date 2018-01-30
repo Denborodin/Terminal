@@ -52,6 +52,8 @@ namespace Terminal
         double ttfS_90, ttfD_90, ttfF_90, ttfR_90;
         string filename;
 
+        public delegate int SolTypeHandler();
+
         ComboBox[] ComPortList = new ComboBox[9];
         ComboBox[] PortSpeedList = new ComboBox[8];
         Button[] ButtonOpen = new Button[8];
@@ -67,7 +69,7 @@ namespace Terminal
 
         public void CreateComponents()
         {
-            //Create ComPortList comboboxses
+            //Create ComPortList comboboxes
             for (int i = 0; i < ComPortList.Length; i++)
             {
                 ComPortList[i] = new ComboBox
@@ -222,7 +224,7 @@ namespace Terminal
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var port = (SerialPort)sender;
-            int index = Array.IndexOf(CurrentPort, (SerialPort)sender);
+            int index = Array.IndexOf(CurrentPort, port);
             try
             {
                 string data = port.ReadLine();
@@ -231,12 +233,13 @@ namespace Terminal
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
             }
         }
 
         void Si_DataReceived(string data, int index) 
         {
+            SolutionLabel[index].Text = SolType(data, index, ttf_counter[index]);
+
             if (ComPortList[index].Text == ComPortList[8].Text)
             {
                 TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
@@ -249,87 +252,72 @@ namespace Terminal
                 fstream[index].Write(input, 0, input.Length);
             }
             
-            SolutionLabel[index].Text = SolType(data,index);
+            
         }  
         
-        string SolType(string data,int i)
+        public string SolType(string data,int i, float time)
         {
             string[] parts = data.Split(',');
-            if (parts[0].Equals("$GPGGA"))
-            {
-                switch (int.Parse(parts[6]))
+            int SolTypeInt;
+            if (parts[0].Equals("$GPGGA") & int.TryParse(parts[6], out SolTypeInt))
                 {
-                    case 0:
-                        return "None Solution";
-                    case 1:
-                        if (SolutionLabel[i].Text == "None Solution")
-                        {
-                            ttfS[i] = ttf_counter[i];
-                            if (!TTFStartButton.Enabled)
+                    switch (SolTypeInt)
+                    {
+                        case 0:
+                            return "None Solution";
+                        case 1:
+                            if (SolutionLabel[i].Text == "None Solution")
                             {
-                                StatisticChange(i);
+                                ttfS[i] = time;
                             }
-                            
-                        }
-                        if (TTFSW_soltypeList.SelectedIndex == 0)
-                        {
-                            if (TTFSWmode[i] == 0)
+                            if (TTFSW_soltypeList.SelectedIndex == 0)
                             {
-                                TTFSWmode[i] = 1;
+                                if (TTFSWmode[i] == 0)
+                                {
+                                    TTFSWmode[i] = 1;
+                                }
                             }
-                        }
-                        return "Standalone";
-                    case 2:
-                        if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution")
-                        {
-                            ttfD[i] = ttf_counter[i];
-                            if (!TTFStartButton.Enabled)
+                            return "Standalone";
+                        case 2:
+                            if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution")
                             {
-                                StatisticChange(i);
+                                ttfD[i] = time;
                             }
-                        }
-                        if (TTFSW_soltypeList.SelectedIndex == 1)
-                        {
-                            if (TTFSWmode[i] == 0)
+                            if (TTFSW_soltypeList.SelectedIndex == 1)
                             {
-                                TTFSWmode[i] = 1;
+                                if (TTFSWmode[i] == 0)
+                                {
+                                    TTFSWmode[i] = 1;
+                                }
                             }
-                        }
-                        return "DGNSS";
-                    case 3:
-                        return "PPS";
-                    case 4:
-                        if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | 
-                                        SolutionLabel[0].Text == "RTK Float" |  SolutionLabel[0].Text == "DGNSS")
-                        {
-                            ttfR[i] = ttf_counter[i];
-                            if (!TTFStartButton.Enabled)
+                            return "DGNSS";
+                        case 3:
+                            return "PPS";
+                        case 4:
+                            if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" |
+                                            SolutionLabel[0].Text == "RTK Float" | SolutionLabel[0].Text == "DGNSS")
                             {
-                                StatisticChange(i);
+                                ttfR[i] = time;
                             }
-                        }
-                        if (TTFSW_soltypeList.SelectedIndex == 2)
-                        {
-                            if (TTFSWmode[i] == 0)
+                            if (TTFSW_soltypeList.SelectedIndex == 2)
                             {
-                                TTFSWmode[i] = 1;   
-                            } 
-                        }
-                        return "RTK Fix";
-                    case 5:
+                                if (TTFSWmode[i] == 0)
+                                {
+                                    TTFSWmode[i] = 1;
+                                }
+                            }
+                            return "RTK Fix";
+                        case 5:
 
-                        if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | SolutionLabel[0].Text == "DGNSS")
-                        {
-                            if (!TTFStartButton.Enabled)
+                            if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | SolutionLabel[0].Text == "DGNSS")
                             {
-                                StatisticChange(i);
+                                ttfF[i] = time;
                             }
-                        }
-                        return "RTK Float";
-                    default:
-                        return "N/A";
+                            return "RTK Float";
+                        default:
+                            return "N/A";
+                    }
                 }
-            }
             return "N/A"; 
         }
 
@@ -364,7 +352,7 @@ namespace Terminal
                 ttfR[i] = 0;
                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
-                TTFSWmode[i] = 0;
+                TTFSWmode[i] = 2;
 
                 //Creating log files for each open Com Port
                 if (ComPortList[i].Text != "OFF")
@@ -374,20 +362,14 @@ namespace Terminal
                         filename = "ComPort" + ComPortList[i].Text.Substring(3) +" "+ DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".gga";
                         filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
                         fstream[i] = new FileStream(filename, FileMode.Create,FileAccess.ReadWrite,FileShare.Read,bufferSize:8);
-                        //Sending command2, if the option is checked
-                        if (SendCheckBox.Checked)
-                        {
-                            CurrentPort[i].WriteLine(Command1TextBox.Text);
-                        }
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw;
                     }
                     dataGridView1[0,i+1].Value = ComPortList[i].Text;
-                }
-                
+                    CurrentPort[i].WriteLine(Command1TextBox.Text);
+                }              
                 //Disabling Open/Close buttons
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
@@ -453,53 +435,45 @@ namespace Terminal
         {
             for (int i = 0; i < 8; i++)
             {
-                switch (TTFSWmode[i])
+                if (CurrentPort[i]!=null)
                 {
-                    case 0:
-                        break;
-                    case 1:
-                        if (TTF_Timeout1[i] > 0)
-                        {
-                            TTF_Timeout1[i]--;
-                        }
-                        else
-                        {
-                            //sent command 1
-                            CurrentPort[i].WriteLine(Command1TextBox.Text);
-                            cycle_counter[i]++;
-                            TTFSWmode[i] = 2;
-                            TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
-
-                            AddCycleResult(i);
-
-                        }
-                        break;
-                    case 2:
-                        if (TTF_Timeout2[i] > 0)
-                        {
-                            TTF_Timeout2[i]--;
-                        }
-                        else
-                        {
-                            //sent command 2
-                            CurrentPort[i].WriteLine(Command2TextBox.Text);
-                            ttf_counter[i] = 0;
-                            TTFSWmode[i] = 0;
-                            TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
-                        }
-                    break;
+                    switch (TTFSWmode[i])
+                    {
+                        case 0: //waiting for selected solution
+                            break;
+                        case 1: //got solution, wating for timeout 1
+                            if (TTF_Timeout1[i] > 0)
+                            {
+                                TTF_Timeout1[i]--;
+                            }
+                            else
+                            {
+                                //sent command 1
+                                CurrentPort[i].WriteLine(Command1TextBox.Text);
+                                cycle_counter[i]++;
+                                TTFSWmode[i] = 2;
+                                TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
+                                AddCycleResult(i);
+                            }
+                            break;
+                        case 2: //waiting for timeout 2
+                            if (TTF_Timeout2[i] > 0)
+                            {
+                                TTF_Timeout2[i]--;
+                            }
+                            else
+                            {
+                                //sent command 2
+                                CurrentPort[i].WriteLine(Command2TextBox.Text);
+                                ttf_counter[i] = 0;
+                                TTFSWmode[i] = 0;
+                                TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
+                                StatisticChange(i);
+                            }
+                            break;
+                    }
                 }
             }
-        }
-
-        void Timeout1Change (string data)
-        {
-            Timeout1TextBox.Text = data;
-        }
-
-        void Timeout2Change (string data)
-        {
-            Timeout2TextBox.Text = data;
         }
 
         void AddCycleResult(int i)
