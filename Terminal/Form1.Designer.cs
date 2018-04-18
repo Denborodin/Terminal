@@ -66,7 +66,6 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.SendCheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -184,7 +183,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.SendCheckBox);
             this.groupBox1.Controls.Add(this.TTFStopButton);
             this.groupBox1.Controls.Add(this.TTFStartButton);
             this.groupBox1.Controls.Add(this.Command2TextBox);
@@ -386,16 +384,6 @@
             this.TextBox_Console.Size = new System.Drawing.Size(704, 326);
             this.TextBox_Console.TabIndex = 1;
             // 
-            // SendCheckBox
-            // 
-            this.SendCheckBox.AutoSize = true;
-            this.SendCheckBox.Location = new System.Drawing.Point(9, 156);
-            this.SendCheckBox.Name = "SendCheckBox";
-            this.SendCheckBox.Size = new System.Drawing.Size(161, 17);
-            this.SendCheckBox.TabIndex = 16;
-            this.SendCheckBox.Text = "Send second line before test";
-            this.SendCheckBox.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,7 +446,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.CheckBox SendCheckBox;
     }
 }
 
