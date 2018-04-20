@@ -30,7 +30,9 @@ namespace Terminal
         SerialPort[] CurrentPort = new SerialPort[8];
         FileStream[] fstream = new FileStream[8];
         ArrayList Cycles;
-        
+        public delegate void MyDelegate();
+
+
         private delegate void SetTextDeleg(string text, int index);
 
         System.Timers.Timer aTimer;
@@ -43,7 +45,9 @@ namespace Terminal
         int[] counter_S = new int[8];
         int[] counter_D = new int[8];
         int[] counter_F = new int[8];
-        int[] counter_R = new int[8];                                    
+        int[] counter_R = new int[8];
+        float[] timestamp = new float[8];
+        float[] ttf_stop_timestamp = new float[8];
         float[] ttfS = new float[8];
         float[] ttfD = new float[8];
         float[] ttfF = new float[8];
@@ -258,8 +262,8 @@ namespace Terminal
         public string SolType(string data,int i, float time)
         {
             string[] parts = data.Split(',');
-            int SolTypeInt;
-            if (parts[0].Equals("$GPGGA") & int.TryParse(parts[6], out SolTypeInt))
+            float.TryParse(parts[1],out timestamp[i]);
+            if (parts[0].Equals("$GPGGA") & int.TryParse(parts[6], out int SolTypeInt))
                 {
                     switch (SolTypeInt)
                     {
@@ -268,7 +272,8 @@ namespace Terminal
                         case 1:
                             if (SolutionLabel[i].Text == "None Solution")
                             {
-                                ttfS[i] = time;
+                                //ttfS[i] = time;
+                                ttfS[i] = timestamp[i] - ttf_stop_timestamp[i];
                             }
                             if (TTFSW_soltypeList.SelectedIndex == 0)
                             {
@@ -279,10 +284,11 @@ namespace Terminal
                             }
                             return "Standalone";
                         case 2:
-                            if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution")
-                            {
-                                ttfD[i] = time;
-                            }
+                            if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution")
+                                {
+                                //ttfD[i] = time;
+                                ttfD[i] = timestamp[i]-ttf_stop_timestamp[i];
+                                }   
                             if (TTFSW_soltypeList.SelectedIndex == 1)
                             {
                                 if (TTFSWmode[i] == 0)
@@ -294,10 +300,11 @@ namespace Terminal
                         case 3:
                             return "PPS";
                         case 4:
-                            if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" |
-                                            SolutionLabel[0].Text == "RTK Float" | SolutionLabel[0].Text == "DGNSS")
+                            if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" |
+                                            SolutionLabel[i].Text == "RTK Float" | SolutionLabel[i].Text == "DGNSS")
                             {
-                                ttfR[i] = time;
+                                //ttfR[i] = time;
+                                ttfR[i] = timestamp[i] - ttf_stop_timestamp[i];
                             }
                             if (TTFSW_soltypeList.SelectedIndex == 2)
                             {
@@ -309,7 +316,7 @@ namespace Terminal
                             return "RTK Fix";
                         case 5:
 
-                            if (SolutionLabel[0].Text == "Standalone" | SolutionLabel[0].Text == "None Solution" | SolutionLabel[0].Text == "DGNSS")
+                            if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" | SolutionLabel[i].Text == "DGNSS")
                             {
                                 ttfF[i] = time;
                             }
@@ -451,9 +458,15 @@ namespace Terminal
                                 //sent command 1
                                 CurrentPort[i].WriteLine(Command1TextBox.Text);
                                 cycle_counter[i]++;
+
                                 TTFSWmode[i] = 2;
                                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                                 AddCycleResult(i);
+                                StatisticChange(i);
+                                if (Min_nonzero(cycle_counter)>=int.Parse(NumberOfCyclesTextBox.Text))
+                                {
+                                    this.BeginInvoke(new MyDelegate(TimedStop));
+                                }
                             }
                             break;
                         case 2: //waiting for timeout 2
@@ -466,9 +479,10 @@ namespace Terminal
                                 //sent command 2
                                 CurrentPort[i].WriteLine(Command2TextBox.Text);
                                 ttf_counter[i] = 0;
+                                ttf_stop_timestamp[i] = timestamp[i];
                                 TTFSWmode[i] = 0;
                                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
-                                StatisticChange(i);
+                               
                             }
                             break;
                     }
@@ -476,146 +490,14 @@ namespace Terminal
             }
         }
 
+        void TimedStop()
+        {
+            TTFStopButton.PerformClick();
+        }
+
         void AddCycleResult(int i)
         {
             Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i]));
         }
-
-        void StatisticChange(int i)
-        {
-            List<double> ttfS_ = new List<double>();
-            List<double> ttfD_ = new List<double>();
-            List<double> ttfF_ = new List<double>();
-            List<double> ttfR_ = new List<double>();
-
-            foreach (TTFcycle TTFtemp in Cycles)
-            {
-                if (TTFtemp.channel == i)
-                {
-                    ttfS_.Add(TTFtemp.TTFS);
-                    ttfD_.Add(TTFtemp.TTFD);
-                    ttfF_.Add(TTFtemp.TTFF);
-                    ttfR_.Add(TTFtemp.TTFR);
-                    /*Calculating average TTF
-                    ttfS_sum = ttfS_sum + TTFtemp.TTFS;
-                    ttfD_sum = ttfD_sum + TTFtemp.TTFD;
-                    ttfR_sum = ttfR_sum + TTFtemp.TTFR;
-                    ttfF_sum = ttfF_sum + TTFtemp.TTFF;
-                    */
-                }
-            }
-            /*Calculating average TTF
-            ttfS_avg = ttfS_sum / cycle_counter[i];
-            ttfD_avg = ttfD_sum / cycle_counter[i];
-            ttfF_avg = ttfF_sum / cycle_counter[i];
-            ttfR_avg = ttfR_sum / cycle_counter[i];
-            */
-            ttfS_50 = Percentile(ttfS_.ToArray(),0.5);
-            ttfD_50 = Percentile(ttfD_.ToArray(),0.5); 
-            ttfF_50 = Percentile(ttfF_.ToArray(),0.5);
-            ttfR_50 = Percentile(ttfR_.ToArray(),0.5);
-
-            ttfS_90 = Percentile(ttfS_.ToArray(), 0.9);
-            ttfD_90 = Percentile(ttfD_.ToArray(), 0.9);
-            ttfF_90 = Percentile(ttfF_.ToArray(), 0.9);
-            ttfR_90 = Percentile(ttfR_.ToArray(), 0.9);
-
-
-            dataGridView1[1, i + 1].Value = cycle_counter[i].ToString();
-            dataGridView1[2, i + 1].Value = Math.Round((ttfS_50 / 10), 2).ToString() + " / " + Math.Round((ttfS_90 / 10), 2).ToString();
-            dataGridView1[3, i + 1].Value = Math.Round((ttfD_50 / 10), 2).ToString() + " / " + Math.Round((ttfD_90 / 10), 2).ToString();
-            dataGridView1[4, i + 1].Value = Math.Round((ttfF_50 / 10), 2).ToString() + " / " + Math.Round((ttfF_90 / 10), 2).ToString();
-            dataGridView1[5, i + 1].Value = Math.Round((ttfR_50 / 10), 2).ToString() + " / " + Math.Round((ttfR_90 / 10), 2).ToString();
-
-            
-        }
-
-        public double Percentile(double[] sequence, double excelPercentile)
-        {
-            
-            Array.Sort(sequence);
-            int N = sequence.Length;
-            if (N == 0)
-            {
-                return 0;
-            }
-            double n = (N - 1) * excelPercentile + 1;
-            // Another method: double n = (N + 1) * excelPercentile;
-            if (n == 1d) return sequence[0];
-            else if (n == N) return sequence[N - 1];
-            else
-            {
-                int k = (int)n;
-                double d = n - k;
-                return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
-            }
-        }
-
-        public void WriteCSV(DataGridView gridIn, string outputFile)
-        {
-            //test to see if the DataGridView has any rows
-            if (gridIn.RowCount > 0)
-            {
-                string value = "";
-                DataGridViewRow dr = new DataGridViewRow();
-                StreamWriter swOut = new StreamWriter(outputFile);
-
-                //write header rows to csv
-                /*
-                for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
-                {
-                    if (i > 0)
-                    {
-                        swOut.Write(",");
-                    }
-                    swOut.Write(gridIn.Columns[i].HeaderText);
-                }
-
-                swOut.WriteLine();
-                */
-                //write DataGridView rows to csv
-                for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
-                {
-                    if (j > 0)
-                    {
-                        swOut.WriteLine();
-                    }
-
-                    dr = gridIn.Rows[j];
-                    if (dr.Cells[0].Value==null)
-                    {
-                        continue;    
-                    }
-
-                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
-                    {
-                        
-                        if (i > 0)
-                        {
-                            swOut.Write(";");
-                        }
-
-                        if (dr.Cells[i].Value == null)
-                        {
-                            value = "";
-                        }
-                        else
-                        { 
-                            value = dr.Cells[i].Value.ToString();
-                        }
-                        
-                        
-                        //replace comma's with spaces
-                        value = value.Replace(',', ' ');
-                        //replace embedded newlines with spaces
-                        value = value.Replace(Environment.NewLine, " ");
-
-                        swOut.Write(value);
-                    }
-                }
-                swOut.Close();
-            }
-        }
-
     }
 }

@@ -66,6 +66,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -183,6 +185,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.NumberOfCyclesTextBox);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.TTFStopButton);
             this.groupBox1.Controls.Add(this.TTFStartButton);
             this.groupBox1.Controls.Add(this.Command2TextBox);
@@ -384,6 +388,23 @@
             this.TextBox_Console.Size = new System.Drawing.Size(704, 326);
             this.TextBox_Console.TabIndex = 1;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 158);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(92, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Number of cycles:";
+            // 
+            // NumberOfCyclesTextBox
+            // 
+            this.NumberOfCyclesTextBox.Location = new System.Drawing.Point(145, 155);
+            this.NumberOfCyclesTextBox.Name = "NumberOfCyclesTextBox";
+            this.NumberOfCyclesTextBox.Size = new System.Drawing.Size(55, 20);
+            this.NumberOfCyclesTextBox.TabIndex = 16;
+            this.NumberOfCyclesTextBox.Text = "50";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -446,6 +467,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.TextBox NumberOfCyclesTextBox;
+        private System.Windows.Forms.Label label7;
     }
 }
 
