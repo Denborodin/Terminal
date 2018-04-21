@@ -76,7 +76,7 @@ namespace Terminal
             {
                 ComPortList[i] = new ComboBox
                 {
-                    Location = new System.Drawing.Point(8 , 16+ i * 27),
+                    Location = new System.Drawing.Point(8, 16 + i * 27),
                     Name = "ComPortList" + i.ToString(),
                     Size = new System.Drawing.Size(80, 21),
                     TabIndex = i,
@@ -152,18 +152,9 @@ namespace Terminal
                 };
                 this.tabMain.Controls.Add(SolutionLabel[i]);
             }
-
-            //Initializing table
-            {
-                dataGridView1.Rows.Add(8);
-                    dataGridView1[0, 0].Value = "Port ID";
-                    dataGridView1[1, 0].Value = "Cycle count";
-                    dataGridView1[2, 0].Value = "Standalone TTF (50/90%)";
-                    dataGridView1[3, 0].Value = "Min "+TTFSW_soltypeList.SelectedText+" TTF";
-                    dataGridView1[4, 0].Value = "Max " + TTFSW_soltypeList.SelectedText + " TTF";
-                    dataGridView1[5, 0].Value = TTFSW_soltypeList.SelectedText + " TTF (50/90%)";   
-            }
         }
+
+
 
         public void Form1_Load(object sender, EventArgs e)
         {
@@ -340,7 +331,7 @@ namespace Terminal
             Command2TextBox.Enabled = false;
 
             CurrentMode = TTFSW_soltypeList.SelectedIndex;
-
+            TableInit(CurrentMode);
             //starting command timer
             aTimer = new System.Timers.Timer(1000);
             aTimer.Elapsed += OnTimedEvent;// Hook up the Elapsed event for the timer. 
@@ -383,7 +374,8 @@ namespace Terminal
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
             }
-            
+
+
         }
 
         public void TTFSWStop_Click(object sender, EventArgs e)

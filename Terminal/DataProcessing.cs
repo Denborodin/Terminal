@@ -167,5 +167,35 @@ namespace Terminal
             }
             return min;
         }
+
+        private void TableInit(int Soltype)
+        {
+            string solution ="N/A";
+
+            switch (Soltype)
+            {
+                case 0:
+                    solution = "Standalone";
+                    break;
+                case 1:
+                    solution = "DGNSS";
+                    break;
+                case 2:
+                    solution = "RTK";
+                    break;
+            }
+            //Initializing table
+            dataGridView1.Rows.Clear();
+            dataGridView1.Rows.Add(8);
+            dataGridView1[0, 0].Value = "Port ID";
+            dataGridView1[1, 0].Value = "Cycle count";
+            dataGridView1[2, 0].Value = "Standalone TTF (50/90%)";
+            dataGridView1[3, 0].Value = "Min " + solution + " TTF";
+            dataGridView1[4, 0].Value = "Max " + solution + " TTF";
+            dataGridView1[5, 0].Value = solution + " TTF (50/90%)";
+        }
+
+
+
     }
 }
