@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Ports;
-using System.Text;
-using System.Timers;
 using System.Windows.Forms;
+using System.Linq;
+using System.Text;
 
 namespace Terminal
 {
@@ -113,20 +112,9 @@ namespace Terminal
                     ttfD_.Add(TTFtemp.TTFD);
                     ttfF_.Add(TTFtemp.TTFF);
                     ttfR_.Add(TTFtemp.TTFR);
-                    /*Calculating average TTF
-                    ttfS_sum = ttfS_sum + TTFtemp.TTFS;
-                    ttfD_sum = ttfD_sum + TTFtemp.TTFD;
-                    ttfR_sum = ttfR_sum + TTFtemp.TTFR;
-                    ttfF_sum = ttfF_sum + TTFtemp.TTFF;
-                    */
                 }
             }
-            /*Calculating average TTF
-            ttfS_avg = ttfS_sum / cycle_counter[i];
-            ttfD_avg = ttfD_sum / cycle_counter[i];
-            ttfF_avg = ttfF_sum / cycle_counter[i];
-            ttfR_avg = ttfR_sum / cycle_counter[i];
-            */
+
             ttfS_50 = Percentile(ttfS_.ToArray(), 0.5);
             ttfD_50 = Percentile(ttfD_.ToArray(), 0.5);
             ttfF_50 = Percentile(ttfF_.ToArray(), 0.5);
@@ -140,9 +128,29 @@ namespace Terminal
 
             dataGridView1[1, i + 1].Value = cycle_counter[i].ToString();
             dataGridView1[2, i + 1].Value = Math.Round((ttfS_50 / 10), 2).ToString() + " / " + Math.Round((ttfS_90 / 10), 2).ToString();
-            dataGridView1[3, i + 1].Value = Math.Round((ttfD_50 / 10), 2).ToString() + " / " + Math.Round((ttfD_90 / 10), 2).ToString();
-            dataGridView1[4, i + 1].Value = Math.Round((ttfF_50 / 10), 2).ToString() + " / " + Math.Round((ttfF_90 / 10), 2).ToString();
-            dataGridView1[5, i + 1].Value = Math.Round((ttfR_50 / 10), 2).ToString() + " / " + Math.Round((ttfR_90 / 10), 2).ToString();
+            switch (CurrentMode)
+            {
+                case 0:
+                    dataGridView1[3, i + 1].Value = Math.Round(ttfS_.Min() / 10, 2); 
+                    dataGridView1[4, i + 1].Value = Math.Round(ttfS_.Max() / 10, 2);
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfS_50 / 10), 2).ToString() + " / " + Math.Round((ttfS_90 / 10), 2).ToString();
+                    break;
+                case 1:
+                    dataGridView1[3, i + 1].Value = Math.Round(ttfD_.Min() / 10, 2);
+                    dataGridView1[4, i + 1].Value = Math.Round(ttfD_.Max() / 10, 2);
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfD_50 / 10), 2).ToString() + " / " + Math.Round((ttfD_90 / 10), 2).ToString();
+                    break;
+                case 2:
+                    dataGridView1[3, i + 1].Value = Math.Round(ttfR_.Min() / 10, 2);
+                    dataGridView1[4, i + 1].Value = Math.Round(ttfR_.Max() / 10, 2);
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfR_50 / 10), 2).ToString() + " / " + Math.Round((ttfR_90 / 10), 2).ToString();
+                    break;
+                default:
+                break;
+            }
+            
+            //dataGridView1[4, i + 1].Value = Math.Round((ttfF_50 / 10), 2).ToString() + " / " + Math.Round((ttfF_90 / 10), 2).ToString();
+            
 
 
         }

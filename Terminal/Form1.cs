@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Text;
@@ -36,12 +35,10 @@ namespace Terminal
         private delegate void SetTextDeleg(string text, int index);
 
         System.Timers.Timer aTimer;
-        System.Timers.Timer ttfTimer;
-        int[] TTFSWmode=new int[8]; //0-Waiting for fixed 1 - Reset timeout, 2 - AntEnable timeout
+        int[] TTFSWmode=new int[8]; //0-Waiting for fixed 1 - Got FIX, start timeout 1, 2 - Timeout 1 elapsed, Start Timeout 2
         int[] TTF_Timeout1 = new int[8];
         int[] TTF_Timeout2 = new int[8];
         int[] cycle_counter = new int[8];
-        float[] ttf_counter = new float[8];
         int[] counter_S = new int[8];
         int[] counter_D = new int[8];
         int[] counter_F = new int[8];
@@ -55,6 +52,7 @@ namespace Terminal
         double ttfS_50, ttfD_50, ttfF_50, ttfR_50;
         double ttfS_90, ttfD_90, ttfF_90, ttfR_90;
         string filename;
+        int CurrentMode;
 
         public delegate int SolTypeHandler();
 
@@ -161,9 +159,9 @@ namespace Terminal
                     dataGridView1[0, 0].Value = "Port ID";
                     dataGridView1[1, 0].Value = "Cycle count";
                     dataGridView1[2, 0].Value = "Standalone TTF (50/90%)";
-                    dataGridView1[3, 0].Value = "DGNSS TTF (50/90%)";
-                    dataGridView1[4, 0].Value = "RTK Float TTF (50/90%)";
-                    dataGridView1[5, 0].Value = "RTK Fix TTF (50/90%)";   
+                    dataGridView1[3, 0].Value = "Min "+TTFSW_soltypeList.SelectedText+" TTF";
+                    dataGridView1[4, 0].Value = "Max " + TTFSW_soltypeList.SelectedText + " TTF";
+                    dataGridView1[5, 0].Value = TTFSW_soltypeList.SelectedText + " TTF (50/90%)";   
             }
         }
 
@@ -242,7 +240,7 @@ namespace Terminal
 
         void Si_DataReceived(string data, int index) 
         {
-            SolutionLabel[index].Text = SolType(data, index, ttf_counter[index]);
+            SolutionLabel[index].Text = SolType(data, index);
 
             if (ComPortList[index].Text == ComPortList[8].Text)
             {
@@ -259,12 +257,14 @@ namespace Terminal
             
         }  
         
-        public string SolType(string data,int i, float time)
+        public string SolType(string data,int i)
         {
             string[] parts = data.Split(',');
-            float.TryParse(parts[1],out timestamp[i]);
-            if (parts[0].Equals("$GPGGA") & int.TryParse(parts[6], out int SolTypeInt))
+            if (parts[0].Equals("$GPGGA"))
+            {
+                if (int.TryParse(parts[6], out int SolTypeInt))
                 {
+                    float.TryParse(parts[1], out timestamp[i]);
                     switch (SolTypeInt)
                     {
                         case 0:
@@ -284,33 +284,32 @@ namespace Terminal
                             }
                             return "Standalone";
                         case 2:
-                            if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution")
-                                {
-                                //ttfD[i] = time;
-                                ttfD[i] = timestamp[i]-ttf_stop_timestamp[i];
-                                }   
-                            if (TTFSW_soltypeList.SelectedIndex == 1)
+                            //if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution")
                             {
-                                if (TTFSWmode[i] == 0)
-                                {
-                                    TTFSWmode[i] = 1;
-                                }
+                                if (TTFSW_soltypeList.SelectedIndex == 1)
+                                    {
+                                        if (TTFSWmode[i] == 0)
+                                        {
+                                            TTFSWmode[i] = 1;
+                                            ttfD[i] = timestamp[i] - ttf_stop_timestamp[i];
+                                        }
+                                    }
                             }
                             return "DGNSS";
                         case 3:
                             return "PPS";
                         case 4:
-                            if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" |
-                                            SolutionLabel[i].Text == "RTK Float" | SolutionLabel[i].Text == "DGNSS")
+
+                            //if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" |
+                            //    SolutionLabel[i].Text == "RTK Float" | SolutionLabel[i].Text == "DGNSS")
                             {
-                                //ttfR[i] = time;
-                                ttfR[i] = timestamp[i] - ttf_stop_timestamp[i];
-                            }
-                            if (TTFSW_soltypeList.SelectedIndex == 2)
-                            {
-                                if (TTFSWmode[i] == 0)
+                                if (TTFSW_soltypeList.SelectedIndex == 2)
                                 {
-                                    TTFSWmode[i] = 1;
+                                    if (TTFSWmode[i] == 0)
+                                    {
+                                        TTFSWmode[i] = 1;
+                                        ttfR[i] = timestamp[i] - ttf_stop_timestamp[i];
+                                    }
                                 }
                             }
                             return "RTK Fix";
@@ -318,14 +317,16 @@ namespace Terminal
 
                             if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" | SolutionLabel[i].Text == "DGNSS")
                             {
-                                ttfF[i] = time;
+                                ttfF[i] = timestamp[i] - ttf_stop_timestamp[i];
                             }
                             return "RTK Float";
                         default:
                             return "N/A";
                     }
                 }
-            return "N/A"; 
+                return "N/A";
+            }
+            return "N/A";
         }
 
         public void TTFSWStart_Click(object sender, EventArgs e)
@@ -338,6 +339,8 @@ namespace Terminal
             Command1TextBox.Enabled = false;
             Command2TextBox.Enabled = false;
 
+            CurrentMode = TTFSW_soltypeList.SelectedIndex;
+
             //starting command timer
             aTimer = new System.Timers.Timer(1000);
             aTimer.Elapsed += OnTimedEvent;// Hook up the Elapsed event for the timer. 
@@ -348,7 +351,6 @@ namespace Terminal
             for (int i = 0; i < 8; i++)
             {
                 cycle_counter[i] = 0;
-                ttf_counter[i] = 0;
                 counter_S[i] = 0;
                 counter_D[i] = 0;
                 counter_F[i] = 0;
@@ -382,11 +384,6 @@ namespace Terminal
                 ButtonOpen[i].Enabled = false;
             }
             
-            //starting ttf timer
-            ttfTimer = new System.Timers.Timer(100);
-            ttfTimer.Elapsed += OnttfTimedEvent;// Hook up the Elapsed event for the timer. 
-            ttfTimer.AutoReset = true;
-            ttfTimer.Enabled = true;
         }
 
         public void TTFSWStop_Click(object sender, EventArgs e)
@@ -400,8 +397,6 @@ namespace Terminal
             Command2TextBox.Enabled = true;
             aTimer.Enabled = false;
             aTimer.Close();
-            ttfTimer.Enabled = false;
-            ttfTimer.Close();
             for (int i = 0; i < 8; i++)
             {
             TTFSWmode[i] = 0;
@@ -426,17 +421,9 @@ namespace Terminal
             filename = "Result" +  " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
             filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
             WriteCSV(dataGridView1, filename);
+            Cycles.Clear();
         }
-        
-        //TTF timer, 0.1 sec interval
-        public void OnttfTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                ttf_counter[i]++;
-            }
-        }
-        
+                
         //Command Timer
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
@@ -458,7 +445,6 @@ namespace Terminal
                                 //sent command 1
                                 CurrentPort[i].WriteLine(Command1TextBox.Text);
                                 cycle_counter[i]++;
-
                                 TTFSWmode[i] = 2;
                                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                                 AddCycleResult(i);
@@ -478,7 +464,6 @@ namespace Terminal
                             {
                                 //sent command 2
                                 CurrentPort[i].WriteLine(Command2TextBox.Text);
-                                ttf_counter[i] = 0;
                                 ttf_stop_timestamp[i] = timestamp[i];
                                 TTFSWmode[i] = 0;
                                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
