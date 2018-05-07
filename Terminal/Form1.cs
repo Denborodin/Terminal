@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Text;
 using System.Timers;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace Terminal
 {
@@ -31,7 +32,6 @@ namespace Terminal
         ArrayList Cycles;
         public delegate void MyDelegate();
 
-
         private delegate void SetTextDeleg(string text, int index);
 
         System.Timers.Timer aTimer;
@@ -43,6 +43,7 @@ namespace Terminal
         int[] counter_D = new int[8];
         int[] counter_F = new int[8];
         int[] counter_R = new int[8];
+        bool[] rcv_connected = new bool[8];
         float[] timestamp = new float[8];
         float[] ttf_stop_timestamp = new float[8];
         float[] ttfS = new float[8];
@@ -178,7 +179,7 @@ namespace Terminal
             TTFSW_soltypeList.SelectedIndex = 2;
         }
 
-        void ButtonOpen_Click(object sender, EventArgs e)
+        async void ButtonOpen_Click(object sender, EventArgs e)
         {
             int i = (int)(sender as Button).Tag;
             //int index = Array.IndexOf(ButtonOpen, (Button)sender);
@@ -190,6 +191,7 @@ namespace Terminal
                 if (!(CurrentPort[i].IsOpen))
                 {
                 CurrentPort[i].Open();
+                
                 ButtonOpen[i].Enabled = false;
                 ButtonClose[i].Enabled = true;
                 TTFStartButton.Enabled = true;
@@ -197,12 +199,24 @@ namespace Terminal
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);         
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
   
             CurrentPort[i].DataReceived += CurrentPort_DataReceived;
-            
+
+            ReceiverConnect(i);
+            await Task.Delay(500);
+            if (rcv_connected[i] == false)
+            {
+                MessageBox.Show("Receiver not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ButtonClose[i].PerformClick();
+                return;
+            }
+            return;
         }
+
+
 
         void ButtonClose_Click(object sender, EventArgs e)
                 {
@@ -212,6 +226,7 @@ namespace Terminal
                     ButtonClose[i].Enabled = false;
                     SolutionLabel[i].Text = "N/A";
                     TTFStartButton.Enabled = false;
+                    rcv_connected[i] = false;
                 }
 
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -231,21 +246,20 @@ namespace Terminal
 
         void Si_DataReceived(string data, int index) 
         {
-            SolutionLabel[index].Text = SolType(data, index);
 
-            if (ComPortList[index].Text == ComPortList[8].Text)
-            {
-                TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
-            }
+                SolutionLabel[index].Text = SolType(data, index);
+
+                if (ComPortList[index].Text == ComPortList[8].Text)
+                {
+                    TextBox_Console.AppendText(data.Trim() + Environment.NewLine);
+                }
             
-            // запись массива байт в файл
-            if (fstream[index]!=null)
-            {
-                byte[] input = Encoding.Default.GetBytes(data+"\n");
-                fstream[index].Write(input, 0, input.Length);
-            }
-            
-            
+                // запись массива байт в файл
+                if (fstream[index]!=null)
+                {
+                    byte[] input = Encoding.Default.GetBytes(data+"\n");
+                    fstream[index].Write(input, 0, input.Length);
+                }        
         }  
         
         public string SolType(string data,int i)
@@ -253,6 +267,7 @@ namespace Terminal
             string[] parts = data.Split(',');
             if (parts[0].Equals("$GPGGA"))
             {
+                rcv_connected[i] = true;
                 if (int.TryParse(parts[6], out int SolTypeInt))
                 {
                     float.TryParse(parts[1], out timestamp[i]);

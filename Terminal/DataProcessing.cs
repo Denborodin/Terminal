@@ -195,7 +195,5 @@ namespace Terminal
             dataGridView1[5, 0].Value = solution + " TTF (50/90%)";
         }
 
-
-
     }
 }
