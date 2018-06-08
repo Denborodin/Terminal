@@ -33,6 +33,7 @@ namespace Terminal
         public delegate void MyDelegate();
 
         private delegate void SetTextDeleg(string text, int index);
+        private delegate void StatusUpdate(string text, int index);
 
         System.Timers.Timer aTimer;
         int[] TTFSWmode=new int[8]; //0-Waiting for fixed 1 - Got FIX, start timeout 1, 2 - Timeout 1 elapsed, Start Timeout 2
@@ -62,6 +63,7 @@ namespace Terminal
         Button[] ButtonOpen = new Button[8];
         Button[] ButtonClose = new Button[8];
         Label[] SolutionLabel = new Label[8];
+        TextBox[] StatusText = new TextBox[8];
 
         public Form1()
         {
@@ -153,6 +155,21 @@ namespace Terminal
                 };
                 this.tabMain.Controls.Add(SolutionLabel[i]);
             }
+
+            //Create StatusText Textboxes
+            for (int i = 0; i < ButtonClose.Length; i++)
+            {
+                StatusText[i] = new TextBox
+                {
+                    Location = new System.Drawing.Point(446, 16 + i * 27),
+                    Name = "StatusText" + i.ToString(),
+                    Size = new System.Drawing.Size(150, 13),
+                    TabIndex = i,
+                    Text = "Port Closed",
+                    Enabled = false,
+                };
+                this.tabMain.Controls.Add(StatusText[i]);
+            }
         }
 
 
@@ -204,15 +221,17 @@ namespace Terminal
             }
   
             CurrentPort[i].DataReceived += CurrentPort_DataReceived;
-
+            StatusText[i].Text = "Connecting";
             ReceiverConnect(i);
             await Task.Delay(500);
             if (rcv_connected[i] == false)
             {
                 MessageBox.Show("Receiver not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ButtonClose[i].PerformClick();
+                StatusText[i].Text = "Port Closed"; 
                 return;
             }
+            StatusText[i].Text = "Connected";
             return;
         }
 
@@ -227,6 +246,7 @@ namespace Terminal
                     SolutionLabel[i].Text = "N/A";
                     TTFStartButton.Enabled = false;
                     rcv_connected[i] = false;
+            StatusText[i].Text = "Port Closed";
                 }
 
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -416,6 +436,7 @@ namespace Terminal
                 {
                     ButtonClose[i].Enabled = true;
                     CurrentPort[i].WriteLine(Command2TextBox.Text);
+                    StatusText[i].Text = "Connected";
                 }
                 else
                 {
@@ -429,6 +450,7 @@ namespace Terminal
             filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
             WriteCSV(dataGridView1, filename);
             Cycles.Clear();
+
         }
                 
         //Command Timer
@@ -441,11 +463,14 @@ namespace Terminal
                     switch (TTFSWmode[i])
                     {
                         case 0: //waiting for selected solution
+                            this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Waiting for solution", i });
                             break;
                         case 1: //got solution, wating for timeout 1
                             if (TTF_Timeout1[i] > 0)
                             {
                                 TTF_Timeout1[i]--;
+                                string str = "Waiting for Timeout 1: " + TTF_Timeout1[i].ToString();
+                                this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
                             }
                             else
                             {
@@ -466,6 +491,8 @@ namespace Terminal
                             if (TTF_Timeout2[i] > 0)
                             {
                                 TTF_Timeout2[i]--;
+                                string str = "Waiting for Timeout 2: " + TTF_Timeout2[i].ToString();
+                                this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
                             }
                             else
                             {
@@ -485,6 +512,11 @@ namespace Terminal
         void TimedStop()
         {
             TTFStopButton.PerformClick();
+        }
+
+        void STUpdate (string str, int i)
+        {
+            StatusText[i].Text = str;
         }
 
         void AddCycleResult(int i)

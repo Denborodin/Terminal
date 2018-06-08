@@ -41,6 +41,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.TTFStopButton = new System.Windows.Forms.Button();
             this.TTFStartButton = new System.Windows.Forms.Button();
             this.Command2TextBox = new System.Windows.Forms.TextBox();
@@ -62,12 +64,12 @@
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabTerminal = new System.Windows.Forms.TabPage();
             this.TextBox_Console = new System.Windows.Forms.TextBox();
+            this.tabLog = new System.Windows.Forms.TabPage();
+            this.tabSettings = new System.Windows.Forms.TabPage();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.label7 = new System.Windows.Forms.Label();
-            this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -83,11 +85,13 @@
             this.tabControl1.Controls.Add(this.tabMain);
             this.tabControl1.Controls.Add(this.tabStatistics);
             this.tabControl1.Controls.Add(this.tabTerminal);
+            this.tabControl1.Controls.Add(this.tabLog);
+            this.tabControl1.Controls.Add(this.tabSettings);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(718, 358);
+            this.tabControl1.Size = new System.Drawing.Size(624, 509);
             this.tabControl1.TabIndex = 8;
             // 
             // tabMain
@@ -107,7 +111,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(710, 332);
+            this.tabMain.Size = new System.Drawing.Size(616, 483);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Main";
             // 
@@ -197,12 +201,29 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.TTFSW_soltypeList);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(496, 12);
+            this.groupBox1.Location = new System.Drawing.Point(8, 266);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(206, 209);
+            this.groupBox1.Size = new System.Drawing.Size(327, 209);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TTF switch";
+            // 
+            // NumberOfCyclesTextBox
+            // 
+            this.NumberOfCyclesTextBox.Location = new System.Drawing.Point(145, 155);
+            this.NumberOfCyclesTextBox.Name = "NumberOfCyclesTextBox";
+            this.NumberOfCyclesTextBox.Size = new System.Drawing.Size(55, 20);
+            this.NumberOfCyclesTextBox.TabIndex = 16;
+            this.NumberOfCyclesTextBox.Text = "50";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 158);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(92, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Number of cycles:";
             // 
             // TTFStopButton
             // 
@@ -230,7 +251,7 @@
             // 
             this.Command2TextBox.Location = new System.Drawing.Point(9, 129);
             this.Command2TextBox.Name = "Command2TextBox";
-            this.Command2TextBox.Size = new System.Drawing.Size(191, 20);
+            this.Command2TextBox.Size = new System.Drawing.Size(312, 20);
             this.Command2TextBox.TabIndex = 13;
             this.Command2TextBox.Text = "set,lock/gps/sat,y;set,lock/glo/fcn,y";
             // 
@@ -238,7 +259,7 @@
             // 
             this.Command1TextBox.Location = new System.Drawing.Point(9, 77);
             this.Command1TextBox.Name = "Command1TextBox";
-            this.Command1TextBox.Size = new System.Drawing.Size(191, 20);
+            this.Command1TextBox.Size = new System.Drawing.Size(312, 20);
             this.Command1TextBox.TabIndex = 12;
             this.Command1TextBox.Text = "set,lock/gps/sat,n;set,lock/glo/fcn,n";
             // 
@@ -283,7 +304,7 @@
             "Standalone",
             "DGNSS",
             "RTK Fixed"});
-            this.TTFSW_soltypeList.Location = new System.Drawing.Point(117, 24);
+            this.TTFSW_soltypeList.Location = new System.Drawing.Point(117, 27);
             this.TTFSW_soltypeList.Name = "TTFSW_soltypeList";
             this.TTFSW_soltypeList.Size = new System.Drawing.Size(83, 21);
             this.TTFSW_soltypeList.TabIndex = 7;
@@ -312,7 +333,7 @@
             this.tabStatistics.Location = new System.Drawing.Point(4, 22);
             this.tabStatistics.Name = "tabStatistics";
             this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatistics.Size = new System.Drawing.Size(710, 332);
+            this.tabStatistics.Size = new System.Drawing.Size(710, 483);
             this.tabStatistics.TabIndex = 1;
             this.tabStatistics.Text = "Statistics";
             this.tabStatistics.UseVisualStyleBackColor = true;
@@ -333,7 +354,7 @@
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(704, 326);
+            this.dataGridView1.Size = new System.Drawing.Size(704, 477);
             this.dataGridView1.TabIndex = 0;
             // 
             // Column1
@@ -372,7 +393,7 @@
             this.tabTerminal.Location = new System.Drawing.Point(4, 22);
             this.tabTerminal.Name = "tabTerminal";
             this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(710, 332);
+            this.tabTerminal.Size = new System.Drawing.Size(710, 483);
             this.tabTerminal.TabIndex = 2;
             this.tabTerminal.Text = "Terminal";
             this.tabTerminal.UseVisualStyleBackColor = true;
@@ -385,31 +406,34 @@
             this.TextBox_Console.Name = "TextBox_Console";
             this.TextBox_Console.ReadOnly = true;
             this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(704, 326);
+            this.TextBox_Console.Size = new System.Drawing.Size(704, 477);
             this.TextBox_Console.TabIndex = 1;
             // 
-            // label7
+            // tabLog
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 158);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(92, 13);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "Number of cycles:";
+            this.tabLog.Location = new System.Drawing.Point(4, 22);
+            this.tabLog.Name = "tabLog";
+            this.tabLog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabLog.Size = new System.Drawing.Size(710, 483);
+            this.tabLog.TabIndex = 3;
+            this.tabLog.Text = "Log";
+            this.tabLog.UseVisualStyleBackColor = true;
             // 
-            // NumberOfCyclesTextBox
+            // tabSettings
             // 
-            this.NumberOfCyclesTextBox.Location = new System.Drawing.Point(145, 155);
-            this.NumberOfCyclesTextBox.Name = "NumberOfCyclesTextBox";
-            this.NumberOfCyclesTextBox.Size = new System.Drawing.Size(55, 20);
-            this.NumberOfCyclesTextBox.TabIndex = 16;
-            this.NumberOfCyclesTextBox.Text = "50";
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSettings.Size = new System.Drawing.Size(710, 483);
+            this.tabSettings.TabIndex = 4;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(718, 358);
+            this.ClientSize = new System.Drawing.Size(624, 509);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -469,6 +493,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.TextBox NumberOfCyclesTextBox;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TabPage tabLog;
+        private System.Windows.Forms.TabPage tabSettings;
     }
 }
 
