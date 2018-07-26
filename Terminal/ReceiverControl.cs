@@ -45,10 +45,33 @@ namespace Terminal
 
             System.Threading.Thread.Sleep(50);
 
+            CurrentPort[i].WriteLine("%0%print,/par/rcv/model");
+
+            System.Threading.Thread.Sleep(50);
+
+            CurrentPort[i].WriteLine("%1%print,/par/rcv/ver/main");
+
             CurrentPort[i].WriteLine("em,,nmea/GGA:0.1");
 
             return;
         }
-
+        
+        private void ReceiverReplyParse(string data, int index)
+        {
+            switch (Int32.Parse(data[6].ToString()))
+            {
+                case 0: //receiver name
+                    LogConsole.AppendText(DateTime.Now.ToString() +" Channel " + index + " Receiver name: " + data.Substring(8) + Environment.NewLine);
+                    receiver_model[index] = data.Substring(8);
+                    break;
+                case 1: //FW ver
+                    LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " FW version: " + data.Substring(8) + Environment.NewLine);
+                    receiver_FW[index] = data.Substring(8);
+                    break;
+                default:
+                    LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " " + data + Environment.NewLine);
+                    break;
+            }
+        }
     }
 }

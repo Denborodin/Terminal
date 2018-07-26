@@ -51,6 +51,8 @@ namespace Terminal
         float[] ttfD = new float[8];
         float[] ttfF = new float[8];
         float[] ttfR = new float[8];
+        string[] receiver_model = new string[8];
+        string[] receiver_FW = new string[8];
         double ttfS_50, ttfD_50, ttfF_50, ttfR_50;
         double ttfS_90, ttfD_90, ttfF_90, ttfR_90;
         string filename;
@@ -260,14 +262,23 @@ namespace Terminal
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Error: " + ex.Message + Environment.NewLine, index });
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         void Si_DataReceived(string data, int index) 
         {
 
+            if (data.Contains("RE"))
+            {
+                ReceiverReplyParse(data, index);
+            }
+            else
+            {
                 SolutionLabel[index].Text = SolType(data, index);
+            }
+                
 
                 if (ComPortList[index].Text == ComPortList[8].Text)
                 {
@@ -388,7 +399,7 @@ namespace Terminal
                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
                 TTFSWmode[i] = 2;
-
+                int openportscount = 0;
                 //Creating log files for each open Com Port
                 if (ComPortList[i].Text != "OFF")
                 {
@@ -402,12 +413,16 @@ namespace Terminal
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    dataGridView1[0,i+1].Value = ComPortList[i].Text;
+                    dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i]+ Environment.NewLine+ receiver_FW[i];
                     CurrentPort[i].WriteLine(Command1TextBox.Text);
+                    openportscount++;
                 }              
                 //Disabling Open/Close buttons
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = Int32.Parse(NumberOfCyclesTextBox.Text)* openportscount;
+                progressBar1.Step = 1;
             }
 
 
@@ -477,6 +492,7 @@ namespace Terminal
                                 //sent command 1
                                 CurrentPort[i].WriteLine(Command1TextBox.Text);
                                 cycle_counter[i]++;
+                                
                                 TTFSWmode[i] = 2;
                                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                                 AddCycleResult(i);
@@ -519,9 +535,16 @@ namespace Terminal
             StatusText[i].Text = str;
         }
 
+        void LogUpdate(string str, int i)
+        {
+            LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + i + str + Environment.NewLine);
+        }
+
+
         void AddCycleResult(int i)
         {
             Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i]));
+            progressBar1.PerformStep();
         }
     }
 }

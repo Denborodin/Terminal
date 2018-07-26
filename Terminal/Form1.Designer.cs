@@ -41,6 +41,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.TTFStopButton = new System.Windows.Forms.Button();
@@ -70,12 +71,14 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.LogConsole = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabTerminal.SuspendLayout();
+            this.tabLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
             this.SuspendLayout();
@@ -189,6 +192,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.NumberOfCyclesTextBox);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.TTFStopButton);
@@ -207,6 +211,13 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TTF switch";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(145, 181);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(176, 22);
+            this.progressBar1.TabIndex = 17;
             // 
             // NumberOfCyclesTextBox
             // 
@@ -333,7 +344,7 @@
             this.tabStatistics.Location = new System.Drawing.Point(4, 22);
             this.tabStatistics.Name = "tabStatistics";
             this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatistics.Size = new System.Drawing.Size(710, 483);
+            this.tabStatistics.Size = new System.Drawing.Size(616, 483);
             this.tabStatistics.TabIndex = 1;
             this.tabStatistics.Text = "Statistics";
             this.tabStatistics.UseVisualStyleBackColor = true;
@@ -354,7 +365,7 @@
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(704, 477);
+            this.dataGridView1.Size = new System.Drawing.Size(610, 477);
             this.dataGridView1.TabIndex = 0;
             // 
             // Column1
@@ -393,7 +404,7 @@
             this.tabTerminal.Location = new System.Drawing.Point(4, 22);
             this.tabTerminal.Name = "tabTerminal";
             this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(710, 483);
+            this.tabTerminal.Size = new System.Drawing.Size(616, 483);
             this.tabTerminal.TabIndex = 2;
             this.tabTerminal.Text = "Terminal";
             this.tabTerminal.UseVisualStyleBackColor = true;
@@ -406,15 +417,16 @@
             this.TextBox_Console.Name = "TextBox_Console";
             this.TextBox_Console.ReadOnly = true;
             this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(704, 477);
+            this.TextBox_Console.Size = new System.Drawing.Size(610, 477);
             this.TextBox_Console.TabIndex = 1;
             // 
             // tabLog
             // 
+            this.tabLog.Controls.Add(this.LogConsole);
             this.tabLog.Location = new System.Drawing.Point(4, 22);
             this.tabLog.Name = "tabLog";
             this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(710, 483);
+            this.tabLog.Size = new System.Drawing.Size(616, 483);
             this.tabLog.TabIndex = 3;
             this.tabLog.Text = "Log";
             this.tabLog.UseVisualStyleBackColor = true;
@@ -424,10 +436,21 @@
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(710, 483);
+            this.tabSettings.Size = new System.Drawing.Size(616, 483);
             this.tabSettings.TabIndex = 4;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
+            // 
+            // LogConsole
+            // 
+            this.LogConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogConsole.Location = new System.Drawing.Point(3, 3);
+            this.LogConsole.Multiline = true;
+            this.LogConsole.Name = "LogConsole";
+            this.LogConsole.ReadOnly = true;
+            this.LogConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.LogConsole.Size = new System.Drawing.Size(610, 477);
+            this.LogConsole.TabIndex = 2;
             // 
             // Form1
             // 
@@ -448,6 +471,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabTerminal.ResumeLayout(false);
             this.tabTerminal.PerformLayout();
+            this.tabLog.ResumeLayout(false);
+            this.tabLog.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
             this.ResumeLayout(false);
@@ -495,6 +520,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabPage tabLog;
         private System.Windows.Forms.TabPage tabSettings;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.TextBox LogConsole;
     }
 }
 
