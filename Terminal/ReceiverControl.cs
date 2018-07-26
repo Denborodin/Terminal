@@ -22,7 +22,7 @@ namespace Terminal
 
             CurrentPort[i].WriteLine(data1);
 
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(25);
 
             CurrentPort[i].WriteLine(data1);
 
@@ -35,19 +35,19 @@ namespace Terminal
 
             CurrentPort[i].WriteLine(data1);
 
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(25);
 
             CurrentPort[i].WriteLine(data1);
 
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(25);
 
             CurrentPort[i].WriteLine("dm");
 
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(25);
 
             CurrentPort[i].WriteLine("%0%print,/par/rcv/model");
 
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(25);
 
             CurrentPort[i].WriteLine("%1%print,/par/rcv/ver/main");
 

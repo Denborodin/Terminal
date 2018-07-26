@@ -34,6 +34,7 @@ namespace Terminal
 
         private delegate void SetTextDeleg(string text, int index);
         private delegate void StatusUpdate(string text, int index);
+        private delegate void ProgressUpdate();
 
         System.Timers.Timer aTimer;
         int[] TTFSWmode=new int[8]; //0-Waiting for fixed 1 - Got FIX, start timeout 1, 2 - Timeout 1 elapsed, Start Timeout 2
@@ -263,7 +264,6 @@ namespace Terminal
             catch (Exception ex)
             {
                 this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Error: " + ex.Message + Environment.NewLine, index });
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -383,7 +383,7 @@ namespace Terminal
             aTimer.Elapsed += OnTimedEvent;// Hook up the Elapsed event for the timer. 
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
-            
+            int openportscount = 0;
             //Creating log files for each open Com Port and variables init
             for (int i = 0; i < 8; i++)
             {
@@ -399,7 +399,7 @@ namespace Terminal
                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
                 TTFSWmode[i] = 2;
-                int openportscount = 0;
+                
                 //Creating log files for each open Com Port
                 if (ComPortList[i].Text != "OFF")
                 {
@@ -420,11 +420,11 @@ namespace Terminal
                 //Disabling Open/Close buttons
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
-                progressBar1.Minimum = 0;
-                progressBar1.Maximum = Int32.Parse(NumberOfCyclesTextBox.Text)* openportscount;
-                progressBar1.Step = 1;
+                //progressBar1.Step = 1;
             }
 
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = int.Parse(NumberOfCyclesTextBox.Text) * openportscount;
 
         }
 
@@ -540,11 +540,16 @@ namespace Terminal
             LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + i + str + Environment.NewLine);
         }
 
+        void ProgUpdate()
+        {
+            progressBar1.Value++;
+        }
 
         void AddCycleResult(int i)
         {
             Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i]));
-            progressBar1.PerformStep();
+            this.BeginInvoke(new ProgressUpdate(ProgUpdate));
+
         }
     }
 }
