@@ -58,19 +58,27 @@ namespace Terminal
         
         private void ReceiverReplyParse(string data, int index)
         {
-            switch (Int32.Parse(data[6].ToString()))
+
+            try
             {
-                case 0: //receiver name
-                    LogConsole.AppendText(DateTime.Now.ToString() +" Channel " + index + " Receiver name: " + data.Substring(8) + Environment.NewLine);
-                    receiver_model[index] = data.Substring(8);
-                    break;
-                case 1: //FW ver
-                    LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " FW version: " + data.Substring(8) + Environment.NewLine);
-                    receiver_FW[index] = data.Substring(8);
-                    break;
-                default:
-                    LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " " + data + Environment.NewLine);
-                    break;
+                switch (Int32.Parse(data[6].ToString()))
+                {
+                    case 0: //receiver name
+                        LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " Receiver name: " + data.Substring(8) + Environment.NewLine);
+                        receiver_model[index] = data.Substring(8);
+                        break;
+                    case 1: //FW ver
+                        LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " FW version: " + data.Substring(8) + Environment.NewLine);
+                        receiver_FW[index] = data.Substring(8);
+                        break;
+                    default:
+                        LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " " + data + Environment.NewLine);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + ex.Message + Environment.NewLine);
             }
         }
     }

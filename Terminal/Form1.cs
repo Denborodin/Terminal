@@ -542,7 +542,11 @@ namespace Terminal
 
         void ProgUpdate()
         {
-            progressBar1.Value++;
+            if (progressBar1.Value < progressBar1.Maximum)
+            {
+                progressBar1.Value++;
+            }
+            
         }
 
         void AddCycleResult(int i)
