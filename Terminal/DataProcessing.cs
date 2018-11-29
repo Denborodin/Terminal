@@ -70,7 +70,33 @@ namespace Terminal
                         swOut.Write(value);
                     }
                 }
+                dr.Dispose();
                 swOut.Close();
+            }
+        }
+
+        public void WriteCycles()
+        {
+            for (int i = 0; i < ComPortList.Length; i++)
+            {
+                if (ComPortList[i].Text != "OFF")
+                {
+                    string filename = "Cycles" + " " + dataGridView1[0, i + 1].Value + " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
+                    filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
+
+                    StreamWriter sw_cycles = new StreamWriter(filename);
+
+                    sw_cycles.WriteLine("Cycles Number" + ";" + "ttfS" + ";" + "ttfD" + ";" + "ttfF" + ";" + "ttfR");
+
+                    foreach (TTFcycle TTFtemp in Cycles)
+                    {
+                        if (TTFtemp.channel == i )
+                        {
+                            sw_cycles.WriteLine(TTFtemp.number + ";" + TTFtemp.TTFS + ";" + TTFtemp.TTFD + ";" + TTFtemp.TTFF + ";" + TTFtemp.TTFR);
+                        }
+                    }
+                    sw_cycles.Close();
+                }
             }
         }
 
@@ -125,29 +151,29 @@ namespace Terminal
 
 
             dataGridView1[1, i + 1].Value = cycle_counter[i].ToString();
-            dataGridView1[2, i + 1].Value = Math.Round((ttfS_50 / 10), 2).ToString() + " / " + Math.Round((ttfS_90 / 10), 2).ToString();
+            dataGridView1[2, i + 1].Value = Math.Round((ttfS_50), 2).ToString() + " / " + Math.Round((ttfS_90), 2).ToString();
             switch (CurrentMode)
             {
                 case 0:
-                    dataGridView1[3, i + 1].Value = Math.Round(ttfS_.Min() / 10, 2); 
-                    dataGridView1[4, i + 1].Value = Math.Round(ttfS_.Max() / 10, 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfS_50 / 10), 2).ToString() + " / " + Math.Round((ttfS_90 / 10), 2).ToString();
+                    dataGridView1[3, i + 1].Value = Math.Round(ttfS_.Min(), 2); 
+                    dataGridView1[4, i + 1].Value = Math.Round(ttfS_.Max(), 2);
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfS_50), 2).ToString() + " / " + Math.Round((ttfS_90), 2).ToString();
                     break;
                 case 1:
-                    dataGridView1[3, i + 1].Value = Math.Round(ttfD_.Min() / 10, 2);
-                    dataGridView1[4, i + 1].Value = Math.Round(ttfD_.Max() / 10, 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfD_50 / 10), 2).ToString() + " / " + Math.Round((ttfD_90 / 10), 2).ToString();
+                    dataGridView1[3, i + 1].Value = Math.Round(ttfD_.Min(), 2);
+                    dataGridView1[4, i + 1].Value = Math.Round(ttfD_.Max(), 2);
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfD_50), 2).ToString() + " / " + Math.Round((ttfD_90), 2).ToString();
                     break;
                 case 2:
-                    dataGridView1[3, i + 1].Value = Math.Round(ttfR_.Min() / 10, 2);
-                    dataGridView1[4, i + 1].Value = Math.Round(ttfR_.Max() / 10, 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfR_50 / 10), 2).ToString() + " / " + Math.Round((ttfR_90 / 10), 2).ToString();
+                    dataGridView1[3, i + 1].Value = Math.Round(ttfR_.Min(), 2);
+                    dataGridView1[4, i + 1].Value = Math.Round(ttfR_.Max(), 2);
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfR_50), 2).ToString() + " / " + Math.Round((ttfR_90), 2).ToString();
                     break;
                 default:
                 break;
             }
             
-            //dataGridView1[4, i + 1].Value = Math.Round((ttfF_50 / 10), 2).ToString() + " / " + Math.Round((ttfF_90 / 10), 2).ToString();
+            //dataGridView1[4, i + 1].Value = Math.Round((ttfF_50), 2).ToString() + " / " + Math.Round((ttfF_90), 2).ToString();
             
 
 

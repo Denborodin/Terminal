@@ -66,12 +66,12 @@
             this.tabTerminal = new System.Windows.Forms.TabPage();
             this.TextBox_Console = new System.Windows.Forms.TextBox();
             this.tabLog = new System.Windows.Forms.TabPage();
+            this.LogConsole = new System.Windows.Forms.TextBox();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.LogConsole = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -264,7 +264,7 @@
             this.Command2TextBox.Name = "Command2TextBox";
             this.Command2TextBox.Size = new System.Drawing.Size(312, 20);
             this.Command2TextBox.TabIndex = 13;
-            this.Command2TextBox.Text = "set,lock/gps/sat,y;set,lock/glo/fcn,y";
+            this.Command2TextBox.Text = "set,/par/ant/rcv/inp,int";
             // 
             // Command1TextBox
             // 
@@ -272,7 +272,7 @@
             this.Command1TextBox.Name = "Command1TextBox";
             this.Command1TextBox.Size = new System.Drawing.Size(312, 20);
             this.Command1TextBox.TabIndex = 12;
-            this.Command1TextBox.Text = "set,lock/gps/sat,n;set,lock/glo/fcn,n";
+            this.Command1TextBox.Text = "set,/par/ant/rcv/inp,ext";
             // 
             // Timeout2TextBox
             // 
@@ -431,16 +431,6 @@
             this.tabLog.Text = "Log";
             this.tabLog.UseVisualStyleBackColor = true;
             // 
-            // tabSettings
-            // 
-            this.tabSettings.Location = new System.Drawing.Point(4, 22);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(616, 483);
-            this.tabSettings.TabIndex = 4;
-            this.tabSettings.Text = "Settings";
-            this.tabSettings.UseVisualStyleBackColor = true;
-            // 
             // LogConsole
             // 
             this.LogConsole.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -452,6 +442,16 @@
             this.LogConsole.Size = new System.Drawing.Size(610, 477);
             this.LogConsole.TabIndex = 2;
             // 
+            // tabSettings
+            // 
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSettings.Size = new System.Drawing.Size(616, 483);
+            this.tabSettings.TabIndex = 4;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -459,6 +459,7 @@
             this.ClientSize = new System.Drawing.Size(624, 509);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(640, 547);
             this.Name = "Form1";
             this.Text = "FT Terminal";
             this.Load += new System.EventHandler(this.Form1_Load);

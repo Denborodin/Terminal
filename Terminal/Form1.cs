@@ -6,15 +6,16 @@ using System.Text;
 using System.Timers;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Terminal
 {
     public struct TTFcycle
     {
         public int number, channel;
-        public float TTFS, TTFD, TTFR, TTFF;
+        public double TTFS, TTFD, TTFR, TTFF;
 
-        public TTFcycle(int number_, int channel_, float TTFS_,float TTFD_, float TTFF_, float TTFR_)
+        public TTFcycle(int number_, int channel_, double TTFS_,double TTFD_, double TTFF_, double TTFR_)
         {
             number = number_;
             channel = channel_;
@@ -30,6 +31,7 @@ namespace Terminal
         SerialPort[] CurrentPort = new SerialPort[8];
         FileStream[] fstream = new FileStream[8];
         ArrayList Cycles;
+        DateTime timestamp_date;
         public delegate void MyDelegate();
 
         private delegate void SetTextDeleg(string text, int index);
@@ -46,12 +48,12 @@ namespace Terminal
         int[] counter_F = new int[8];
         int[] counter_R = new int[8];
         bool[] rcv_connected = new bool[8];
-        float[] timestamp = new float[8];
-        float[] ttf_stop_timestamp = new float[8];
-        float[] ttfS = new float[8];
-        float[] ttfD = new float[8];
-        float[] ttfF = new float[8];
-        float[] ttfR = new float[8];
+        double[] timestamp = new double[8];
+        double[] ttf_stop_timestamp = new double[8];
+        double[] ttfS = new double[8];
+        double[] ttfD = new double[8];
+        double[] ttfF = new double[8];
+        double[] ttfR = new double[8];
         string[] receiver_model = new string[8];
         string[] receiver_FW = new string[8];
         double ttfS_50, ttfD_50, ttfF_50, ttfR_50;
@@ -90,6 +92,7 @@ namespace Terminal
                 };
                 ComPortList[i].Items.Add("OFF");
                 this.tabMain.Controls.Add(ComPortList[i]);
+                ComPortList[i].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             }
 
             //Create PortSpeedList comboboxes
@@ -301,7 +304,8 @@ namespace Terminal
                 rcv_connected[i] = true;
                 if (int.TryParse(parts[6], out int SolTypeInt))
                 {
-                    float.TryParse(parts[1], out timestamp[i]);
+                    timestamp_date= DateTime.ParseExact(parts[1], "HHmmss.ff", CultureInfo.InvariantCulture);
+                    timestamp[i] = timestamp_date.TimeOfDay.TotalSeconds;
                     switch (SolTypeInt)
                     {
                         case 0:
@@ -338,7 +342,7 @@ namespace Terminal
                         case 4:
 
                             //if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" |
-                            //    SolutionLabel[i].Text == "RTK Float" | SolutionLabel[i].Text == "DGNSS")
+                            //    SolutionLabel[i].Text == "RTK double" | SolutionLabel[i].Text == "DGNSS")
                             {
                                 if (TTFSW_soltypeList.SelectedIndex == 2)
                                 {
@@ -356,7 +360,7 @@ namespace Terminal
                             {
                                 ttfF[i] = timestamp[i] - ttf_stop_timestamp[i];
                             }
-                            return "RTK Float";
+                            return "RTK double";
                         default:
                             return "N/A";
                     }
@@ -375,6 +379,7 @@ namespace Terminal
             Timeout2TextBox.Enabled = false;
             Command1TextBox.Enabled = false;
             Command2TextBox.Enabled = false;
+            NumberOfCyclesTextBox.Enabled = false;
 
             CurrentMode = TTFSW_soltypeList.SelectedIndex;
             TableInit(CurrentMode);
@@ -413,7 +418,7 @@ namespace Terminal
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i]+ Environment.NewLine+ receiver_FW[i];
+                    dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i] + " " + receiver_FW[i];
                     CurrentPort[i].WriteLine(Command1TextBox.Text);
                     openportscount++;
                 }              
@@ -437,6 +442,8 @@ namespace Terminal
             Timeout2TextBox.Enabled = true;
             Command1TextBox.Enabled = true;
             Command2TextBox.Enabled = true;
+            NumberOfCyclesTextBox.Enabled = true;
+            progressBar1.Value = 0;
             aTimer.Enabled = false;
             aTimer.Close();
             for (int i = 0; i < 8; i++)
@@ -464,10 +471,12 @@ namespace Terminal
             filename = "Result" +  " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
             filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
             WriteCSV(dataGridView1, filename);
+            WriteCycles();
             Cycles.Clear();
 
         }
-                
+
+
         //Command Timer
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
@@ -553,7 +562,6 @@ namespace Terminal
         {
             Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i]));
             this.BeginInvoke(new ProgressUpdate(ProgUpdate));
-
         }
     }
 }
