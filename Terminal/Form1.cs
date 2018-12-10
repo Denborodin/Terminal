@@ -342,7 +342,7 @@ namespace Terminal
                         case 4:
 
                             //if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" |
-                            //    SolutionLabel[i].Text == "RTK double" | SolutionLabel[i].Text == "DGNSS")
+                            //    SolutionLabel[i].Text == "RTK float" | SolutionLabel[i].Text == "DGNSS")
                             {
                                 if (TTFSW_soltypeList.SelectedIndex == 2)
                                 {
@@ -360,7 +360,7 @@ namespace Terminal
                             {
                                 ttfF[i] = timestamp[i] - ttf_stop_timestamp[i];
                             }
-                            return "RTK double";
+                            return "RTK Float";
                         default:
                             return "N/A";
                     }

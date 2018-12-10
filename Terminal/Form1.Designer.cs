@@ -46,8 +46,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.TTFStopButton = new System.Windows.Forms.Button();
             this.TTFStartButton = new System.Windows.Forms.Button();
-            this.Command2TextBox = new System.Windows.Forms.TextBox();
-            this.Command1TextBox = new System.Windows.Forms.TextBox();
             this.Timeout2TextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.Timeout1TextBox = new System.Windows.Forms.TextBox();
@@ -72,6 +70,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.Command1TextBox = new System.Windows.Forms.ComboBox();
+            this.Command2TextBox = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -192,13 +192,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.Command2TextBox);
+            this.groupBox1.Controls.Add(this.Command1TextBox);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.NumberOfCyclesTextBox);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.TTFStopButton);
             this.groupBox1.Controls.Add(this.TTFStartButton);
-            this.groupBox1.Controls.Add(this.Command2TextBox);
-            this.groupBox1.Controls.Add(this.Command1TextBox);
             this.groupBox1.Controls.Add(this.Timeout2TextBox);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.Timeout1TextBox);
@@ -257,22 +257,6 @@
             this.TTFStartButton.Text = "Start";
             this.TTFStartButton.UseVisualStyleBackColor = true;
             this.TTFStartButton.Click += new System.EventHandler(this.TTFSWStart_Click);
-            // 
-            // Command2TextBox
-            // 
-            this.Command2TextBox.Location = new System.Drawing.Point(9, 129);
-            this.Command2TextBox.Name = "Command2TextBox";
-            this.Command2TextBox.Size = new System.Drawing.Size(312, 20);
-            this.Command2TextBox.TabIndex = 13;
-            this.Command2TextBox.Text = "set,/par/ant/rcv/inp,int";
-            // 
-            // Command1TextBox
-            // 
-            this.Command1TextBox.Location = new System.Drawing.Point(9, 77);
-            this.Command1TextBox.Name = "Command1TextBox";
-            this.Command1TextBox.Size = new System.Drawing.Size(312, 20);
-            this.Command1TextBox.TabIndex = 12;
-            this.Command1TextBox.Text = "set,/par/ant/rcv/inp,ext";
             // 
             // Timeout2TextBox
             // 
@@ -444,13 +428,35 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.BackColor = System.Drawing.SystemColors.Control;
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
             this.tabSettings.Size = new System.Drawing.Size(616, 483);
             this.tabSettings.TabIndex = 4;
             this.tabSettings.Text = "Settings";
-            this.tabSettings.UseVisualStyleBackColor = true;
+            // 
+            // Command1TextBox
+            // 
+            this.Command1TextBox.FormattingEnabled = true;
+            this.Command1TextBox.Items.AddRange(new object[] {
+            "set,/par/ant/rcv/inp,ext"});
+            this.Command1TextBox.Location = new System.Drawing.Point(9, 76);
+            this.Command1TextBox.Name = "Command1TextBox";
+            this.Command1TextBox.Size = new System.Drawing.Size(310, 21);
+            this.Command1TextBox.TabIndex = 18;
+            this.Command1TextBox.Text = "set,/par/ant/rcv/inp,ext";
+            // 
+            // Command2TextBox
+            // 
+            this.Command2TextBox.FormattingEnabled = true;
+            this.Command2TextBox.Items.AddRange(new object[] {
+            "set,/par/ant/rcv/inp,int"});
+            this.Command2TextBox.Location = new System.Drawing.Point(9, 129);
+            this.Command2TextBox.Name = "Command2TextBox";
+            this.Command2TextBox.Size = new System.Drawing.Size(307, 21);
+            this.Command2TextBox.TabIndex = 19;
+            this.Command2TextBox.Text = "set,/par/ant/rcv/inp,int";
             // 
             // Form1
             // 
@@ -501,8 +507,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button TTFStopButton;
         private System.Windows.Forms.Button TTFStartButton;
-        private System.Windows.Forms.TextBox Command2TextBox;
-        private System.Windows.Forms.TextBox Command1TextBox;
         private System.Windows.Forms.TextBox Timeout2TextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox Timeout1TextBox;
@@ -523,6 +527,8 @@
         private System.Windows.Forms.TabPage tabSettings;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TextBox LogConsole;
+        private System.Windows.Forms.ComboBox Command2TextBox;
+        private System.Windows.Forms.ComboBox Command1TextBox;
     }
 }
 
