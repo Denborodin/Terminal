@@ -13,9 +13,10 @@ namespace Terminal
     public struct TTFcycle
     {
         public int number, channel;
-        public double TTFS, TTFD, TTFR, TTFF;
+        public double TTFS, TTFD, TTFR, TTFF, start, end;
 
-        public TTFcycle(int number_, int channel_, double TTFS_,double TTFD_, double TTFF_, double TTFR_)
+
+        public TTFcycle(int number_, int channel_, double TTFS_,double TTFD_, double TTFF_, double TTFR_, double start_, double end_)
         {
             number = number_;
             channel = channel_;
@@ -23,6 +24,8 @@ namespace Terminal
             TTFD = TTFD_;
             TTFF = TTFF_;
             TTFR = TTFR_;
+            start = start_;
+            end = end_;
         }
     }
 
@@ -58,7 +61,7 @@ namespace Terminal
         string[] receiver_FW = new string[8];
         double ttfS_50, ttfD_50, ttfF_50, ttfR_50;
         double ttfS_90, ttfD_90, ttfF_90, ttfR_90;
-        string filename;
+        string filename, command_off, command_on;
         int CurrentMode;
 
         public delegate int SolTypeHandler();
@@ -178,8 +181,6 @@ namespace Terminal
             }
         }
 
-
-
         public void Form1_Load(object sender, EventArgs e)
         {
             // scanning available com ports
@@ -240,8 +241,6 @@ namespace Terminal
             StatusText[i].Text = "Connected";
             return;
         }
-
-
 
         void ButtonClose_Click(object sender, EventArgs e)
                 {
@@ -380,6 +379,8 @@ namespace Terminal
             Command1TextBox.Enabled = false;
             Command2TextBox.Enabled = false;
             NumberOfCyclesTextBox.Enabled = false;
+            command_off = Command1TextBox.Text;
+            command_on = Command2TextBox.Text;
 
             CurrentMode = TTFSW_soltypeList.SelectedIndex;
             TableInit(CurrentMode);
@@ -476,7 +477,6 @@ namespace Terminal
 
         }
 
-
         //Command Timer
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
@@ -499,13 +499,14 @@ namespace Terminal
                             else
                             {
                                 //sent command 1
-                                CurrentPort[i].WriteLine(Command1TextBox.Text);
+                                CurrentPort[i].WriteLine(command_off);
                                 cycle_counter[i]++;
                                 
                                 TTFSWmode[i] = 2;
                                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                                 AddCycleResult(i);
                                 StatisticChange(i);
+                                ttfS[i] = 0; ttfD[i] = 0; ttfF[i] = 0; ttfR[i] = 0;
                                 if (Min_nonzero(cycle_counter)>=int.Parse(NumberOfCyclesTextBox.Text))
                                 {
                                     this.BeginInvoke(new MyDelegate(TimedStop));
@@ -522,7 +523,7 @@ namespace Terminal
                             else
                             {
                                 //sent command 2
-                                CurrentPort[i].WriteLine(Command2TextBox.Text);
+                                CurrentPort[i].WriteLine(command_on);
                                 ttf_stop_timestamp[i] = timestamp[i];
                                 TTFSWmode[i] = 0;
                                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
@@ -560,7 +561,7 @@ namespace Terminal
 
         void AddCycleResult(int i)
         {
-            Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i]));
+            Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i]+ ttf_stop_timestamp[i]));
             this.BeginInvoke(new ProgressUpdate(ProgUpdate));
         }
     }

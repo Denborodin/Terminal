@@ -15,22 +15,7 @@ namespace Terminal
             {
                 string value = "";
                 DataGridViewRow dr = new DataGridViewRow();
-                StreamWriter swOut = new StreamWriter(outputFile);
-
-                //write header rows to csv
-                /*
-                for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
-                {
-                    if (i > 0)
-                    {
-                        swOut.Write(",");
-                    }
-                    swOut.Write(gridIn.Columns[i].HeaderText);
-                }
-
-                swOut.WriteLine();
-                */
-                //write DataGridView rows to csv
+                StreamWriter swOut = new StreamWriter(outputFile);           
                 for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
                 {
                     if (j > 0)
@@ -86,13 +71,16 @@ namespace Terminal
 
                     StreamWriter sw_cycles = new StreamWriter(filename);
 
-                    sw_cycles.WriteLine("Cycles Number" + ";" + "ttfS" + ";" + "ttfD" + ";" + "ttfF" + ";" + "ttfR");
+                    sw_cycles.WriteLine("Cycles Number" + ";" + "ttfS" + ";" + "ttfD" + ";" + "ttfF" + ";" + "ttfR"+ ";" + "Start" + ";" + "End");
 
                     foreach (TTFcycle TTFtemp in Cycles)
                     {
                         if (TTFtemp.channel == i )
                         {
-                            sw_cycles.WriteLine(TTFtemp.number + ";" + TTFtemp.TTFS + ";" + TTFtemp.TTFD + ";" + TTFtemp.TTFF + ";" + TTFtemp.TTFR);
+                            string start_ = TimeSpan.FromSeconds(TTFtemp.start).ToString("g");
+                            string end_ = TimeSpan.FromSeconds(TTFtemp.end).ToString("g");
+                            sw_cycles.WriteLine(TTFtemp.number + ";" + Math.Round(TTFtemp.TTFS, 2) + ";" + Math.Round(TTFtemp.TTFD, 2) + ";" 
+                                + Math.Round(TTFtemp.TTFF, 2) + ";" + Math.Round(TTFtemp.TTFR, 2) + ";" + start_ + ";" + end_);
                         }
                     }
                     sw_cycles.Close();
@@ -149,7 +137,6 @@ namespace Terminal
             ttfF_90 = Percentile(ttfF_.ToArray(), 0.9);
             ttfR_90 = Percentile(ttfR_.ToArray(), 0.9);
 
-
             dataGridView1[1, i + 1].Value = cycle_counter[i].ToString();
             dataGridView1[2, i + 1].Value = Math.Round((ttfS_50), 2).ToString() + " / " + Math.Round((ttfS_90), 2).ToString();
             switch (CurrentMode)
@@ -172,11 +159,6 @@ namespace Terminal
                 default:
                 break;
             }
-            
-            //dataGridView1[4, i + 1].Value = Math.Round((ttfF_50), 2).ToString() + " / " + Math.Round((ttfF_90), 2).ToString();
-            
-
-
         }
 
         static int Min_nonzero(int[] array)
@@ -218,6 +200,5 @@ namespace Terminal
             dataGridView1[4, 0].Value = "Max " + solution + " TTF";
             dataGridView1[5, 0].Value = solution + " TTF (50/90%)";
         }
-
     }
 }
