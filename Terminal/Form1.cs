@@ -193,6 +193,8 @@ namespace Terminal
                 }               
             }
 
+            ComListing();
+
             //Default port = OFF
             for (int j = 0; j < ComPortList.Length; j++)
             {

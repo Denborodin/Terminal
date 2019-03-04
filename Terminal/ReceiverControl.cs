@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Management;
 using System.Windows.Forms;
-
+using System.IO.Ports;
+using System.IO;
+using System.Linq;
 
 namespace Terminal
 {
@@ -79,6 +82,29 @@ namespace Terminal
             catch (Exception ex)
             {
                 LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + ex.Message + Environment.NewLine);
+            }
+        }
+
+        private void ComListing()
+        {
+            try
+            {
+                using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE Caption like '%(COM%'"))
+                {
+                    var portnames = SerialPort.GetPortNames();
+                    var ports = searcher.Get().Cast<ManagementBaseObject>().ToList().Select(p => p["Caption"].ToString());
+
+                    var portList = portnames.Select(n => n + " - " + ports.FirstOrDefault(s => s.Contains(n))).ToList();
+
+                    foreach (string s in portList)
+                    {
+                        LogUpdate(s, 10);
+                    }
+                }
+            }
+            catch (ManagementException e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
     }
