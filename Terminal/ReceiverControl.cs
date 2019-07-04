@@ -94,12 +94,21 @@ namespace Terminal
                     var portnames = SerialPort.GetPortNames();
                     var ports = searcher.Get().Cast<ManagementBaseObject>().ToList().Select(p => p["Caption"].ToString());
 
-                    var portList = portnames.Select(n => n + " - " + ports.FirstOrDefault(s => s.Contains(n))).ToList();
+                    var portList = portnames.Select(n => n + " - " + ports.FirstOrDefault(s => s.Contains(n+")"))).ToList();
 
                     foreach (string s in portList)
                     {
-                        LogUpdate(s, 10);
+                        LogConsole.AppendText(s + Environment.NewLine);
+
+                        //LogUpdate(s, 10);
                     }
+                    /*
+                    foreach (string s in portList)
+                    { 
+                        LogConsole.AppendText(s.Substring(s.IndexOf("(")+1, s.IndexOf(")") - s.IndexOf("(")-1) + Environment.NewLine);
+                        //LogUpdate(s, 10);
+                    }
+                    */
                 }
             }
             catch (ManagementException e)

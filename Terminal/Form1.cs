@@ -502,8 +502,7 @@ namespace Terminal
                             {
                                 //sent command 1
                                 CurrentPort[i].WriteLine(command_off);
-                                cycle_counter[i]++;
-                                
+                          
                                 TTFSWmode[i] = 2;
                                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                                 AddCycleResult(i);
@@ -563,8 +562,12 @@ namespace Terminal
 
         void AddCycleResult(int i)
         {
-            Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i]+ ttf_stop_timestamp[i]));
-            this.BeginInvoke(new ProgressUpdate(ProgUpdate));
+            if (ttfS[i] >=0 && ttfD[i] >= 0 && ttfF[i] >= 0 && ttfR[i] >= 0)
+            {
+                Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i] + ttf_stop_timestamp[i]));
+                this.BeginInvoke(new ProgressUpdate(ProgUpdate));
+                cycle_counter[i]++;
+            }
         }
     }
 }

@@ -138,23 +138,23 @@ namespace Terminal
             ttfR_90 = Percentile(ttfR_.ToArray(), 0.9);
 
             dataGridView1[1, i + 1].Value = cycle_counter[i].ToString();
-            dataGridView1[2, i + 1].Value = Math.Round((ttfS_50), 2).ToString() + " / " + Math.Round((ttfS_90), 2).ToString();
+            dataGridView1[2, i + 1].Value = Math.Round((ttfS_50), 2).ToString("F1") + " | " + Math.Round((ttfS_90), 2).ToString("F1");
             switch (CurrentMode)
             {
                 case 0:
                     dataGridView1[3, i + 1].Value = Math.Round(ttfS_.Min(), 2); 
                     dataGridView1[4, i + 1].Value = Math.Round(ttfS_.Max(), 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfS_50), 2).ToString() + " / " + Math.Round((ttfS_90), 2).ToString();
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfS_50), 2).ToString("F1") + " | " + Math.Round((ttfS_90), 2).ToString("F1");
                     break;
                 case 1:
                     dataGridView1[3, i + 1].Value = Math.Round(ttfD_.Min(), 2);
                     dataGridView1[4, i + 1].Value = Math.Round(ttfD_.Max(), 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfD_50), 2).ToString() + " / " + Math.Round((ttfD_90), 2).ToString();
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfD_50), 2).ToString("F1") + " | " + Math.Round((ttfD_90), 2).ToString("F1");
                     break;
                 case 2:
                     dataGridView1[3, i + 1].Value = Math.Round(ttfR_.Min(), 2);
                     dataGridView1[4, i + 1].Value = Math.Round(ttfR_.Max(), 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfR_50), 2).ToString() + " / " + Math.Round((ttfR_90), 2).ToString();
+                    dataGridView1[5, i + 1].Value = Math.Round((ttfR_50), 2).ToString("F1") + " | " + Math.Round((ttfR_90), 2).ToString("F1");
                     break;
                 default:
                 break;

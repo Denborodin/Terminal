@@ -41,6 +41,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Command2TextBox = new System.Windows.Forms.ComboBox();
+            this.Command1TextBox = new System.Windows.Forms.ComboBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -70,8 +72,6 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.Command1TextBox = new System.Windows.Forms.ComboBox();
-            this.Command2TextBox = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -211,6 +211,31 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TTF switch";
+            // 
+            // Command2TextBox
+            // 
+            this.Command2TextBox.FormattingEnabled = true;
+            this.Command2TextBox.Items.AddRange(new object[] {
+            "set,/par/ant/rcv/inp,int",
+            "set,lock/gps/sat,y;set,lock/glo/fcn,y"});
+            this.Command2TextBox.Location = new System.Drawing.Point(9, 129);
+            this.Command2TextBox.Name = "Command2TextBox";
+            this.Command2TextBox.Size = new System.Drawing.Size(310, 21);
+            this.Command2TextBox.TabIndex = 19;
+            this.Command2TextBox.Text = "set,/par/ant/rcv/inp,int";
+            // 
+            // Command1TextBox
+            // 
+            this.Command1TextBox.FormattingEnabled = true;
+            this.Command1TextBox.Items.AddRange(new object[] {
+            "set,/par/ant/rcv/inp,ext",
+            "set,lock/gps/sat,n;set,lock/glo/fcn,n",
+            "set,reset,y"});
+            this.Command1TextBox.Location = new System.Drawing.Point(9, 76);
+            this.Command1TextBox.Name = "Command1TextBox";
+            this.Command1TextBox.Size = new System.Drawing.Size(310, 21);
+            this.Command1TextBox.TabIndex = 18;
+            this.Command1TextBox.Text = "set,/par/ant/rcv/inp,ext";
             // 
             // progressBar1
             // 
@@ -435,28 +460,6 @@
             this.tabSettings.Size = new System.Drawing.Size(616, 483);
             this.tabSettings.TabIndex = 4;
             this.tabSettings.Text = "Settings";
-            // 
-            // Command1TextBox
-            // 
-            this.Command1TextBox.FormattingEnabled = true;
-            this.Command1TextBox.Items.AddRange(new object[] {
-            "set,/par/ant/rcv/inp,ext"});
-            this.Command1TextBox.Location = new System.Drawing.Point(9, 76);
-            this.Command1TextBox.Name = "Command1TextBox";
-            this.Command1TextBox.Size = new System.Drawing.Size(310, 21);
-            this.Command1TextBox.TabIndex = 18;
-            this.Command1TextBox.Text = "set,/par/ant/rcv/inp,ext";
-            // 
-            // Command2TextBox
-            // 
-            this.Command2TextBox.FormattingEnabled = true;
-            this.Command2TextBox.Items.AddRange(new object[] {
-            "set,/par/ant/rcv/inp,int"});
-            this.Command2TextBox.Location = new System.Drawing.Point(9, 129);
-            this.Command2TextBox.Name = "Command2TextBox";
-            this.Command2TextBox.Size = new System.Drawing.Size(307, 21);
-            this.Command2TextBox.TabIndex = 19;
-            this.Command2TextBox.Text = "set,/par/ant/rcv/inp,int";
             // 
             // Form1
             // 
