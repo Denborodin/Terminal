@@ -67,7 +67,6 @@
             this.TextBox_Console = new System.Windows.Forms.TextBox();
             this.tabLog = new System.Windows.Forms.TabPage();
             this.LogConsole = new System.Windows.Forms.TextBox();
-            this.tabSettings = new System.Windows.Forms.TabPage();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -89,7 +88,6 @@
             this.tabControl1.Controls.Add(this.tabStatistics);
             this.tabControl1.Controls.Add(this.tabTerminal);
             this.tabControl1.Controls.Add(this.tabLog);
-            this.tabControl1.Controls.Add(this.tabSettings);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -451,16 +449,6 @@
             this.LogConsole.Size = new System.Drawing.Size(610, 477);
             this.LogConsole.TabIndex = 2;
             // 
-            // tabSettings
-            // 
-            this.tabSettings.BackColor = System.Drawing.SystemColors.Control;
-            this.tabSettings.Location = new System.Drawing.Point(4, 22);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(616, 483);
-            this.tabSettings.TabIndex = 4;
-            this.tabSettings.Text = "Settings";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -527,7 +515,6 @@
         private System.Windows.Forms.TextBox NumberOfCyclesTextBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabPage tabLog;
-        private System.Windows.Forms.TabPage tabSettings;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TextBox LogConsole;
         private System.Windows.Forms.ComboBox Command2TextBox;
