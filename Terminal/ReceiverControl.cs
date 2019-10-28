@@ -54,8 +54,12 @@ namespace Terminal
 
             CurrentPort[i].WriteLine("%1%print,/par/rcv/ver/main");
 
-            CurrentPort[i].WriteLine("em,,nmea/GGA:0.1");
+            if (i != 9)
+            {
+                CurrentPort[i].WriteLine("em,,nmea/GGA:0.1");
+            }
 
+            
             return;
         }
         

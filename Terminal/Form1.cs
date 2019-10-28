@@ -31,14 +31,15 @@ namespace Terminal
 
     public partial class Form1 : Form
     {
-        SerialPort[] CurrentPort = new SerialPort[8];
-        FileStream[] fstream = new FileStream[8];
+        SerialPort[] CurrentPort = new SerialPort[10];
+        FileStream[] fstream = new FileStream[10];
         ArrayList Cycles;
         DateTime timestamp_date;
         public delegate void MyDelegate();
 
         private delegate void SetTextDeleg(string text, int index);
         private delegate void StatusUpdate(string text, int index);
+        private delegate void MLogUpdate(string text);
         private delegate void ProgressUpdate();
 
         System.Timers.Timer aTimer;
@@ -66,7 +67,7 @@ namespace Terminal
 
         public delegate int SolTypeHandler();
 
-        ComboBox[] ComPortList = new ComboBox[9];
+        ComboBox[] ComPortList = new ComboBox[10];
         ComboBox[] PortSpeedList = new ComboBox[8];
         Button[] ButtonOpen = new Button[8];
         Button[] ButtonClose = new Button[8];
@@ -83,7 +84,7 @@ namespace Terminal
         public void CreateComponents()
         {
             //Create ComPortList comboboxes
-            for (int i = 0; i < ComPortList.Length; i++)
+            for (int i = 0; i < ComPortList.Length-1; i++)
             {
                 ComPortList[i] = new ComboBox
                 {
@@ -97,6 +98,23 @@ namespace Terminal
                 this.tabMain.Controls.Add(ComPortList[i]);
                 ComPortList[i].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             }
+
+            // ModemTab components init
+            {
+                ComPortList[9] = new ComboBox
+                {
+                    Location = new System.Drawing.Point(83, 17),
+                    Name = "ComPortListModem",
+                    Size = new System.Drawing.Size(80, 21),
+                };
+                ComPortList[9].Items.Add("OFF");
+                this.tabModem.Controls.Add(ComPortList[9]);
+                ComPortList[9].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+                ModemPortComboBox.SelectedIndex = 0;
+                ModemTypeList.SelectedIndex = 0;
+                LinkRateList.SelectedIndex = 1;
+            }
+
 
             //Create PortSpeedList comboboxes
             for (int i = 0; i < PortSpeedList.Length; i++)
@@ -115,6 +133,7 @@ namespace Terminal
                     "57600",
                     "115200"});
                 PortSpeedList[i].SelectedIndex = 3;
+                PortSpeedList[i].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
                 this.tabMain.Controls.Add(PortSpeedList[i]);
             }
 
@@ -273,6 +292,7 @@ namespace Terminal
 
         void Si_DataReceived(string data, int index) 
         {
+          
 
             if (data.Contains("RE"))
             {
@@ -370,6 +390,15 @@ namespace Terminal
             }
             return "N/A";
         }
+
+
+
+        private void Label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
 
         public void TTFSWStart_Click(object sender, EventArgs e)
         {

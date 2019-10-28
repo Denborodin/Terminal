@@ -55,6 +55,29 @@
             this.TTFSW_soltypeList = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabModem = new System.Windows.Forms.TabPage();
+            this.ModemStopBtn = new System.Windows.Forms.Button();
+            this.ModemStartBtn = new System.Windows.Forms.Button();
+            this.PauseTimeTxt = new System.Windows.Forms.TextBox();
+            this.TransmitTimeTxt = new System.Windows.Forms.TextBox();
+            this.FrqStepTxt = new System.Windows.Forms.TextBox();
+            this.FrqStopTxt = new System.Windows.Forms.TextBox();
+            this.FrqStartTxt = new System.Windows.Forms.TextBox();
+            this.ModemLog = new System.Windows.Forms.TextBox();
+            this.ModemDisconnectBTN = new System.Windows.Forms.Button();
+            this.ModemConnectBTN = new System.Windows.Forms.Button();
+            this.LinkRateList = new System.Windows.Forms.ComboBox();
+            this.ModemTypeList = new System.Windows.Forms.ComboBox();
+            this.ModemPortComboBox = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textLabel2 = new System.Windows.Forms.Label();
             this.tabStatistics = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,20 +94,26 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
+            this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabModem.SuspendLayout();
             this.tabStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabTerminal.SuspendLayout();
             this.tabLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabMain);
+            this.tabControl1.Controls.Add(this.tabModem);
             this.tabControl1.Controls.Add(this.tabStatistics);
             this.tabControl1.Controls.Add(this.tabTerminal);
             this.tabControl1.Controls.Add(this.tabLog);
@@ -114,7 +143,7 @@
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
             this.tabMain.Size = new System.Drawing.Size(616, 483);
             this.tabMain.TabIndex = 0;
-            this.tabMain.Text = "Main";
+            this.tabMain.Text = "TTFF Test";
             // 
             // label5
             // 
@@ -345,6 +374,255 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Solution:";
             // 
+            // tabModem
+            // 
+            this.tabModem.BackColor = System.Drawing.SystemColors.Control;
+            this.tabModem.Controls.Add(this.ModemStopBtn);
+            this.tabModem.Controls.Add(this.ModemStartBtn);
+            this.tabModem.Controls.Add(this.PauseTimeTxt);
+            this.tabModem.Controls.Add(this.TransmitTimeTxt);
+            this.tabModem.Controls.Add(this.FrqStepTxt);
+            this.tabModem.Controls.Add(this.FrqStopTxt);
+            this.tabModem.Controls.Add(this.FrqStartTxt);
+            this.tabModem.Controls.Add(this.ModemLog);
+            this.tabModem.Controls.Add(this.ModemDisconnectBTN);
+            this.tabModem.Controls.Add(this.ModemConnectBTN);
+            this.tabModem.Controls.Add(this.LinkRateList);
+            this.tabModem.Controls.Add(this.ModemTypeList);
+            this.tabModem.Controls.Add(this.ModemPortComboBox);
+            this.tabModem.Controls.Add(this.label9);
+            this.tabModem.Controls.Add(this.label20);
+            this.tabModem.Controls.Add(this.label19);
+            this.tabModem.Controls.Add(this.label17);
+            this.tabModem.Controls.Add(this.label15);
+            this.tabModem.Controls.Add(this.label13);
+            this.tabModem.Controls.Add(this.label21);
+            this.tabModem.Controls.Add(this.label11);
+            this.tabModem.Controls.Add(this.textLabel2);
+            this.tabModem.Location = new System.Drawing.Point(4, 22);
+            this.tabModem.Name = "tabModem";
+            this.tabModem.Padding = new System.Windows.Forms.Padding(3);
+            this.tabModem.Size = new System.Drawing.Size(616, 483);
+            this.tabModem.TabIndex = 4;
+            this.tabModem.Text = "Modem Test";
+            // 
+            // ModemStopBtn
+            // 
+            this.ModemStopBtn.Enabled = false;
+            this.ModemStopBtn.Location = new System.Drawing.Point(15, 194);
+            this.ModemStopBtn.Name = "ModemStopBtn";
+            this.ModemStopBtn.Size = new System.Drawing.Size(75, 46);
+            this.ModemStopBtn.TabIndex = 8;
+            this.ModemStopBtn.Text = "Stop";
+            this.ModemStopBtn.UseVisualStyleBackColor = true;
+            this.ModemStopBtn.Click += new System.EventHandler(this.ModemStopBtn_Click);
+            // 
+            // ModemStartBtn
+            // 
+            this.ModemStartBtn.Enabled = false;
+            this.ModemStartBtn.Location = new System.Drawing.Point(15, 142);
+            this.ModemStartBtn.Name = "ModemStartBtn";
+            this.ModemStartBtn.Size = new System.Drawing.Size(75, 46);
+            this.ModemStartBtn.TabIndex = 8;
+            this.ModemStartBtn.Text = "Start";
+            this.ModemStartBtn.UseVisualStyleBackColor = true;
+            this.ModemStartBtn.Click += new System.EventHandler(this.ModemStartBtn_Click);
+            // 
+            // PauseTimeTxt
+            // 
+            this.PauseTimeTxt.Location = new System.Drawing.Point(523, 83);
+            this.PauseTimeTxt.Name = "PauseTimeTxt";
+            this.PauseTimeTxt.Size = new System.Drawing.Size(42, 20);
+            this.PauseTimeTxt.TabIndex = 7;
+            this.PauseTimeTxt.Text = "60";
+            // 
+            // TransmitTimeTxt
+            // 
+            this.TransmitTimeTxt.Location = new System.Drawing.Point(523, 60);
+            this.TransmitTimeTxt.Name = "TransmitTimeTxt";
+            this.TransmitTimeTxt.Size = new System.Drawing.Size(42, 20);
+            this.TransmitTimeTxt.TabIndex = 7;
+            this.TransmitTimeTxt.Text = "60";
+            // 
+            // FrqStepTxt
+            // 
+            this.FrqStepTxt.Location = new System.Drawing.Point(374, 106);
+            this.FrqStepTxt.Name = "FrqStepTxt";
+            this.FrqStepTxt.Size = new System.Drawing.Size(42, 20);
+            this.FrqStepTxt.TabIndex = 7;
+            this.FrqStepTxt.Text = "1";
+            // 
+            // FrqStopTxt
+            // 
+            this.FrqStopTxt.Location = new System.Drawing.Point(374, 83);
+            this.FrqStopTxt.Name = "FrqStopTxt";
+            this.FrqStopTxt.Size = new System.Drawing.Size(42, 20);
+            this.FrqStopTxt.TabIndex = 7;
+            this.FrqStopTxt.Text = "470";
+            // 
+            // FrqStartTxt
+            // 
+            this.FrqStartTxt.Location = new System.Drawing.Point(374, 60);
+            this.FrqStartTxt.Name = "FrqStartTxt";
+            this.FrqStartTxt.Size = new System.Drawing.Size(42, 20);
+            this.FrqStartTxt.TabIndex = 7;
+            this.FrqStartTxt.Text = "400";
+            // 
+            // ModemLog
+            // 
+            this.ModemLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ModemLog.Location = new System.Drawing.Point(3, 278);
+            this.ModemLog.Multiline = true;
+            this.ModemLog.Name = "ModemLog";
+            this.ModemLog.ReadOnly = true;
+            this.ModemLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ModemLog.Size = new System.Drawing.Size(610, 202);
+            this.ModemLog.TabIndex = 6;
+            // 
+            // ModemDisconnectBTN
+            // 
+            this.ModemDisconnectBTN.Enabled = false;
+            this.ModemDisconnectBTN.Location = new System.Drawing.Point(475, 17);
+            this.ModemDisconnectBTN.Name = "ModemDisconnectBTN";
+            this.ModemDisconnectBTN.Size = new System.Drawing.Size(75, 22);
+            this.ModemDisconnectBTN.TabIndex = 5;
+            this.ModemDisconnectBTN.Text = "Disconnect";
+            this.ModemDisconnectBTN.UseVisualStyleBackColor = true;
+            this.ModemDisconnectBTN.Click += new System.EventHandler(this.ModemDisconnectBTN_Click);
+            // 
+            // ModemConnectBTN
+            // 
+            this.ModemConnectBTN.Location = new System.Drawing.Point(394, 17);
+            this.ModemConnectBTN.Name = "ModemConnectBTN";
+            this.ModemConnectBTN.Size = new System.Drawing.Size(75, 22);
+            this.ModemConnectBTN.TabIndex = 5;
+            this.ModemConnectBTN.Text = "Connect";
+            this.ModemConnectBTN.UseVisualStyleBackColor = true;
+            this.ModemConnectBTN.Click += new System.EventHandler(this.ModemConnectBTN_Click);
+            // 
+            // LinkRateList
+            // 
+            this.LinkRateList.FormattingEnabled = true;
+            this.LinkRateList.Items.AddRange(new object[] {
+            "4800",
+            "9600",
+            "19200"});
+            this.LinkRateList.Location = new System.Drawing.Point(96, 106);
+            this.LinkRateList.Name = "LinkRateList";
+            this.LinkRateList.Size = new System.Drawing.Size(121, 21);
+            this.LinkRateList.TabIndex = 4;
+            // 
+            // ModemTypeList
+            // 
+            this.ModemTypeList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ModemTypeList.Enabled = false;
+            this.ModemTypeList.FormattingEnabled = true;
+            this.ModemTypeList.Items.AddRange(new object[] {
+            "Satel",
+            "R2Lite"});
+            this.ModemTypeList.Location = new System.Drawing.Point(96, 60);
+            this.ModemTypeList.Name = "ModemTypeList";
+            this.ModemTypeList.Size = new System.Drawing.Size(121, 21);
+            this.ModemTypeList.TabIndex = 4;
+            // 
+            // ModemPortComboBox
+            // 
+            this.ModemPortComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.form1BindingSource2, "Text", true));
+            this.ModemPortComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ModemPortComboBox.Enabled = false;
+            this.ModemPortComboBox.FormattingEnabled = true;
+            this.ModemPortComboBox.Items.AddRange(new object[] {
+            "Modem A",
+            "Serial A",
+            "Serial B",
+            "Serial C",
+            "Serial D",
+            "Direct"});
+            this.ModemPortComboBox.Location = new System.Drawing.Point(257, 17);
+            this.ModemPortComboBox.Name = "ModemPortComboBox";
+            this.ModemPortComboBox.Size = new System.Drawing.Size(121, 21);
+            this.ModemPortComboBox.TabIndex = 4;
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(171, 20);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(80, 23);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Connected to:";
+            // 
+            // label20
+            // 
+            this.label20.Location = new System.Drawing.Point(422, 86);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(95, 23);
+            this.label20.TabIndex = 3;
+            this.label20.Text = "Pause, sec:";
+            this.label20.Click += new System.EventHandler(this.Label11_Click);
+            // 
+            // label19
+            // 
+            this.label19.Location = new System.Drawing.Point(422, 63);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(95, 23);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "Transmit time, sec:";
+            this.label19.Click += new System.EventHandler(this.Label11_Click);
+            // 
+            // label17
+            // 
+            this.label17.Location = new System.Drawing.Point(254, 109);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(82, 23);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "Step, MHz:";
+            this.label17.Click += new System.EventHandler(this.Label11_Click);
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(254, 86);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(114, 23);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "End Frequency, MHz:";
+            this.label15.Click += new System.EventHandler(this.Label11_Click);
+            // 
+            // label13
+            // 
+            this.label13.Location = new System.Drawing.Point(254, 63);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(114, 23);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Start Frequency, MHz:";
+            this.label13.Click += new System.EventHandler(this.Label11_Click);
+            // 
+            // label21
+            // 
+            this.label21.Location = new System.Drawing.Point(8, 109);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(82, 23);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "Link rate, bps";
+            this.label21.Click += new System.EventHandler(this.Label11_Click);
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(8, 63);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(82, 23);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Modem Type:";
+            this.label11.Click += new System.EventHandler(this.Label11_Click);
+            // 
+            // textLabel2
+            // 
+            this.textLabel2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.form1BindingSource2, "Text", true));
+            this.textLabel2.Location = new System.Drawing.Point(8, 20);
+            this.textLabel2.Name = "textLabel2";
+            this.textLabel2.Size = new System.Drawing.Size(69, 23);
+            this.textLabel2.TabIndex = 3;
+            this.textLabel2.Text = "Modem Port:";
+            // 
             // tabStatistics
             // 
             this.tabStatistics.Controls.Add(this.dataGridView1);
@@ -449,6 +727,14 @@
             this.LogConsole.Size = new System.Drawing.Size(610, 477);
             this.LogConsole.TabIndex = 2;
             // 
+            // form1BindingSource2
+            // 
+            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
+            // 
+            // form1BindingSource3
+            // 
+            this.form1BindingSource3.DataSource = typeof(Terminal.Form1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,13 +744,15 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(640, 547);
             this.Name = "Form1";
-            this.Text = "FT Terminal";
+            this.Text = "FT Terminal 1.2 beta";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabMain.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabModem.ResumeLayout(false);
+            this.tabModem.PerformLayout();
             this.tabStatistics.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabTerminal.ResumeLayout(false);
@@ -473,6 +761,8 @@
             this.tabLog.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -519,6 +809,31 @@
         private System.Windows.Forms.TextBox LogConsole;
         private System.Windows.Forms.ComboBox Command2TextBox;
         private System.Windows.Forms.ComboBox Command1TextBox;
+        private System.Windows.Forms.TabPage tabModem;
+        private System.Windows.Forms.ComboBox ModemPortComboBox;
+        private System.Windows.Forms.BindingSource form1BindingSource2;
+        private System.Windows.Forms.Label textLabel2;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.BindingSource form1BindingSource3;
+        private System.Windows.Forms.Button ModemDisconnectBTN;
+        private System.Windows.Forms.Button ModemConnectBTN;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox ModemTypeList;
+        private System.Windows.Forms.TextBox ModemLog;
+        private System.Windows.Forms.TextBox PauseTimeTxt;
+        private System.Windows.Forms.TextBox TransmitTimeTxt;
+        private System.Windows.Forms.TextBox FrqStepTxt;
+        private System.Windows.Forms.TextBox FrqStopTxt;
+        private System.Windows.Forms.TextBox FrqStartTxt;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button ModemStopBtn;
+        private System.Windows.Forms.Button ModemStartBtn;
+        private System.Windows.Forms.ComboBox LinkRateList;
+        private System.Windows.Forms.Label label21;
     }
 }
 
