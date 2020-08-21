@@ -69,6 +69,7 @@
             this.LinkRateList = new System.Windows.Forms.ComboBox();
             this.ModemTypeList = new System.Windows.Forms.ComboBox();
             this.ModemPortComboBox = new System.Windows.Forms.ComboBox();
+            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.label9 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -94,19 +95,18 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabModem.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             this.tabStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabTerminal.SuspendLayout();
             this.tabLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -539,6 +539,10 @@
             this.ModemPortComboBox.Size = new System.Drawing.Size(121, 21);
             this.ModemPortComboBox.TabIndex = 4;
             // 
+            // form1BindingSource2
+            // 
+            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
+            // 
             // label9
             // 
             this.label9.Location = new System.Drawing.Point(171, 20);
@@ -723,10 +727,6 @@
             this.LogConsole.Size = new System.Drawing.Size(610, 520);
             this.LogConsole.TabIndex = 2;
             // 
-            // form1BindingSource2
-            // 
-            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
-            // 
             // form1BindingSource3
             // 
             this.form1BindingSource3.DataSource = typeof(Terminal.Form1);
@@ -740,7 +740,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(640, 547);
             this.Name = "Form1";
-            this.Text = "FT Terminal 1.2 beta";
+            this.Text = "FT Terminal 1.3";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
@@ -749,6 +749,7 @@
             this.groupBox1.PerformLayout();
             this.tabModem.ResumeLayout(false);
             this.tabModem.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             this.tabStatistics.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabTerminal.ResumeLayout(false);
@@ -757,7 +758,6 @@
             this.tabLog.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).EndInit();
             this.ResumeLayout(false);
 

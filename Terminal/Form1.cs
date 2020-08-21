@@ -64,7 +64,7 @@ namespace Terminal
         string[] receiver_FW = new string[8];
         double ttfS_50, ttfD_50, ttfF_50, ttfR_50;
         double ttfS_90, ttfD_90, ttfF_90, ttfR_90;
-        string filename, command_off, command_on;
+        string filename;
         int CurrentMode;
 
         public delegate int SolTypeHandler();
@@ -224,6 +224,8 @@ namespace Terminal
 
             //Default solution - RTK fixed
             TTFSW_soltypeList.SelectedIndex = 2;
+            this.Command1TextBox.Text = Properties.Settings.Default.cmd1sett;
+            this.Command2TextBox.Text = Properties.Settings.Default.cmd2sett;
         }
 
         async void ButtonOpen_Click(object sender, EventArgs e)
@@ -412,8 +414,8 @@ namespace Terminal
             TTFStopButton.Enabled = true;
             Timeout1TextBox.Enabled = false;
             Timeout2TextBox.Enabled = false;
-            Command1TextBox.Enabled = false;
-            Command2TextBox.Enabled = false;
+            this.Command1TextBox.Enabled = false;
+            this.Command2TextBox.Enabled = false;
             NumberOfCyclesTextBox.Enabled = false;
             //command_off = Command1TextBox.Text;
             
@@ -465,6 +467,9 @@ namespace Terminal
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
                 //progressBar1.Step = 1;
+                Properties.Settings.Default.cmd1sett = this.Command1TextBox.Text;
+                Properties.Settings.Default.cmd2sett = this.Command2TextBox.Text;
+                Properties.Settings.Default.Save();
             }
 
                 progressBar1.Minimum = 0;
@@ -479,8 +484,8 @@ namespace Terminal
             TTFStopButton.Enabled = false;
             Timeout1TextBox.Enabled = true;
             Timeout2TextBox.Enabled = true;
-            Command1TextBox.Enabled = true;
-            Command2TextBox.Enabled = true;
+            this.Command1TextBox.Enabled = true;
+            this.Command2TextBox.Enabled = true;
             NumberOfCyclesTextBox.Enabled = true;
             progressBar1.Value = 0;
             aTimer.Enabled = false;
