@@ -213,7 +213,6 @@ namespace Terminal
                     ComPortList[j].Items.Add(ports[i]);
                 }               
             }
-
             ComListing();
 
             //Default port = OFF
@@ -226,6 +225,14 @@ namespace Terminal
             TTFSW_soltypeList.SelectedIndex = 2;
             this.Command1TextBox.Text = Properties.Settings.Default.cmd1sett;
             this.Command2TextBox.Text = Properties.Settings.Default.cmd2sett;
+        }
+
+        private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            TTFStopButton.PerformClick();
+            Properties.Settings.Default.cmd1sett = this.Command1TextBox.Text;
+            Properties.Settings.Default.cmd2sett = this.Command2TextBox.Text;
+            Properties.Settings.Default.Save();
         }
 
         async void ButtonOpen_Click(object sender, EventArgs e)
@@ -414,8 +421,8 @@ namespace Terminal
             TTFStopButton.Enabled = true;
             Timeout1TextBox.Enabled = false;
             Timeout2TextBox.Enabled = false;
-            this.Command1TextBox.Enabled = false;
-            this.Command2TextBox.Enabled = false;
+            Command1TextBox.Enabled = false;
+            Command2TextBox.Enabled = false;
             NumberOfCyclesTextBox.Enabled = false;
             //command_off = Command1TextBox.Text;
             
@@ -467,9 +474,6 @@ namespace Terminal
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
                 //progressBar1.Step = 1;
-                Properties.Settings.Default.cmd1sett = this.Command1TextBox.Text;
-                Properties.Settings.Default.cmd2sett = this.Command2TextBox.Text;
-                Properties.Settings.Default.Save();
             }
 
                 progressBar1.Minimum = 0;

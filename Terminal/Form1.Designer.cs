@@ -69,7 +69,6 @@
             this.LinkRateList = new System.Windows.Forms.ComboBox();
             this.ModemTypeList = new System.Windows.Forms.ComboBox();
             this.ModemPortComboBox = new System.Windows.Forms.ComboBox();
-            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.label9 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -91,22 +90,26 @@
             this.TextBox_Console = new System.Windows.Forms.TextBox();
             this.tabLog = new System.Windows.Forms.TabPage();
             this.LogConsole = new System.Windows.Forms.TextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabModem.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             this.tabStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabTerminal.SuspendLayout();
             this.tabLog.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,6 +120,7 @@
             this.tabControl1.Controls.Add(this.tabStatistics);
             this.tabControl1.Controls.Add(this.tabTerminal);
             this.tabControl1.Controls.Add(this.tabLog);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -245,6 +249,7 @@
             this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
             this.Command2TextBox.Multiline = true;
             this.Command2TextBox.Name = "Command2TextBox";
+            this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Command2TextBox.Size = new System.Drawing.Size(354, 90);
             this.Command2TextBox.TabIndex = 19;
             this.Command2TextBox.Text = "%%set,lock/gps/sat,y\r\n%%set,lock/glo/fcn,y";
@@ -255,6 +260,7 @@
             this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
             this.Command1TextBox.Multiline = true;
             this.Command1TextBox.Name = "Command1TextBox";
+            this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Command1TextBox.Size = new System.Drawing.Size(354, 85);
             this.Command1TextBox.TabIndex = 18;
             this.Command1TextBox.Text = "%%set,lock/gps/sat,n\r\n@sleep 10\r\n%%set,lock/glo/fcn,n";
@@ -539,10 +545,6 @@
             this.ModemPortComboBox.Size = new System.Drawing.Size(121, 21);
             this.ModemPortComboBox.TabIndex = 4;
             // 
-            // form1BindingSource2
-            // 
-            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
-            // 
             // label9
             // 
             this.label9.Location = new System.Drawing.Point(171, 20);
@@ -727,6 +729,36 @@
             this.LogConsole.Size = new System.Drawing.Size(610, 520);
             this.LogConsole.TabIndex = 2;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.textBox1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(616, 526);
+            this.tabPage1.TabIndex = 5;
+            this.tabPage1.Text = "About";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Enabled = false;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox1.Location = new System.Drawing.Point(3, 3);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(610, 520);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Text = "FT Terminal 1.3\r\n21.08.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com\r\n";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // form1BindingSource2
+            // 
+            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
+            // 
             // form1BindingSource3
             // 
             this.form1BindingSource3.DataSource = typeof(Terminal.Form1);
@@ -749,15 +781,17 @@
             this.groupBox1.PerformLayout();
             this.tabModem.ResumeLayout(false);
             this.tabModem.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             this.tabStatistics.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabTerminal.ResumeLayout(false);
             this.tabTerminal.PerformLayout();
             this.tabLog.ResumeLayout(false);
             this.tabLog.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).EndInit();
             this.ResumeLayout(false);
 
@@ -830,6 +864,8 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox Command2TextBox;
         private System.Windows.Forms.TextBox Command1TextBox;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
