@@ -89,6 +89,48 @@ namespace Terminal
             }
         }
 
+        private void SendCommand1(int index)
+        {
+            if (CurrentCommandLine[index] < Command1TextBox.Lines.Length)
+            {
+                if (Command1TextBox.Lines[CurrentCommandLine[index]].StartsWith("@sleep"))
+                {
+                    sleep_timer[index] = Int32.Parse(Command1TextBox.Lines[CurrentCommandLine[index]].Substring(7));
+                    CurrentCommandLine[index]++;
+                    TTFSWmode[index] = 3;
+                    //LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " Sleep timer started" + sleep_timer[index] + Environment.NewLine);
+                }
+                else
+                {
+                    CurrentPort[index].WriteLine(Command1TextBox.Lines[CurrentCommandLine[index]]);
+                    System.Threading.Thread.Sleep(25);
+                    CurrentCommandLine[index]++;
+                }
+            }
+            else
+            {
+                CurrentCommandLine[index] = 0;
+                TTFSWmode[index] = 2;
+                TTF_Timeout1[index] = int.Parse(Timeout1TextBox.Text);
+                AddCycleResult(index);
+                StatisticChange(index);
+                ttfS[index] = 0; ttfD[index] = 0; ttfF[index] = 0; ttfR[index] = 0;
+                if (Min_nonzero(cycle_counter) >= int.Parse(NumberOfCyclesTextBox.Text))
+                {
+                    this.BeginInvoke(new MyDelegate(TimedStop));
+                }
+            }
+        }
+
+        private void SendCommand2(int index)
+        {
+            for (int CurrentCommand = 0; CurrentCommand < Command2TextBox.Lines.Length; CurrentCommand++)
+            {
+                CurrentPort[index].WriteLine(Command2TextBox.Lines[CurrentCommand]);
+                System.Threading.Thread.Sleep(25);
+            }
+        }
+
         private void ComListing()
         {
             try

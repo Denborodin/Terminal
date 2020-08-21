@@ -47,6 +47,8 @@ namespace Terminal
         int[] TTF_Timeout1 = new int[8];
         int[] TTF_Timeout2 = new int[8];
         int[] cycle_counter = new int[8];
+        int[] sleep_timer = new int[8];
+        int[] CurrentCommandLine = new int[8];
         int[] counter_S = new int[8];
         int[] counter_D = new int[8];
         int[] counter_F = new int[8];
@@ -398,7 +400,10 @@ namespace Terminal
 
         }
 
+        private void Command1TextBox_TextChanged(object sender, EventArgs e)
+        {
 
+        }
 
         public void TTFSWStart_Click(object sender, EventArgs e)
         {
@@ -410,8 +415,9 @@ namespace Terminal
             Command1TextBox.Enabled = false;
             Command2TextBox.Enabled = false;
             NumberOfCyclesTextBox.Enabled = false;
-            command_off = Command1TextBox.Text;
-            command_on = Command2TextBox.Text;
+            //command_off = Command1TextBox.Text;
+            
+            //command_on = Command2TextBox.Text;
 
             CurrentMode = TTFSW_soltypeList.SelectedIndex;
             TableInit(CurrentMode);
@@ -433,10 +439,11 @@ namespace Terminal
                 ttfD[i] = 0;
                 ttfF[i] = 0;
                 ttfR[i] = 0;
+                CurrentCommandLine[i] = 0;
                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
                 TTFSWmode[i] = 2;
-                
+                sleep_timer[i] = 0;
                 //Creating log files for each open Com Port
                 if (ComPortList[i].Text != "OFF")
                 {
@@ -451,7 +458,7 @@ namespace Terminal
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i] + " " + receiver_FW[i];
-                    CurrentPort[i].WriteLine(Command1TextBox.Text);
+                    //CurrentPort[i].WriteLine(Command1TextBox.Text);
                     openportscount++;
                 }              
                 //Disabling Open/Close buttons
@@ -489,7 +496,7 @@ namespace Terminal
                 if (ComPortList[i].Text != "OFF")
                 {
                     ButtonClose[i].Enabled = true;
-                    CurrentPort[i].WriteLine(Command2TextBox.Text);
+                    SendCommand2(i);
                     StatusText[i].Text = "Connected";
                 }
                 else
@@ -530,17 +537,8 @@ namespace Terminal
                             else
                             {
                                 //sent command 1
-                                CurrentPort[i].WriteLine(command_off);
-                          
-                                TTFSWmode[i] = 2;
-                                TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
-                                AddCycleResult(i);
-                                StatisticChange(i);
-                                ttfS[i] = 0; ttfD[i] = 0; ttfF[i] = 0; ttfR[i] = 0;
-                                if (Min_nonzero(cycle_counter)>=int.Parse(NumberOfCyclesTextBox.Text))
-                                {
-                                    this.BeginInvoke(new MyDelegate(TimedStop));
-                                }
+                                //CurrentPort[i].WriteLine(command_off);
+                                SendCommand1(i);
                             }
                             break;
                         case 2: //waiting for timeout 2
@@ -553,11 +551,25 @@ namespace Terminal
                             else
                             {
                                 //sent command 2
-                                CurrentPort[i].WriteLine(command_on);
+                                SendCommand2(i);
                                 ttf_stop_timestamp[i] = timestamp[i];
                                 TTFSWmode[i] = 0;
                                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
                                
+                            }
+                            break;
+                        case 3: // on a sleep timer
+                            {
+                                if (sleep_timer[i] > 0)
+                                {
+                                    sleep_timer[i]--;
+                                    string str = "Waiting for Sleep timer: " + sleep_timer[i].ToString();
+                                    this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
+                                }
+                                else
+                                {
+                                    SendCommand1(i);
+                                }
                             }
                             break;
                     }

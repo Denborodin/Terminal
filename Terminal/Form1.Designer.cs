@@ -41,8 +41,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.Command2TextBox = new System.Windows.Forms.ComboBox();
-            this.Command1TextBox = new System.Windows.Forms.ComboBox();
+            this.Command2TextBox = new System.Windows.Forms.TextBox();
+            this.Command1TextBox = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -121,7 +121,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(624, 509);
+            this.tabControl1.Size = new System.Drawing.Size(624, 552);
             this.tabControl1.TabIndex = 8;
             // 
             // tabMain
@@ -141,7 +141,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(616, 483);
+            this.tabMain.Size = new System.Drawing.Size(616, 526);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "TTFF Test";
             // 
@@ -234,55 +234,51 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(8, 266);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(327, 209);
+            this.groupBox1.Size = new System.Drawing.Size(602, 252);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TTF switch";
             // 
             // Command2TextBox
             // 
-            this.Command2TextBox.FormattingEnabled = true;
-            this.Command2TextBox.Items.AddRange(new object[] {
-            "set,/par/ant/rcv/inp,int",
-            "set,lock/gps/sat,y;set,lock/glo/fcn,y"});
-            this.Command2TextBox.Location = new System.Drawing.Point(9, 129);
+            this.Command2TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
+            this.Command2TextBox.Multiline = true;
             this.Command2TextBox.Name = "Command2TextBox";
-            this.Command2TextBox.Size = new System.Drawing.Size(310, 21);
+            this.Command2TextBox.Size = new System.Drawing.Size(354, 90);
             this.Command2TextBox.TabIndex = 19;
-            this.Command2TextBox.Text = "set,/par/ant/rcv/inp,int";
+            this.Command2TextBox.Text = "%%set,lock/gps/sat,y\r\n%%set,lock/glo/fcn,y";
             // 
             // Command1TextBox
             // 
-            this.Command1TextBox.FormattingEnabled = true;
-            this.Command1TextBox.Items.AddRange(new object[] {
-            "set,/par/ant/rcv/inp,ext",
-            "set,lock/gps/sat,n;set,lock/glo/fcn,n",
-            "set,reset,y"});
-            this.Command1TextBox.Location = new System.Drawing.Point(9, 76);
+            this.Command1TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
+            this.Command1TextBox.Multiline = true;
             this.Command1TextBox.Name = "Command1TextBox";
-            this.Command1TextBox.Size = new System.Drawing.Size(310, 21);
+            this.Command1TextBox.Size = new System.Drawing.Size(354, 85);
             this.Command1TextBox.TabIndex = 18;
-            this.Command1TextBox.Text = "set,/par/ant/rcv/inp,ext";
+            this.Command1TextBox.Text = "%%set,lock/gps/sat,n\r\n@sleep 10\r\n%%set,lock/glo/fcn,n";
+            this.Command1TextBox.TextChanged += new System.EventHandler(this.Command1TextBox_TextChanged);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(145, 181);
+            this.progressBar1.Location = new System.Drawing.Point(372, 224);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(176, 22);
+            this.progressBar1.Size = new System.Drawing.Size(224, 22);
             this.progressBar1.TabIndex = 17;
             // 
             // NumberOfCyclesTextBox
             // 
-            this.NumberOfCyclesTextBox.Location = new System.Drawing.Point(145, 155);
+            this.NumberOfCyclesTextBox.Location = new System.Drawing.Point(499, 48);
             this.NumberOfCyclesTextBox.Name = "NumberOfCyclesTextBox";
-            this.NumberOfCyclesTextBox.Size = new System.Drawing.Size(55, 20);
+            this.NumberOfCyclesTextBox.Size = new System.Drawing.Size(97, 20);
             this.NumberOfCyclesTextBox.TabIndex = 16;
             this.NumberOfCyclesTextBox.Text = "50";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 158);
+            this.label7.Location = new System.Drawing.Point(369, 51);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(92, 13);
             this.label7.TabIndex = 9;
@@ -291,9 +287,9 @@
             // TTFStopButton
             // 
             this.TTFStopButton.Enabled = false;
-            this.TTFStopButton.Location = new System.Drawing.Point(66, 181);
+            this.TTFStopButton.Location = new System.Drawing.Point(499, 175);
             this.TTFStopButton.Name = "TTFStopButton";
-            this.TTFStopButton.Size = new System.Drawing.Size(54, 22);
+            this.TTFStopButton.Size = new System.Drawing.Size(97, 40);
             this.TTFStopButton.TabIndex = 15;
             this.TTFStopButton.Text = "Stop";
             this.TTFStopButton.UseVisualStyleBackColor = true;
@@ -302,9 +298,9 @@
             // TTFStartButton
             // 
             this.TTFStartButton.Enabled = false;
-            this.TTFStartButton.Location = new System.Drawing.Point(6, 181);
+            this.TTFStartButton.Location = new System.Drawing.Point(372, 175);
             this.TTFStartButton.Name = "TTFStartButton";
-            this.TTFStartButton.Size = new System.Drawing.Size(54, 22);
+            this.TTFStartButton.Size = new System.Drawing.Size(97, 40);
             this.TTFStartButton.TabIndex = 14;
             this.TTFStartButton.Text = "Start";
             this.TTFStartButton.UseVisualStyleBackColor = true;
@@ -312,7 +308,7 @@
             // 
             // Timeout2TextBox
             // 
-            this.Timeout2TextBox.Location = new System.Drawing.Point(145, 103);
+            this.Timeout2TextBox.Location = new System.Drawing.Point(145, 130);
             this.Timeout2TextBox.Name = "Timeout2TextBox";
             this.Timeout2TextBox.Size = new System.Drawing.Size(55, 20);
             this.Timeout2TextBox.TabIndex = 11;
@@ -321,7 +317,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 106);
+            this.label4.Location = new System.Drawing.Point(6, 133);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 10;
@@ -329,7 +325,7 @@
             // 
             // Timeout1TextBox
             // 
-            this.Timeout1TextBox.Location = new System.Drawing.Point(145, 51);
+            this.Timeout1TextBox.Location = new System.Drawing.Point(145, 13);
             this.Timeout1TextBox.Name = "Timeout1TextBox";
             this.Timeout1TextBox.Size = new System.Drawing.Size(55, 20);
             this.Timeout1TextBox.TabIndex = 9;
@@ -338,7 +334,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 54);
+            this.label3.Location = new System.Drawing.Point(6, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 8;
@@ -351,15 +347,15 @@
             "Standalone",
             "DGNSS",
             "RTK Fixed"});
-            this.TTFSW_soltypeList.Location = new System.Drawing.Point(117, 27);
+            this.TTFSW_soltypeList.Location = new System.Drawing.Point(499, 19);
             this.TTFSW_soltypeList.Name = "TTFSW_soltypeList";
-            this.TTFSW_soltypeList.Size = new System.Drawing.Size(83, 21);
+            this.TTFSW_soltypeList.Size = new System.Drawing.Size(97, 21);
             this.TTFSW_soltypeList.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 27);
+            this.label2.Location = new System.Drawing.Point(369, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 6;
@@ -402,7 +398,7 @@
             this.tabModem.Location = new System.Drawing.Point(4, 22);
             this.tabModem.Name = "tabModem";
             this.tabModem.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModem.Size = new System.Drawing.Size(616, 483);
+            this.tabModem.Size = new System.Drawing.Size(616, 526);
             this.tabModem.TabIndex = 4;
             this.tabModem.Text = "Modem Test";
             // 
@@ -471,7 +467,7 @@
             // ModemLog
             // 
             this.ModemLog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ModemLog.Location = new System.Drawing.Point(3, 278);
+            this.ModemLog.Location = new System.Drawing.Point(3, 321);
             this.ModemLog.Multiline = true;
             this.ModemLog.Name = "ModemLog";
             this.ModemLog.ReadOnly = true;
@@ -629,7 +625,7 @@
             this.tabStatistics.Location = new System.Drawing.Point(4, 22);
             this.tabStatistics.Name = "tabStatistics";
             this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatistics.Size = new System.Drawing.Size(616, 483);
+            this.tabStatistics.Size = new System.Drawing.Size(616, 526);
             this.tabStatistics.TabIndex = 1;
             this.tabStatistics.Text = "Statistics";
             this.tabStatistics.UseVisualStyleBackColor = true;
@@ -650,7 +646,7 @@
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(610, 477);
+            this.dataGridView1.Size = new System.Drawing.Size(610, 520);
             this.dataGridView1.TabIndex = 0;
             // 
             // Column1
@@ -689,7 +685,7 @@
             this.tabTerminal.Location = new System.Drawing.Point(4, 22);
             this.tabTerminal.Name = "tabTerminal";
             this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(616, 483);
+            this.tabTerminal.Size = new System.Drawing.Size(616, 526);
             this.tabTerminal.TabIndex = 2;
             this.tabTerminal.Text = "Terminal";
             this.tabTerminal.UseVisualStyleBackColor = true;
@@ -702,7 +698,7 @@
             this.TextBox_Console.Name = "TextBox_Console";
             this.TextBox_Console.ReadOnly = true;
             this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(610, 477);
+            this.TextBox_Console.Size = new System.Drawing.Size(610, 520);
             this.TextBox_Console.TabIndex = 1;
             // 
             // tabLog
@@ -711,7 +707,7 @@
             this.tabLog.Location = new System.Drawing.Point(4, 22);
             this.tabLog.Name = "tabLog";
             this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(616, 483);
+            this.tabLog.Size = new System.Drawing.Size(616, 526);
             this.tabLog.TabIndex = 3;
             this.tabLog.Text = "Log";
             this.tabLog.UseVisualStyleBackColor = true;
@@ -724,7 +720,7 @@
             this.LogConsole.Name = "LogConsole";
             this.LogConsole.ReadOnly = true;
             this.LogConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.LogConsole.Size = new System.Drawing.Size(610, 477);
+            this.LogConsole.Size = new System.Drawing.Size(610, 520);
             this.LogConsole.TabIndex = 2;
             // 
             // form1BindingSource2
@@ -739,7 +735,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 509);
+            this.ClientSize = new System.Drawing.Size(624, 552);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(640, 547);
@@ -807,8 +803,6 @@
         private System.Windows.Forms.TabPage tabLog;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TextBox LogConsole;
-        private System.Windows.Forms.ComboBox Command2TextBox;
-        private System.Windows.Forms.ComboBox Command1TextBox;
         private System.Windows.Forms.TabPage tabModem;
         private System.Windows.Forms.ComboBox ModemPortComboBox;
         private System.Windows.Forms.BindingSource form1BindingSource2;
@@ -834,6 +828,8 @@
         private System.Windows.Forms.Button ModemStartBtn;
         private System.Windows.Forms.ComboBox LinkRateList;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox Command2TextBox;
+        private System.Windows.Forms.TextBox Command1TextBox;
     }
 }
 
