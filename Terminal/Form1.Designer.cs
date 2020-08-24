@@ -91,11 +91,11 @@
             this.tabLog = new System.Windows.Forms.TabPage();
             this.LogConsole = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
@@ -125,7 +125,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(624, 552);
+            this.tabControl1.Size = new System.Drawing.Size(624, 551);
             this.tabControl1.TabIndex = 8;
             // 
             // tabMain
@@ -145,7 +145,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(616, 526);
+            this.tabMain.Size = new System.Drawing.Size(616, 525);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "TTFF Test";
             // 
@@ -404,7 +404,7 @@
             this.tabModem.Location = new System.Drawing.Point(4, 22);
             this.tabModem.Name = "tabModem";
             this.tabModem.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModem.Size = new System.Drawing.Size(616, 526);
+            this.tabModem.Size = new System.Drawing.Size(616, 525);
             this.tabModem.TabIndex = 4;
             this.tabModem.Text = "Modem Test";
             // 
@@ -473,7 +473,7 @@
             // ModemLog
             // 
             this.ModemLog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ModemLog.Location = new System.Drawing.Point(3, 321);
+            this.ModemLog.Location = new System.Drawing.Point(3, 320);
             this.ModemLog.Multiline = true;
             this.ModemLog.Name = "ModemLog";
             this.ModemLog.ReadOnly = true;
@@ -631,7 +631,7 @@
             this.tabStatistics.Location = new System.Drawing.Point(4, 22);
             this.tabStatistics.Name = "tabStatistics";
             this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatistics.Size = new System.Drawing.Size(616, 526);
+            this.tabStatistics.Size = new System.Drawing.Size(616, 525);
             this.tabStatistics.TabIndex = 1;
             this.tabStatistics.Text = "Statistics";
             this.tabStatistics.UseVisualStyleBackColor = true;
@@ -652,7 +652,7 @@
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(610, 520);
+            this.dataGridView1.Size = new System.Drawing.Size(610, 519);
             this.dataGridView1.TabIndex = 0;
             // 
             // Column1
@@ -691,7 +691,7 @@
             this.tabTerminal.Location = new System.Drawing.Point(4, 22);
             this.tabTerminal.Name = "tabTerminal";
             this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(616, 526);
+            this.tabTerminal.Size = new System.Drawing.Size(616, 525);
             this.tabTerminal.TabIndex = 2;
             this.tabTerminal.Text = "Terminal";
             this.tabTerminal.UseVisualStyleBackColor = true;
@@ -704,7 +704,7 @@
             this.TextBox_Console.Name = "TextBox_Console";
             this.TextBox_Console.ReadOnly = true;
             this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(610, 520);
+            this.TextBox_Console.Size = new System.Drawing.Size(610, 519);
             this.TextBox_Console.TabIndex = 1;
             // 
             // tabLog
@@ -713,7 +713,7 @@
             this.tabLog.Location = new System.Drawing.Point(4, 22);
             this.tabLog.Name = "tabLog";
             this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(616, 526);
+            this.tabLog.Size = new System.Drawing.Size(616, 525);
             this.tabLog.TabIndex = 3;
             this.tabLog.Text = "Log";
             this.tabLog.UseVisualStyleBackColor = true;
@@ -726,7 +726,7 @@
             this.LogConsole.Name = "LogConsole";
             this.LogConsole.ReadOnly = true;
             this.LogConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.LogConsole.Size = new System.Drawing.Size(610, 520);
+            this.LogConsole.Size = new System.Drawing.Size(610, 519);
             this.LogConsole.TabIndex = 2;
             // 
             // tabPage1
@@ -736,7 +736,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(616, 526);
+            this.tabPage1.Size = new System.Drawing.Size(616, 525);
             this.tabPage1.TabIndex = 5;
             this.tabPage1.Text = "About";
             // 
@@ -750,7 +750,7 @@
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(610, 520);
+            this.textBox1.Size = new System.Drawing.Size(610, 519);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "FT Terminal 1.3\r\n21.08.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com\r\n";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -767,10 +767,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 552);
+            this.ClientSize = new System.Drawing.Size(624, 551);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(640, 547);
+            this.MaximumSize = new System.Drawing.Size(640, 590);
+            this.MinimumSize = new System.Drawing.Size(640, 590);
             this.Name = "Form1";
             this.Text = "FT Terminal 1.3";
             this.Load += new System.EventHandler(this.Form1_Load);
