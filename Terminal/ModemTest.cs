@@ -120,18 +120,23 @@ namespace Terminal
 
                     //Configuring:
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting spacing:12.5 KHz" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting spacing: 12.5 KHz" + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL&W=1250");
                     SatelRawData = true;
                     await Task.Delay(50);
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting radio protocol:Satel" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting radio protocol: Satel" + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL@S=0");
                     SatelRawData = true;
                     await Task.Delay(50);
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting FEC:ON" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting FEC: ON" + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%F=1");
+                    SatelRawData = true;
+                    await Task.Delay(50);
+
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting Transmit power: " + PowerTextBox.Text + Environment.NewLine);
+                    CurrentPort[9].WriteLine("SL%F="+ PowerTextBox.Text);
                     SatelRawData = true;
                     await Task.Delay(50);
 
