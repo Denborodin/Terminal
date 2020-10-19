@@ -56,6 +56,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabModem = new System.Windows.Forms.TabPage();
+            this.PowerTextBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.ModemStopBtn = new System.Windows.Forms.Button();
             this.ModemStartBtn = new System.Windows.Forms.Button();
             this.PauseTimeTxt = new System.Windows.Forms.TextBox();
@@ -69,6 +71,7 @@
             this.LinkRateList = new System.Windows.Forms.ComboBox();
             this.ModemTypeList = new System.Windows.Forms.ComboBox();
             this.ModemPortComboBox = new System.Windows.Forms.ComboBox();
+            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.label9 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -96,14 +99,12 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.label22 = new System.Windows.Forms.Label();
-            this.PowerTextBox = new System.Windows.Forms.TextBox();
-            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabModem.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             this.tabStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabTerminal.SuspendLayout();
@@ -111,7 +112,6 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -247,6 +247,7 @@
             // 
             // Command2TextBox
             // 
+            this.Command2TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd2sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Command2TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
             this.Command2TextBox.Multiline = true;
@@ -254,10 +255,11 @@
             this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Command2TextBox.Size = new System.Drawing.Size(354, 90);
             this.Command2TextBox.TabIndex = 19;
-            this.Command2TextBox.Text = "%%set,lock/gps/sat,y\r\n%%set,lock/glo/fcn,y";
+            this.Command2TextBox.Text = global::Terminal.Properties.Settings.Default.cmd2sett;
             // 
             // Command1TextBox
             // 
+            this.Command1TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd1sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Command1TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
             this.Command1TextBox.Multiline = true;
@@ -265,7 +267,7 @@
             this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Command1TextBox.Size = new System.Drawing.Size(354, 85);
             this.Command1TextBox.TabIndex = 18;
-            this.Command1TextBox.Text = "%%set,lock/gps/sat,n\r\n@sleep 10\r\n%%set,lock/glo/fcn,n";
+            this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
             this.Command1TextBox.TextChanged += new System.EventHandler(this.Command1TextBox_TextChanged);
             // 
             // progressBar1
@@ -412,6 +414,22 @@
             this.tabModem.TabIndex = 4;
             this.tabModem.Text = "Modem Test";
             // 
+            // PowerTextBox
+            // 
+            this.PowerTextBox.Location = new System.Drawing.Point(374, 132);
+            this.PowerTextBox.Name = "PowerTextBox";
+            this.PowerTextBox.Size = new System.Drawing.Size(42, 20);
+            this.PowerTextBox.TabIndex = 10;
+            this.PowerTextBox.Text = "1000";
+            // 
+            // label22
+            // 
+            this.label22.Location = new System.Drawing.Point(254, 132);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(103, 23);
+            this.label22.TabIndex = 9;
+            this.label22.Text = "Transmit power, W:";
+            // 
             // ModemStopBtn
             // 
             this.ModemStopBtn.Enabled = false;
@@ -548,6 +566,10 @@
             this.ModemPortComboBox.Name = "ModemPortComboBox";
             this.ModemPortComboBox.Size = new System.Drawing.Size(121, 21);
             this.ModemPortComboBox.TabIndex = 4;
+            // 
+            // form1BindingSource2
+            // 
+            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
             // 
             // label9
             // 
@@ -756,28 +778,8 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(610, 519);
             this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "FT Terminal 1.3\r\n21.08.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com\r\n";
+            this.textBox1.Text = "FT Terminal 1.3.2\r\n19.10.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label22
-            // 
-            this.label22.Location = new System.Drawing.Point(254, 132);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(103, 23);
-            this.label22.TabIndex = 9;
-            this.label22.Text = "Transmit power, W:";
-            // 
-            // PowerTextBox
-            // 
-            this.PowerTextBox.Location = new System.Drawing.Point(374, 132);
-            this.PowerTextBox.Name = "PowerTextBox";
-            this.PowerTextBox.Size = new System.Drawing.Size(42, 20);
-            this.PowerTextBox.TabIndex = 10;
-            this.PowerTextBox.Text = "1000";
-            // 
-            // form1BindingSource2
-            // 
-            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
             // 
             // form1BindingSource3
             // 
@@ -793,7 +795,8 @@
             this.MaximumSize = new System.Drawing.Size(640, 590);
             this.MinimumSize = new System.Drawing.Size(640, 590);
             this.Name = "Form1";
-            this.Text = "FT Terminal 1.3.1";
+            this.Text = "FT Terminal 1.3.2";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
@@ -802,6 +805,7 @@
             this.groupBox1.PerformLayout();
             this.tabModem.ResumeLayout(false);
             this.tabModem.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             this.tabStatistics.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabTerminal.ResumeLayout(false);
@@ -812,7 +816,6 @@
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).EndInit();
             this.ResumeLayout(false);
 

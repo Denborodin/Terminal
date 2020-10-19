@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="cmd1sett" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">13213</Value>
     </Setting>
     <Setting Name="cmd2sett" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

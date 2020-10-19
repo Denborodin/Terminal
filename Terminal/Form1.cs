@@ -199,6 +199,9 @@ namespace Terminal
                     Enabled = false,
                 };
                 this.tabMain.Controls.Add(StatusText[i]);
+
+                Command1TextBox.Text = Properties.Settings.Default.cmd1sett;
+                Command2TextBox.Text = Properties.Settings.Default.cmd2sett;
             }
         }
 
@@ -223,16 +226,14 @@ namespace Terminal
 
             //Default solution - RTK fixed
             TTFSW_soltypeList.SelectedIndex = 2;
-            this.Command1TextBox.Text = Properties.Settings.Default.cmd1sett;
-            this.Command2TextBox.Text = Properties.Settings.Default.cmd2sett;
         }
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
-            TTFStopButton.PerformClick();
-            Properties.Settings.Default.cmd1sett = this.Command1TextBox.Text;
-            Properties.Settings.Default.cmd2sett = this.Command2TextBox.Text;
+            Properties.Settings.Default.cmd1sett = Command1TextBox.Text;
+            Properties.Settings.Default.cmd2sett = Command2TextBox.Text;
             Properties.Settings.Default.Save();
+            TTFStopButton.PerformClick();
         }
 
         async void ButtonOpen_Click(object sender, EventArgs e)
@@ -466,6 +467,7 @@ namespace Terminal
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    SendCommand1(i);
                     dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i] + " " + receiver_FW[i];
                     //CurrentPort[i].WriteLine(Command1TextBox.Text);
                     openportscount++;
@@ -514,7 +516,6 @@ namespace Terminal
                 }
             }    
             string data = TTF_Timeout1.ToString();
-            data = TTF_Timeout2.ToString();
             //saving statistics
             filename = "Result" +  " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
             filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
