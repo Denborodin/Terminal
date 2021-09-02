@@ -337,7 +337,15 @@ namespace Terminal
                 rcv_connected[i] = true;
                 if (int.TryParse(parts[6], out int SolTypeInt))
                 {
-                    timestamp_date= DateTime.ParseExact(parts[1], "HHmmss.ff", CultureInfo.InvariantCulture);
+                    try
+                    {
+                        timestamp_date = DateTime.ParseExact(parts[1], "HHmmss.ff", CultureInfo.InvariantCulture);
+                    }
+                    catch (FormatException)
+                    {
+                        LogConsole.AppendText("{0} is not in the correct format." + parts[1]);
+                    }
+
                     timestamp[i] = timestamp_date.TimeOfDay.TotalSeconds;
                     switch (SolTypeInt)
                     {
@@ -403,8 +411,6 @@ namespace Terminal
             return "N/A";
         }
 
-
-
         private void Label11_Click(object sender, EventArgs e)
         {
 
@@ -469,7 +475,7 @@ namespace Terminal
                     }
                     SendCommand1(i);
                     dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i] + " " + receiver_FW[i];
-                    //CurrentPort[i].WriteLine(Command1TextBox.Text);
+                    CurrentPort[i].WriteLine(Command1TextBox.Text);
                     openportscount++;
                 }              
                 //Disabling Open/Close buttons
