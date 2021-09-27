@@ -43,7 +43,7 @@ namespace Terminal
         private delegate void ProgressUpdate();
 
         System.Timers.Timer aTimer;
-        int[] TTFSWmode=new int[8]; //0-Waiting for fixed 1 - Got FIX, start timeout 1, 2 - Timeout 1 elapsed, Start Timeout 2
+        int[] TTFSWmode=new int[8]; //0-Waiting for fixed 1 - Got FIX, start timeout 1, 2 - Timeout 1 elapsed, Start Timeout 2, 3 -sleep timer active
         int[] TTF_Timeout1 = new int[8];
         int[] TTF_Timeout2 = new int[8];
         int[] cycle_counter = new int[8];
@@ -268,7 +268,9 @@ namespace Terminal
             {
                 MessageBox.Show("Receiver not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ButtonClose[i].PerformClick();
-                StatusText[i].Text = "Port Closed"; 
+                StatusText[i].Text = "Port Closed";
+                ButtonOpen[i].Enabled = true;
+                ButtonClose[i].Enabled = false;
                 return;
             }
             StatusText[i].Text = "Connected";
@@ -431,11 +433,8 @@ namespace Terminal
             Command1TextBox.Enabled = false;
             Command2TextBox.Enabled = false;
             NumberOfCyclesTextBox.Enabled = false;
-            //command_off = Command1TextBox.Text;
-            
-            //command_on = Command2TextBox.Text;
-
             CurrentMode = TTFSW_soltypeList.SelectedIndex;
+
             TableInit(CurrentMode);
             //starting command timer
             aTimer = new System.Timers.Timer(1000);
@@ -458,10 +457,10 @@ namespace Terminal
                 CurrentCommandLine[i] = 0;
                 TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
-                TTFSWmode[i] = 2;
+                TTFSWmode[i] = 1;
                 sleep_timer[i] = 0;
                 //Creating log files for each open Com Port
-                if (ComPortList[i].Text != "OFF")
+                if (ButtonOpen[i].Enabled == false)
                 {
                     try
                     {
@@ -473,20 +472,16 @@ namespace Terminal
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    SendCommand1(i);
+                    //SendCommand1(i);
                     dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i] + " " + receiver_FW[i];
-                    CurrentPort[i].WriteLine(Command1TextBox.Text);
                     openportscount++;
                 }              
                 //Disabling Open/Close buttons
                 ButtonClose[i].Enabled = false;
                 ButtonOpen[i].Enabled = false;
-                //progressBar1.Step = 1;
             }
-
-                progressBar1.Minimum = 0;
-                progressBar1.Maximum = int.Parse(NumberOfCyclesTextBox.Text) * openportscount;
-
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = int.Parse(NumberOfCyclesTextBox.Text) * openportscount;
         }
 
         public void TTFSWStop_Click(object sender, EventArgs e)
@@ -514,7 +509,7 @@ namespace Terminal
                 {
                     ButtonClose[i].Enabled = true;
                     SendCommand2(i);
-                    StatusText[i].Text = "Connected";
+                    this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Waiting for solution", i }); ;
                 }
                 else
                 {
@@ -553,7 +548,6 @@ namespace Terminal
                             else
                             {
                                 //sent command 1
-                                //CurrentPort[i].WriteLine(command_off);
                                 SendCommand1(i);
                             }
                             break;
@@ -567,8 +561,8 @@ namespace Terminal
                             else
                             {
                                 //sent command 2
-                                SendCommand2(i);
                                 ttf_stop_timestamp[i] = timestamp[i];
+                                SendCommand2(i);
                                 TTFSWmode[i] = 0;
                                 TTF_Timeout2[i] = int.Parse(Timeout2TextBox.Text);
                                
@@ -621,7 +615,11 @@ namespace Terminal
         {
             if (ttfS[i] >=0 && ttfD[i] >= 0 && ttfF[i] >= 0 && ttfR[i] >= 0)
             {
-                Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i] + ttf_stop_timestamp[i]));
+                if (cycle_counter[i]!=0)
+                {
+                    Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i] + ttf_stop_timestamp[i]));
+                }
+                
                 this.BeginInvoke(new ProgressUpdate(ProgUpdate));
                 cycle_counter[i]++;
             }
