@@ -93,6 +93,8 @@ namespace Terminal
         {
             if (ModemPortComboBox.Text != "Direct")
             {
+                CurrentPort[9].WriteLine("dm,dev/modem/a");
+                System.Threading.Thread.Sleep(25);
                 DChain();
                 await Task.Delay(300);
             }
@@ -101,36 +103,36 @@ namespace Terminal
                 case "Satel":
                     //modem info request:
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem model:" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem model: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%D?");
                     await Task.Delay(50);
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem HW:" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem HW: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%H?");
                     await Task.Delay(50);
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem serial:" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem serial: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%S?");
                     await Task.Delay(50);
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem FW version:" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem FW version: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%V?");
                     SatelRawData = true;
                     await Task.Delay(50);
 
                     //Configuring:
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting spacing: 12.5 KHz" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting spacing: 12.5 KHz " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL&W=1250");
                     SatelRawData = true;
                     await Task.Delay(50);
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting radio protocol: Satel" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting radio protocol: Satel " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL@S=0");
                     SatelRawData = true;
                     await Task.Delay(50);
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting FEC: ON" + Environment.NewLine);
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting FEC: ON " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%F=1");
                     SatelRawData = true;
                     await Task.Delay(50);
@@ -246,7 +248,7 @@ namespace Terminal
              switch (ModemPort)
             {
                 case "Modem A":
-                    //this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Setting daisy chain to Modem A"});
+                    this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Setting daisy chain to Modem A"});
                     CurrentPort[9].WriteLine("set,/par/dev/modem/a/echo,/dev/ser/a");
                     System.Threading.Thread.Sleep(25);
                     CurrentPort[9].WriteLine("set,/par/dev/modem/a/imode,echo");
@@ -269,7 +271,7 @@ namespace Terminal
             switch (ModemPort)
             {
                 case "Modem A":
-                    //this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Removing daisy chain to Modem A" });
+                    this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Removing daisy chain to Modem A" });
                     for (int j = 0; j < 128; j++)
                     {
                         data1 = data1 + Convert.ToChar(0x01);

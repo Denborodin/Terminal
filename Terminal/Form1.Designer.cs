@@ -56,6 +56,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabModem = new System.Windows.Forms.TabPage();
+            this.PowerTextBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.ModemStopBtn = new System.Windows.Forms.Button();
             this.ModemStartBtn = new System.Windows.Forms.Button();
             this.PauseTimeTxt = new System.Windows.Forms.TextBox();
@@ -69,6 +71,7 @@
             this.LinkRateList = new System.Windows.Forms.ComboBox();
             this.ModemTypeList = new System.Windows.Forms.ComboBox();
             this.ModemPortComboBox = new System.Windows.Forms.ComboBox();
+            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.label9 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -90,28 +93,34 @@
             this.TextBox_Console = new System.Windows.Forms.TextBox();
             this.tabLog = new System.Windows.Forms.TabPage();
             this.LogConsole = new System.Windows.Forms.TextBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabGraphs = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.zedGraphMain = new ZedGraph.ZedGraphControl();
+            this.ButtonPlot = new System.Windows.Forms.Button();
+            this.tabAbout = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.label22 = new System.Windows.Forms.Label();
-            this.PowerTextBox = new System.Windows.Forms.TextBox();
-            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabModem.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             this.tabStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabTerminal.SuspendLayout();
             this.tabLog.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabGraphs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,7 +131,8 @@
             this.tabControl1.Controls.Add(this.tabStatistics);
             this.tabControl1.Controls.Add(this.tabTerminal);
             this.tabControl1.Controls.Add(this.tabLog);
-            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabGraphs);
+            this.tabControl1.Controls.Add(this.tabAbout);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -412,6 +422,22 @@
             this.tabModem.TabIndex = 4;
             this.tabModem.Text = "Modem Test";
             // 
+            // PowerTextBox
+            // 
+            this.PowerTextBox.Location = new System.Drawing.Point(374, 132);
+            this.PowerTextBox.Name = "PowerTextBox";
+            this.PowerTextBox.Size = new System.Drawing.Size(42, 20);
+            this.PowerTextBox.TabIndex = 10;
+            this.PowerTextBox.Text = "1000";
+            // 
+            // label22
+            // 
+            this.label22.Location = new System.Drawing.Point(254, 132);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(103, 23);
+            this.label22.TabIndex = 9;
+            this.label22.Text = "Transmit power, W:";
+            // 
             // ModemStopBtn
             // 
             this.ModemStopBtn.Enabled = false;
@@ -548,6 +574,10 @@
             this.ModemPortComboBox.Name = "ModemPortComboBox";
             this.ModemPortComboBox.Size = new System.Drawing.Size(121, 21);
             this.ModemPortComboBox.TabIndex = 4;
+            // 
+            // form1BindingSource2
+            // 
+            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
             // 
             // label9
             // 
@@ -733,16 +763,71 @@
             this.LogConsole.Size = new System.Drawing.Size(610, 519);
             this.LogConsole.TabIndex = 2;
             // 
-            // tabPage1
+            // tabGraphs
             // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage1.Controls.Add(this.textBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(616, 525);
-            this.tabPage1.TabIndex = 5;
-            this.tabPage1.Text = "About";
+            this.tabGraphs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabGraphs.Controls.Add(this.splitContainer1);
+            this.tabGraphs.Location = new System.Drawing.Point(4, 22);
+            this.tabGraphs.Name = "tabGraphs";
+            this.tabGraphs.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGraphs.Size = new System.Drawing.Size(616, 525);
+            this.tabGraphs.TabIndex = 6;
+            this.tabGraphs.Text = "Graphs";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.zedGraphMain);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ButtonPlot);
+            this.splitContainer1.Size = new System.Drawing.Size(610, 519);
+            this.splitContainer1.SplitterDistance = 420;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // zedGraphMain
+            // 
+            this.zedGraphMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zedGraphMain.Location = new System.Drawing.Point(0, 0);
+            this.zedGraphMain.Name = "zedGraphMain";
+            this.zedGraphMain.ScrollGrace = 0D;
+            this.zedGraphMain.ScrollMaxX = 0D;
+            this.zedGraphMain.ScrollMaxY = 0D;
+            this.zedGraphMain.ScrollMaxY2 = 0D;
+            this.zedGraphMain.ScrollMinX = 0D;
+            this.zedGraphMain.ScrollMinY = 0D;
+            this.zedGraphMain.ScrollMinY2 = 0D;
+            this.zedGraphMain.Size = new System.Drawing.Size(610, 420);
+            this.zedGraphMain.TabIndex = 0;
+            this.zedGraphMain.UseExtendedPrintDialog = true;
+            // 
+            // ButtonPlot
+            // 
+            this.ButtonPlot.Location = new System.Drawing.Point(512, 3);
+            this.ButtonPlot.Name = "ButtonPlot";
+            this.ButtonPlot.Size = new System.Drawing.Size(95, 92);
+            this.ButtonPlot.TabIndex = 0;
+            this.ButtonPlot.Text = "Plot";
+            this.ButtonPlot.UseVisualStyleBackColor = true;
+            this.ButtonPlot.Click += new System.EventHandler(this.ButtonPlot_Click);
+            // 
+            // tabAbout
+            // 
+            this.tabAbout.BackColor = System.Drawing.SystemColors.Control;
+            this.tabAbout.Controls.Add(this.textBox1);
+            this.tabAbout.Location = new System.Drawing.Point(4, 22);
+            this.tabAbout.Name = "tabAbout";
+            this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAbout.Size = new System.Drawing.Size(616, 525);
+            this.tabAbout.TabIndex = 5;
+            this.tabAbout.Text = "About";
             // 
             // textBox1
             // 
@@ -758,26 +843,6 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "FT Terminal 1.3\r\n21.08.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com\r\n";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label22
-            // 
-            this.label22.Location = new System.Drawing.Point(254, 132);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(103, 23);
-            this.label22.TabIndex = 9;
-            this.label22.Text = "Transmit power, W:";
-            // 
-            // PowerTextBox
-            // 
-            this.PowerTextBox.Location = new System.Drawing.Point(374, 132);
-            this.PowerTextBox.Name = "PowerTextBox";
-            this.PowerTextBox.Size = new System.Drawing.Size(42, 20);
-            this.PowerTextBox.TabIndex = 10;
-            this.PowerTextBox.Text = "1000";
-            // 
-            // form1BindingSource2
-            // 
-            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
             // 
             // form1BindingSource3
             // 
@@ -802,17 +867,22 @@
             this.groupBox1.PerformLayout();
             this.tabModem.ResumeLayout(false);
             this.tabModem.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             this.tabStatistics.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabTerminal.ResumeLayout(false);
             this.tabTerminal.PerformLayout();
             this.tabLog.ResumeLayout(false);
             this.tabLog.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabGraphs.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.tabAbout.ResumeLayout(false);
+            this.tabAbout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).EndInit();
             this.ResumeLayout(false);
 
@@ -885,10 +955,14 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox Command2TextBox;
         private System.Windows.Forms.TextBox Command1TextBox;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabAbout;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox PowerTextBox;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TabPage tabGraphs;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private ZedGraph.ZedGraphControl zedGraphMain;
+        private System.Windows.Forms.Button ButtonPlot;
     }
 }
 
