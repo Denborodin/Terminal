@@ -257,6 +257,7 @@
             // 
             // Command2TextBox
             // 
+            this.Command2TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd2sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Command2TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
             this.Command2TextBox.Multiline = true;
@@ -264,10 +265,11 @@
             this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Command2TextBox.Size = new System.Drawing.Size(354, 90);
             this.Command2TextBox.TabIndex = 19;
-            this.Command2TextBox.Text = "%%set,lock/gps/sat,y\r\n%%set,lock/glo/fcn,y";
+            this.Command2TextBox.Text = global::Terminal.Properties.Settings.Default.cmd2sett;
             // 
             // Command1TextBox
             // 
+            this.Command1TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd1sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Command1TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
             this.Command1TextBox.Multiline = true;
@@ -275,7 +277,7 @@
             this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Command1TextBox.Size = new System.Drawing.Size(354, 85);
             this.Command1TextBox.TabIndex = 18;
-            this.Command1TextBox.Text = "%%set,lock/gps/sat,n\r\n@sleep 10\r\n%%set,lock/glo/fcn,n";
+            this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
             this.Command1TextBox.TextChanged += new System.EventHandler(this.Command1TextBox_TextChanged);
             // 
             // progressBar1
@@ -841,7 +843,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(610, 519);
             this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "FT Terminal 1.3\r\n21.08.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com\r\n";
+            this.textBox1.Text = "FT Terminal 1.3.2\r\n19.10.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // form1BindingSource3
@@ -858,7 +860,8 @@
             this.MaximumSize = new System.Drawing.Size(640, 590);
             this.MinimumSize = new System.Drawing.Size(640, 590);
             this.Name = "Form1";
-            this.Text = "FT Terminal 1.3.1";
+            this.Text = "FT Terminal 1.3.3";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);

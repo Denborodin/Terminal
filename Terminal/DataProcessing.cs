@@ -62,28 +62,29 @@ namespace Terminal
 
         public void WriteCycles()
         {
-            for (int i = 0; i < ComPortList.Length; i++)
+            for (int i = 0; i < 8; i++)
             {
                 if (ComPortList[i].Text != "OFF")
                 {
-                    string filename = "Cycles" + " " + dataGridView1[0, i + 1].Value + " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
-                    filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
+                        string filename = "Cycles" + " " + dataGridView1[0, i + 1].Value + " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
+                        filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
 
-                    StreamWriter sw_cycles = new StreamWriter(filename);
+                        StreamWriter sw_cycles = new StreamWriter(filename);
+                        sw_cycles.WriteLine("Cycles Number" + ";" + "ttfS" + ";" + "ttfD" + ";" + "ttfF" + ";" + "ttfR" + ";" + "Start" + ";" + "End");
 
-                    sw_cycles.WriteLine("Cycles Number" + ";" + "ttfS" + ";" + "ttfD" + ";" + "ttfF" + ";" + "ttfR"+ ";" + "Start" + ";" + "End");
-
-                    foreach (TTFcycle TTFtemp in Cycles)
-                    {
-                        if (TTFtemp.channel == i )
+                        foreach (TTFcycle TTFtemp in Cycles)
                         {
-                            string start_ = TimeSpan.FromSeconds(TTFtemp.start).ToString("g");
-                            string end_ = TimeSpan.FromSeconds(TTFtemp.end).ToString("g");
-                            sw_cycles.WriteLine(TTFtemp.number + ";" + Math.Round(TTFtemp.TTFS, 2) + ";" + Math.Round(TTFtemp.TTFD, 2) + ";" 
-                                + Math.Round(TTFtemp.TTFF, 2) + ";" + Math.Round(TTFtemp.TTFR, 2) + ";" + start_ + ";" + end_);
+                            if (TTFtemp.channel == i)
+                            {
+                                string start_ = TimeSpan.FromSeconds(TTFtemp.start).ToString("g");
+                                string end_ = TimeSpan.FromSeconds(TTFtemp.end).ToString("g");
+                                sw_cycles.WriteLine(TTFtemp.number + ";" + Math.Round(TTFtemp.TTFS, 2) + ";" + Math.Round(TTFtemp.TTFD, 2) + ";"
+                                    + Math.Round(TTFtemp.TTFF, 2) + ";" + Math.Round(TTFtemp.TTFR, 2) + ";" + start_ + ";" + end_);
+                            }
                         }
-                    }
-                    sw_cycles.Close();
+                        sw_cycles.Close();
+                    
+
                 }
             }
         }
