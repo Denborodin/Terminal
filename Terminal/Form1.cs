@@ -62,6 +62,7 @@ namespace Terminal
         double[] ttfR = new double[8];
         string[] receiver_model = new string[8];
         string[] receiver_FW = new string[8];
+        string[] receiver_ID = new string[8];
         double ttfS_50, ttfD_50, ttfF_50, ttfR_50;
         double ttfS_90, ttfD_90, ttfF_90, ttfR_90;
         string filename;
@@ -464,7 +465,7 @@ namespace Terminal
                 {
                     try
                     {
-                        filename = "ComPort" + ComPortList[i].Text.Substring(3) +" "+ DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".gga";
+                        filename = ComPortList[i].Text +" "+ receiver_model[i] + " " + receiver_ID[i].Substring(7) + " " + DateTime.Now.ToString("MM-dd HH.mm") + ".gga";
                         filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
                         fstream[i] = new FileStream(filename, FileMode.Create,FileAccess.ReadWrite,FileShare.Read,bufferSize:8);
                     }
@@ -504,9 +505,6 @@ namespace Terminal
                 {
                     fstream[i].Close();
                     fstream[i] = null;
-                }
-                if (ComPortList[i].Text != "OFF")
-                {
                     ButtonClose[i].Enabled = true;
                     SendCommand2(i);
                     this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Waiting for solution", i }); ;

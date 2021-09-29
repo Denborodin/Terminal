@@ -54,6 +54,10 @@ namespace Terminal
 
             CurrentPort[i].WriteLine("%1%print,/par/rcv/ver/main");
 
+            System.Threading.Thread.Sleep(25);
+
+            CurrentPort[i].WriteLine("%2%print,/par/rcv/id");
+
             if (i != 9)
             {
                 CurrentPort[i].WriteLine("em,,nmea/GGA:0.1");
@@ -78,6 +82,12 @@ namespace Terminal
                         LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " FW version: " + data.Substring(8) + Environment.NewLine);
                         receiver_FW[index] = data.Substring(8).TrimEnd(charsToTrim);
                         break;
+
+                    case 2: //Receiver ID
+                        LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " Receiver ID: " + data.Substring(8) + Environment.NewLine);
+                        receiver_ID[index] = data.Substring(8).TrimEnd(charsToTrim);
+                        break;
+
                     default:
                         LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " " + data + Environment.NewLine);
                         break;
