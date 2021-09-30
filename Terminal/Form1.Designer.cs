@@ -55,6 +55,28 @@
             this.TTFSW_soltypeList = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabStatistics = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabGraphs = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.zedGraphMain = new ZedGraph.ZedGraphControl();
+            this.ButtonPlot = new System.Windows.Forms.Button();
+            this.tabTerminal = new System.Windows.Forms.TabPage();
+            this.TextBox_Console = new System.Windows.Forms.TextBox();
+            this.tabLog = new System.Windows.Forms.TabPage();
+            this.LogConsole = new System.Windows.Forms.TextBox();
             this.tabModem = new System.Windows.Forms.TabPage();
             this.PowerTextBox = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -71,7 +93,6 @@
             this.LinkRateList = new System.Windows.Forms.ComboBox();
             this.ModemTypeList = new System.Windows.Forms.ComboBox();
             this.ModemPortComboBox = new System.Windows.Forms.ComboBox();
-            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.label9 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -81,63 +102,52 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.textLabel2 = new System.Windows.Forms.Label();
-            this.tabStatistics = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabTerminal = new System.Windows.Forms.TabPage();
-            this.TextBox_Console = new System.Windows.Forms.TextBox();
-            this.tabLog = new System.Windows.Forms.TabPage();
-            this.LogConsole = new System.Windows.Forms.TextBox();
-            this.tabGraphs = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.zedGraphMain = new ZedGraph.ZedGraphControl();
-            this.ButtonPlot = new System.Windows.Forms.Button();
             this.tabAbout = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.label23 = new System.Windows.Forms.Label();
+            this.MinPercentile_textBox = new System.Windows.Forms.TextBox();
+            this.MaxPercentile_textBox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabModem.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             this.tabStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.tabTerminal.SuspendLayout();
-            this.tabLog.SuspendLayout();
             this.tabGraphs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabTerminal.SuspendLayout();
+            this.tabLog.SuspendLayout();
+            this.tabModem.SuspendLayout();
             this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabMain);
-            this.tabControl1.Controls.Add(this.tabModem);
             this.tabControl1.Controls.Add(this.tabStatistics);
+            this.tabControl1.Controls.Add(this.tabGraphs);
             this.tabControl1.Controls.Add(this.tabTerminal);
             this.tabControl1.Controls.Add(this.tabLog);
-            this.tabControl1.Controls.Add(this.tabGraphs);
+            this.tabControl1.Controls.Add(this.tabModem);
             this.tabControl1.Controls.Add(this.tabAbout);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(624, 551);
+            this.tabControl1.Size = new System.Drawing.Size(824, 601);
             this.tabControl1.TabIndex = 8;
             // 
             // tabMain
@@ -157,7 +167,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(616, 525);
+            this.tabMain.Size = new System.Drawing.Size(816, 575);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "TTFF Test";
             // 
@@ -250,7 +260,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(8, 266);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(602, 252);
+            this.groupBox1.Size = new System.Drawing.Size(800, 303);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TTF switch";
@@ -263,7 +273,7 @@
             this.Command2TextBox.Multiline = true;
             this.Command2TextBox.Name = "Command2TextBox";
             this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Command2TextBox.Size = new System.Drawing.Size(354, 90);
+            this.Command2TextBox.Size = new System.Drawing.Size(582, 90);
             this.Command2TextBox.TabIndex = 19;
             this.Command2TextBox.Text = global::Terminal.Properties.Settings.Default.cmd2sett;
             // 
@@ -275,21 +285,21 @@
             this.Command1TextBox.Multiline = true;
             this.Command1TextBox.Name = "Command1TextBox";
             this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Command1TextBox.Size = new System.Drawing.Size(354, 85);
+            this.Command1TextBox.Size = new System.Drawing.Size(582, 85);
             this.Command1TextBox.TabIndex = 18;
             this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
             this.Command1TextBox.TextChanged += new System.EventHandler(this.Command1TextBox_TextChanged);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(372, 224);
+            this.progressBar1.Location = new System.Drawing.Point(6, 265);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(224, 22);
+            this.progressBar1.Size = new System.Drawing.Size(788, 22);
             this.progressBar1.TabIndex = 17;
             // 
             // NumberOfCyclesTextBox
             // 
-            this.NumberOfCyclesTextBox.Location = new System.Drawing.Point(499, 48);
+            this.NumberOfCyclesTextBox.Location = new System.Drawing.Point(697, 51);
             this.NumberOfCyclesTextBox.Name = "NumberOfCyclesTextBox";
             this.NumberOfCyclesTextBox.Size = new System.Drawing.Size(97, 20);
             this.NumberOfCyclesTextBox.TabIndex = 16;
@@ -298,7 +308,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(369, 51);
+            this.label7.Location = new System.Drawing.Point(599, 54);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(92, 13);
             this.label7.TabIndex = 9;
@@ -307,7 +317,7 @@
             // TTFStopButton
             // 
             this.TTFStopButton.Enabled = false;
-            this.TTFStopButton.Location = new System.Drawing.Point(499, 175);
+            this.TTFStopButton.Location = new System.Drawing.Point(697, 206);
             this.TTFStopButton.Name = "TTFStopButton";
             this.TTFStopButton.Size = new System.Drawing.Size(97, 40);
             this.TTFStopButton.TabIndex = 15;
@@ -318,7 +328,7 @@
             // TTFStartButton
             // 
             this.TTFStartButton.Enabled = false;
-            this.TTFStartButton.Location = new System.Drawing.Point(372, 175);
+            this.TTFStartButton.Location = new System.Drawing.Point(594, 206);
             this.TTFStartButton.Name = "TTFStartButton";
             this.TTFStartButton.Size = new System.Drawing.Size(97, 40);
             this.TTFStartButton.TabIndex = 14;
@@ -367,7 +377,7 @@
             "Standalone",
             "DGNSS",
             "RTK Fixed"});
-            this.TTFSW_soltypeList.Location = new System.Drawing.Point(499, 19);
+            this.TTFSW_soltypeList.Location = new System.Drawing.Point(697, 19);
             this.TTFSW_soltypeList.Name = "TTFSW_soltypeList";
             this.TTFSW_soltypeList.Size = new System.Drawing.Size(97, 21);
             this.TTFSW_soltypeList.TabIndex = 7;
@@ -375,7 +385,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(369, 22);
+            this.label2.Location = new System.Drawing.Point(620, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 6;
@@ -389,6 +399,206 @@
             this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Solution:";
+            // 
+            // tabStatistics
+            // 
+            this.tabStatistics.Controls.Add(this.dataGridView1);
+            this.tabStatistics.Location = new System.Drawing.Point(4, 22);
+            this.tabStatistics.Name = "tabStatistics";
+            this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
+            this.tabStatistics.Size = new System.Drawing.Size(816, 575);
+            this.tabStatistics.TabIndex = 1;
+            this.tabStatistics.Text = "Statistics";
+            this.tabStatistics.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.ColumnHeadersVisible = false;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5,
+            this.Column6,
+            this.Column7,
+            this.Column8,
+            this.Column9,
+            this.Column10,
+            this.Column11,
+            this.Column12});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(810, 569);
+            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Column1";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Column2";
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Column3";
+            this.Column3.Name = "Column3";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Column4";
+            this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Column5";
+            this.Column5.Name = "Column5";
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Column6";
+            this.Column6.Name = "Column6";
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Column7";
+            this.Column7.Name = "Column7";
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Column8";
+            this.Column8.Name = "Column8";
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Column9";
+            this.Column9.Name = "Column9";
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Column10";
+            this.Column10.Name = "Column10";
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Column11";
+            this.Column11.Name = "Column11";
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Column12";
+            this.Column12.Name = "Column12";
+            // 
+            // tabGraphs
+            // 
+            this.tabGraphs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabGraphs.Controls.Add(this.splitContainer1);
+            this.tabGraphs.Location = new System.Drawing.Point(4, 22);
+            this.tabGraphs.Name = "tabGraphs";
+            this.tabGraphs.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGraphs.Size = new System.Drawing.Size(816, 575);
+            this.tabGraphs.TabIndex = 6;
+            this.tabGraphs.Text = "Graphs";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.zedGraphMain);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.MaxPercentile_textBox);
+            this.splitContainer1.Panel2.Controls.Add(this.MinPercentile_textBox);
+            this.splitContainer1.Panel2.Controls.Add(this.label24);
+            this.splitContainer1.Panel2.Controls.Add(this.label23);
+            this.splitContainer1.Panel2.Controls.Add(this.ButtonPlot);
+            this.splitContainer1.Size = new System.Drawing.Size(810, 569);
+            this.splitContainer1.SplitterDistance = 497;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // zedGraphMain
+            // 
+            this.zedGraphMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zedGraphMain.Location = new System.Drawing.Point(0, 0);
+            this.zedGraphMain.Name = "zedGraphMain";
+            this.zedGraphMain.ScrollGrace = 0D;
+            this.zedGraphMain.ScrollMaxX = 0D;
+            this.zedGraphMain.ScrollMaxY = 0D;
+            this.zedGraphMain.ScrollMaxY2 = 0D;
+            this.zedGraphMain.ScrollMinX = 0D;
+            this.zedGraphMain.ScrollMinY = 0D;
+            this.zedGraphMain.ScrollMinY2 = 0D;
+            this.zedGraphMain.Size = new System.Drawing.Size(810, 497);
+            this.zedGraphMain.TabIndex = 0;
+            this.zedGraphMain.UseExtendedPrintDialog = true;
+            // 
+            // ButtonPlot
+            // 
+            this.ButtonPlot.Location = new System.Drawing.Point(712, 3);
+            this.ButtonPlot.Name = "ButtonPlot";
+            this.ButtonPlot.Size = new System.Drawing.Size(95, 62);
+            this.ButtonPlot.TabIndex = 0;
+            this.ButtonPlot.Text = "Plot";
+            this.ButtonPlot.UseVisualStyleBackColor = true;
+            this.ButtonPlot.Click += new System.EventHandler(this.ButtonPlot_Click);
+            // 
+            // tabTerminal
+            // 
+            this.tabTerminal.Controls.Add(this.TextBox_Console);
+            this.tabTerminal.Location = new System.Drawing.Point(4, 22);
+            this.tabTerminal.Name = "tabTerminal";
+            this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTerminal.Size = new System.Drawing.Size(816, 575);
+            this.tabTerminal.TabIndex = 2;
+            this.tabTerminal.Text = "Terminal";
+            this.tabTerminal.UseVisualStyleBackColor = true;
+            // 
+            // TextBox_Console
+            // 
+            this.TextBox_Console.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox_Console.Location = new System.Drawing.Point(3, 3);
+            this.TextBox_Console.Multiline = true;
+            this.TextBox_Console.Name = "TextBox_Console";
+            this.TextBox_Console.ReadOnly = true;
+            this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TextBox_Console.Size = new System.Drawing.Size(810, 569);
+            this.TextBox_Console.TabIndex = 1;
+            // 
+            // tabLog
+            // 
+            this.tabLog.Controls.Add(this.LogConsole);
+            this.tabLog.Location = new System.Drawing.Point(4, 22);
+            this.tabLog.Name = "tabLog";
+            this.tabLog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabLog.Size = new System.Drawing.Size(816, 575);
+            this.tabLog.TabIndex = 3;
+            this.tabLog.Text = "Log";
+            this.tabLog.UseVisualStyleBackColor = true;
+            // 
+            // LogConsole
+            // 
+            this.LogConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogConsole.Location = new System.Drawing.Point(3, 3);
+            this.LogConsole.Multiline = true;
+            this.LogConsole.Name = "LogConsole";
+            this.LogConsole.ReadOnly = true;
+            this.LogConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.LogConsole.Size = new System.Drawing.Size(810, 569);
+            this.LogConsole.TabIndex = 2;
             // 
             // tabModem
             // 
@@ -420,7 +630,7 @@
             this.tabModem.Location = new System.Drawing.Point(4, 22);
             this.tabModem.Name = "tabModem";
             this.tabModem.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModem.Size = new System.Drawing.Size(616, 525);
+            this.tabModem.Size = new System.Drawing.Size(816, 575);
             this.tabModem.TabIndex = 4;
             this.tabModem.Text = "Modem Test";
             // 
@@ -505,12 +715,12 @@
             // ModemLog
             // 
             this.ModemLog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ModemLog.Location = new System.Drawing.Point(3, 320);
+            this.ModemLog.Location = new System.Drawing.Point(3, 370);
             this.ModemLog.Multiline = true;
             this.ModemLog.Name = "ModemLog";
             this.ModemLog.ReadOnly = true;
             this.ModemLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ModemLog.Size = new System.Drawing.Size(610, 202);
+            this.ModemLog.Size = new System.Drawing.Size(810, 202);
             this.ModemLog.TabIndex = 6;
             // 
             // ModemDisconnectBTN
@@ -576,10 +786,6 @@
             this.ModemPortComboBox.Name = "ModemPortComboBox";
             this.ModemPortComboBox.Size = new System.Drawing.Size(121, 21);
             this.ModemPortComboBox.TabIndex = 4;
-            // 
-            // form1BindingSource2
-            // 
-            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
             // 
             // label9
             // 
@@ -661,165 +867,6 @@
             this.textLabel2.TabIndex = 3;
             this.textLabel2.Text = "Modem Port:";
             // 
-            // tabStatistics
-            // 
-            this.tabStatistics.Controls.Add(this.dataGridView1);
-            this.tabStatistics.Location = new System.Drawing.Point(4, 22);
-            this.tabStatistics.Name = "tabStatistics";
-            this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatistics.Size = new System.Drawing.Size(616, 525);
-            this.tabStatistics.TabIndex = 1;
-            this.tabStatistics.Text = "Statistics";
-            this.tabStatistics.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.ColumnHeadersVisible = false;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(610, 519);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Column1";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Column2";
-            this.Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Column3";
-            this.Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Column4";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Column5";
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Column6";
-            this.Column6.Name = "Column6";
-            // 
-            // tabTerminal
-            // 
-            this.tabTerminal.Controls.Add(this.TextBox_Console);
-            this.tabTerminal.Location = new System.Drawing.Point(4, 22);
-            this.tabTerminal.Name = "tabTerminal";
-            this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(616, 525);
-            this.tabTerminal.TabIndex = 2;
-            this.tabTerminal.Text = "Terminal";
-            this.tabTerminal.UseVisualStyleBackColor = true;
-            // 
-            // TextBox_Console
-            // 
-            this.TextBox_Console.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBox_Console.Location = new System.Drawing.Point(3, 3);
-            this.TextBox_Console.Multiline = true;
-            this.TextBox_Console.Name = "TextBox_Console";
-            this.TextBox_Console.ReadOnly = true;
-            this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(610, 519);
-            this.TextBox_Console.TabIndex = 1;
-            // 
-            // tabLog
-            // 
-            this.tabLog.Controls.Add(this.LogConsole);
-            this.tabLog.Location = new System.Drawing.Point(4, 22);
-            this.tabLog.Name = "tabLog";
-            this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(616, 525);
-            this.tabLog.TabIndex = 3;
-            this.tabLog.Text = "Log";
-            this.tabLog.UseVisualStyleBackColor = true;
-            // 
-            // LogConsole
-            // 
-            this.LogConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogConsole.Location = new System.Drawing.Point(3, 3);
-            this.LogConsole.Multiline = true;
-            this.LogConsole.Name = "LogConsole";
-            this.LogConsole.ReadOnly = true;
-            this.LogConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.LogConsole.Size = new System.Drawing.Size(610, 519);
-            this.LogConsole.TabIndex = 2;
-            // 
-            // tabGraphs
-            // 
-            this.tabGraphs.BackColor = System.Drawing.SystemColors.Control;
-            this.tabGraphs.Controls.Add(this.splitContainer1);
-            this.tabGraphs.Location = new System.Drawing.Point(4, 22);
-            this.tabGraphs.Name = "tabGraphs";
-            this.tabGraphs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGraphs.Size = new System.Drawing.Size(616, 525);
-            this.tabGraphs.TabIndex = 6;
-            this.tabGraphs.Text = "Graphs";
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.zedGraphMain);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.ButtonPlot);
-            this.splitContainer1.Size = new System.Drawing.Size(610, 519);
-            this.splitContainer1.SplitterDistance = 420;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // zedGraphMain
-            // 
-            this.zedGraphMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphMain.Location = new System.Drawing.Point(0, 0);
-            this.zedGraphMain.Name = "zedGraphMain";
-            this.zedGraphMain.ScrollGrace = 0D;
-            this.zedGraphMain.ScrollMaxX = 0D;
-            this.zedGraphMain.ScrollMaxY = 0D;
-            this.zedGraphMain.ScrollMaxY2 = 0D;
-            this.zedGraphMain.ScrollMinX = 0D;
-            this.zedGraphMain.ScrollMinY = 0D;
-            this.zedGraphMain.ScrollMinY2 = 0D;
-            this.zedGraphMain.Size = new System.Drawing.Size(610, 420);
-            this.zedGraphMain.TabIndex = 0;
-            this.zedGraphMain.UseExtendedPrintDialog = true;
-            // 
-            // ButtonPlot
-            // 
-            this.ButtonPlot.Location = new System.Drawing.Point(512, 3);
-            this.ButtonPlot.Name = "ButtonPlot";
-            this.ButtonPlot.Size = new System.Drawing.Size(95, 92);
-            this.ButtonPlot.TabIndex = 0;
-            this.ButtonPlot.Text = "Plot";
-            this.ButtonPlot.UseVisualStyleBackColor = true;
-            this.ButtonPlot.Click += new System.EventHandler(this.ButtonPlot_Click);
-            // 
             // tabAbout
             // 
             this.tabAbout.BackColor = System.Drawing.SystemColors.Control;
@@ -827,7 +874,7 @@
             this.tabAbout.Location = new System.Drawing.Point(4, 22);
             this.tabAbout.Name = "tabAbout";
             this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbout.Size = new System.Drawing.Size(616, 525);
+            this.tabAbout.Size = new System.Drawing.Size(816, 575);
             this.tabAbout.TabIndex = 5;
             this.tabAbout.Text = "About";
             // 
@@ -841,10 +888,48 @@
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(610, 519);
+            this.textBox1.Size = new System.Drawing.Size(810, 569);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "FT Terminal 1.3.2\r\n19.10.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(5, 13);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(73, 13);
+            this.label23.TabIndex = 6;
+            this.label23.Text = "Min percentile";
+            // 
+            // MinPercentile_textBox
+            // 
+            this.MinPercentile_textBox.Location = new System.Drawing.Point(84, 10);
+            this.MinPercentile_textBox.Name = "MinPercentile_textBox";
+            this.MinPercentile_textBox.Size = new System.Drawing.Size(33, 20);
+            this.MinPercentile_textBox.TabIndex = 17;
+            this.MinPercentile_textBox.Text = "0.05";
+            // 
+            // MaxPercentile_textBox
+            // 
+            this.MaxPercentile_textBox.Location = new System.Drawing.Point(84, 36);
+            this.MaxPercentile_textBox.Name = "MaxPercentile_textBox";
+            this.MaxPercentile_textBox.Size = new System.Drawing.Size(33, 20);
+            this.MaxPercentile_textBox.TabIndex = 18;
+            this.MaxPercentile_textBox.Text = "0.99";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(5, 39);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(76, 13);
+            this.label24.TabIndex = 6;
+            this.label24.Text = "Max percentile";
+            // 
+            // form1BindingSource2
+            // 
+            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
             // 
             // form1BindingSource3
             // 
@@ -854,11 +939,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 551);
+            this.ClientSize = new System.Drawing.Size(824, 601);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(640, 590);
-            this.MinimumSize = new System.Drawing.Size(640, 590);
+            this.MaximumSize = new System.Drawing.Size(840, 640);
+            this.MinimumSize = new System.Drawing.Size(840, 640);
             this.Name = "Form1";
             this.Text = "FT Terminal 1.3.3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -868,24 +953,25 @@
             this.tabMain.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabModem.ResumeLayout(false);
-            this.tabModem.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             this.tabStatistics.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabGraphs.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.tabTerminal.ResumeLayout(false);
             this.tabTerminal.PerformLayout();
             this.tabLog.ResumeLayout(false);
             this.tabLog.PerformLayout();
-            this.tabGraphs.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.tabModem.ResumeLayout(false);
+            this.tabModem.PerformLayout();
             this.tabAbout.ResumeLayout(false);
             this.tabAbout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).EndInit();
             this.ResumeLayout(false);
 
@@ -920,12 +1006,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.TextBox NumberOfCyclesTextBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabPage tabLog;
@@ -966,6 +1046,22 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ZedGraph.ZedGraphControl zedGraphMain;
         private System.Windows.Forms.Button ButtonPlot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.TextBox MaxPercentile_textBox;
+        private System.Windows.Forms.TextBox MinPercentile_textBox;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
     }
 }
 

@@ -15,9 +15,23 @@ namespace Terminal
 
     public partial class Form1 : Form
     {
+        private void GraphInit()
+        {
+            GraphPane pane = zedGraphMain.GraphPane;
+            pane.CurveList.Clear();
+            pane.IsFontsScaled = false;
+            pane.XAxis.MajorGrid.IsVisible = true;
+            pane.XAxis.Title.Text = "Percentile";
+            pane.YAxis.MajorGrid.IsVisible = true;
+            pane.YAxis.Title.Text = "Seconds";
+            pane.Title.Text = "Time To First Fix distribution";
+            pane.XAxis.Scale.Min = 0;
+            pane.XAxis.Scale.Max = 1;
+
+        }
         private void ButtonPlot_Click(object sender, EventArgs e)
         {
-            zedGraphMain.GraphPane.CurveList.Clear();
+            
             for (int i = 0; i < 8; i++)
                 if (rcv_connected[i] == true)
                 {
@@ -32,13 +46,14 @@ namespace Terminal
             GraphPane pane = zedGraphMain.GraphPane;
 
             // Очистим список кривых на тот случай, если до этого сигналы уже были нарисованы
-            
+            pane.CurveList.Clear();
 
             // Создадим список точек
             PointPairList list = new PointPairList();
 
-            double xmin = 5;
-            double xmax = 95;
+            double xmin = double.Parse(MinPercentile_textBox.Text);
+            double xmax = double.Parse(MaxPercentile_textBox.Text);
+            LogConsole.AppendText(DateTime.Now.ToString() + "xmin=" + xmin+ "xmax=" + xmax + Environment.NewLine);
 
             //вычисляем перцентили для каждого канала
             List<double> ttfS_ = new List<double>();
@@ -62,27 +77,28 @@ namespace Terminal
                 case 0:
     
                     // Заполняем список точек
-                    for (double x = xmin; x <= xmax; x += 5)
+                    for (double x = xmin; x <= xmax; x += 0.01)
                     {
                         // добавим в список точку
-                        list.Add(x, Percentile(ttfS_.ToArray(), x / 100));
+                        list.Add(x, Percentile(ttfS_.ToArray(), (x)));
                     }
                     break;
                 case 1:
 
                     // Заполняем список точек
-                    for (double x = xmin; x <= xmax; x += 5)
+                    for (double x = xmin; x <= xmax; x += 0.01)
                     {
                         // добавим в список точку
-                        list.Add(x, Percentile(ttfD_.ToArray(), x / 100));
+                        list.Add(x, Percentile(ttfD_.ToArray(), (x)));
+                        LogConsole.AppendText("Graph point" + " x=" + x + " y=" + Percentile(ttfD_.ToArray(), (x)) + Environment.NewLine);
                     }
                     break;
                 case 2:
                     // Заполняем список точек
-                    for (double x = xmin; x <= xmax; x += 5)
+                    for (double x = xmin; x <= xmax; x += 0.01)
                     {
                         // добавим в список точку
-                        list.Add(x, Percentile(ttfR_.ToArray(), x / 100));
+                        list.Add(x, Percentile(ttfR_.ToArray(), (x)));
                     }
                     break;
                 default:
@@ -91,6 +107,8 @@ namespace Terminal
 
 
                     LineItem myCurve = pane.AddCurve(dataGridView1[0, i + 1].Value.ToString(), list, dataGridView1[11, i + 1].Style.BackColor, SymbolType.None);
+
+
 
             // Вызываем метод AxisChange (), чтобы обновить данные об осях.
             // В противном случае на рисунке будет показана только часть графика,

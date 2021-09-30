@@ -231,6 +231,7 @@ namespace Terminal
                 }               
             }
             ComListing();
+            GraphInit();
 
             //Default port = OFF
             for (int j = 0; j < ComPortList.Length; j++)
@@ -240,6 +241,7 @@ namespace Terminal
 
             //Default solution - RTK fixed
             TTFSW_soltypeList.SelectedIndex = 2;
+            
         }
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
@@ -248,6 +250,11 @@ namespace Terminal
             Properties.Settings.Default.cmd2sett = Command2TextBox.Text;
             Properties.Settings.Default.Save();
             TTFStopButton.PerformClick();
+            for (int i = 0; i < 8; i++)
+            {
+                if (rcv_connected[i] == true)
+                    ButtonClose[i].PerformClick();
+            }
         }
 
         async void ButtonOpen_Click(object sender, EventArgs e)
@@ -300,7 +307,7 @@ namespace Terminal
                     SolutionLabel[i].Text = "N/A";
                     TTFStartButton.Enabled = false;
                     rcv_connected[i] = false;
-            StatusText[i].Text = "Port Closed";
+                    StatusText[i].Text = "Port Closed";
                 }
 
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -382,9 +389,8 @@ namespace Terminal
                             }
                             return "Standalone";
                         case 2:
-                            //if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution")
                             {
-                                if (TTFSW_soltypeList.SelectedIndex == 1)
+                                if (CurrentMode == 1)
                                     {
                                         if (TTFSWmode[i] == 0)
                                         {
@@ -397,11 +403,8 @@ namespace Terminal
                         case 3:
                             return "PPS";
                         case 4:
-
-                            //if (SolutionLabel[i].Text == "Standalone" | SolutionLabel[i].Text == "None Solution" |
-                            //    SolutionLabel[i].Text == "RTK float" | SolutionLabel[i].Text == "DGNSS")
                             {
-                                if (TTFSW_soltypeList.SelectedIndex == 2)
+                                if (CurrentMode == 2)
                                 {
                                     if (TTFSWmode[i] == 0)
                                     {
@@ -541,6 +544,11 @@ namespace Terminal
 
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
 
 
         //Command Timer
@@ -632,7 +640,7 @@ namespace Terminal
         {
             if (ttfS[i] >=0 && ttfD[i] >= 0 && ttfF[i] >= 0 && ttfR[i] >= 0)
             {
-                if (cycle_counter[i]!=0)
+                if (cycle_counter[i]!=-1)
                 {
                     Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i] + ttf_stop_timestamp[i]));
                 }
