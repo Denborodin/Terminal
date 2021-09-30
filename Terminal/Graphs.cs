@@ -17,34 +17,80 @@ namespace Terminal
     {
         private void ButtonPlot_Click(object sender, EventArgs e)
         {
-            DrawGraph();
+            zedGraphMain.GraphPane.CurveList.Clear();
+            for (int i = 0; i < 8; i++)
+                if (rcv_connected[i] == true)
+                {
+                    DrawGraph(i);
+                }
+        
         }
 
-        private void DrawGraph()
+        private void DrawGraph(int i)
         {
             // Получим панель для рисования
             GraphPane pane = zedGraphMain.GraphPane;
 
             // Очистим список кривых на тот случай, если до этого сигналы уже были нарисованы
-            pane.CurveList.Clear();
+            
 
             // Создадим список точек
             PointPairList list = new PointPairList();
 
-            double xmin = -50;
-            double xmax = 50;
+            double xmin = 5;
+            double xmax = 95;
 
-            // Заполняем список точек
-            for (double x = xmin; x <= xmax; x += 0.01)
+            //вычисляем перцентили для каждого канала
+            List<double> ttfS_ = new List<double>();
+            List<double> ttfD_ = new List<double>();
+            List<double> ttfF_ = new List<double>();
+            List<double> ttfR_ = new List<double>();
+            foreach (TTFcycle TTFtemp in Cycles)
             {
-                // добавим в список точку
-                list.Add(x, f(x));
+                if (TTFtemp.channel == i)
+                {
+                    ttfS_.Add(TTFtemp.TTFS);
+                    ttfD_.Add(TTFtemp.TTFD);
+                    ttfF_.Add(TTFtemp.TTFF);
+                    ttfR_.Add(TTFtemp.TTFR);
+                }
             }
 
-            // Создадим кривую с названием "Sinc",
-            // которая будет рисоваться голубым цветом (Color.Blue),
-            // Опорные точки выделяться не будут (SymbolType.None)
-            LineItem myCurve = pane.AddCurve("Sinc", list, Color.Blue, SymbolType.None);
+
+            switch (CurrentMode)
+            {
+                case 0:
+    
+                    // Заполняем список точек
+                    for (double x = xmin; x <= xmax; x += 5)
+                    {
+                        // добавим в список точку
+                        list.Add(x, Percentile(ttfS_.ToArray(), x / 100));
+                    }
+                    break;
+                case 1:
+
+                    // Заполняем список точек
+                    for (double x = xmin; x <= xmax; x += 5)
+                    {
+                        // добавим в список точку
+                        list.Add(x, Percentile(ttfD_.ToArray(), x / 100));
+                    }
+                    break;
+                case 2:
+                    // Заполняем список точек
+                    for (double x = xmin; x <= xmax; x += 5)
+                    {
+                        // добавим в список точку
+                        list.Add(x, Percentile(ttfR_.ToArray(), x / 100));
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
+                    LineItem myCurve = pane.AddCurve(dataGridView1[0, i + 1].Value.ToString(), list, dataGridView1[11, i + 1].Style.BackColor, SymbolType.None);
 
             // Вызываем метод AxisChange (), чтобы обновить данные об осях.
             // В противном случае на рисунке будет показана только часть графика,
@@ -54,14 +100,6 @@ namespace Terminal
             // Обновляем график
             zedGraphMain.Invalidate();
         }
-        private double f(double x)
-        {
-            if (x == 0)
-            {
-                return 1;
-            }
 
-            return Math.Sin(x) / x;
-        }
     }
 }

@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.Drawing;
 
 namespace Terminal
 {
@@ -53,6 +54,18 @@ namespace Terminal
         int[] counter_D = new int[8];
         int[] counter_F = new int[8];
         int[] counter_R = new int[8];
+        Color[] colors =
+                    {
+                        Color.Red,
+                        Color.Blue,
+                        Color.Olive,
+                        Color.Black,
+                        Color.Gray,
+                        Color.Yellow,
+                        Color.Teal,
+                        Color.Maroon,
+                    };
+
         bool[] rcv_connected = new bool[8];
         double[] timestamp = new double[8];
         double[] ttf_stop_timestamp = new double[8];
@@ -461,7 +474,7 @@ namespace Terminal
                 TTFSWmode[i] = 1;
                 sleep_timer[i] = 0;
                 //Creating log files for each open Com Port
-                if (ButtonOpen[i].Enabled == false)
+                if (rcv_connected[i] == true)
                 {
                     try
                     {
@@ -474,7 +487,11 @@ namespace Terminal
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     //SendCommand1(i);
-                    dataGridView1[0,i+1].Value = ComPortList[i].Text + receiver_model[i] + " " + receiver_FW[i];
+                    dataGridView1[0, i + 1].Value = ComPortList[i].Text;
+                    dataGridView1[1, i + 1].Value = receiver_model[i];
+                    dataGridView1[2, i + 1].Value = receiver_ID[i];
+                    dataGridView1[3, i + 1].Value = receiver_FW[i];
+                    dataGridView1[11, i + 1].Style.BackColor=colors[i];
                     openportscount++;
                 }              
                 //Disabling Open/Close buttons

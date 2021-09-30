@@ -64,7 +64,7 @@ namespace Terminal
         {
             for (int i = 0; i < 8; i++)
             {
-                if (ComPortList[i].Text != "OFF")
+                if (rcv_connected[i] == true)
                 {
 
                     try
@@ -143,24 +143,28 @@ namespace Terminal
             ttfF_90 = Percentile(ttfF_.ToArray(), 0.9);
             ttfR_90 = Percentile(ttfR_.ToArray(), 0.9);
 
-            dataGridView1[1, i + 1].Value = cycle_counter[i].ToString();
-            dataGridView1[2, i + 1].Value = Math.Round((ttfS_50), 2).ToString("F1") + " | " + Math.Round((ttfS_90), 2).ToString("F1");
+            dataGridView1[4, i + 1].Value = cycle_counter[i].ToString();
+            dataGridView1[5, i + 1].Value = Math.Round(ttfS_50, 2).ToString("F1");
+            dataGridView1[6, i + 1].Value = Math.Round(ttfS_90, 2).ToString("F1");
             switch (CurrentMode)
             {
                 case 0:
-                    dataGridView1[3, i + 1].Value = Math.Round(ttfS_.Min(), 2); 
-                    dataGridView1[4, i + 1].Value = Math.Round(ttfS_.Max(), 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfS_50), 2).ToString("F1") + " | " + Math.Round((ttfS_90), 2).ToString("F1");
+                    dataGridView1[7, i + 1].Value = Math.Round(ttfS_.Min(), 2); 
+                    dataGridView1[8, i + 1].Value = Math.Round(ttfS_.Max(), 2);
+                    dataGridView1[9, i + 1].Value = Math.Round(ttfS_50, 2).ToString("F1");
+                    dataGridView1[10, i + 1].Value = Math.Round(ttfS_90, 2).ToString("F1");
                     break;
                 case 1:
-                    dataGridView1[3, i + 1].Value = Math.Round(ttfD_.Min(), 2);
-                    dataGridView1[4, i + 1].Value = Math.Round(ttfD_.Max(), 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfD_50), 2).ToString("F1") + " | " + Math.Round((ttfD_90), 2).ToString("F1");
+                    dataGridView1[7, i + 1].Value = Math.Round(ttfD_.Min(), 2);
+                    dataGridView1[8, i + 1].Value = Math.Round(ttfD_.Max(), 2);
+                    dataGridView1[9, i + 1].Value = Math.Round(ttfD_50, 2).ToString("F1");
+                    dataGridView1[10, i + 1].Value = Math.Round(ttfD_90, 2).ToString("F1");
                     break;
                 case 2:
-                    dataGridView1[3, i + 1].Value = Math.Round(ttfR_.Min(), 2);
-                    dataGridView1[4, i + 1].Value = Math.Round(ttfR_.Max(), 2);
-                    dataGridView1[5, i + 1].Value = Math.Round((ttfR_50), 2).ToString("F1") + " | " + Math.Round((ttfR_90), 2).ToString("F1");
+                    dataGridView1[7, i + 1].Value = Math.Round(ttfR_.Min(), 2);
+                    dataGridView1[8, i + 1].Value = Math.Round(ttfR_.Max(), 2);
+                    dataGridView1[9, i + 1].Value = Math.Round(ttfR_50, 2).ToString("F1");
+                    dataGridView1[10, i + 1].Value = Math.Round(ttfR_90, 2).ToString("F1");
                     break;
                 default:
                 break;
@@ -200,11 +204,17 @@ namespace Terminal
             dataGridView1.Rows.Clear();
             dataGridView1.Rows.Add(8);
             dataGridView1[0, 0].Value = "Port ID";
-            dataGridView1[1, 0].Value = "Cycle count";
-            dataGridView1[2, 0].Value = "Standalone TTF (50/90%)";
-            dataGridView1[3, 0].Value = "Min " + solution + " TTF";
-            dataGridView1[4, 0].Value = "Max " + solution + " TTF";
-            dataGridView1[5, 0].Value = solution + " TTF (50/90%)";
+            dataGridView1[1, 0].Value = "Receiver board";
+            dataGridView1[2, 0].Value = "Receiver ID";
+            dataGridView1[3, 0].Value = "FW ver.";
+            dataGridView1[4, 0].Value = "Cycle count";
+            dataGridView1[5, 0].Value = "Standalone TTF (50%)";
+            dataGridView1[6, 0].Value = "Standalone TTF (90%)";
+            dataGridView1[7, 0].Value = "Min " + solution + " TTF";
+            dataGridView1[8, 0].Value = "Max " + solution + " TTF";
+            dataGridView1[9, 0].Value = solution + " TTF (50)";
+            dataGridView1[10, 0].Value = solution + " TTF (90%)";
+            dataGridView1[11, 0].Value = "Color";
         }
     }
 }
