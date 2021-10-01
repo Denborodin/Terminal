@@ -122,8 +122,11 @@ namespace Terminal
                 CurrentCommandLine[index] = 0;
                 TTFSWmode[index] = 2;
                 TTF_Timeout1[index] = int.Parse(Timeout1TextBox.Text);
-                AddCycleResult(index);
-                StatisticChange(index);
+                if (cycle_counter[index]!=0)
+                {
+                    AddCycleResult(index);
+                    StatisticChange(index);
+                }
                 ttfS[index] = 0; ttfD[index] = 0; ttfF[index] = 0; ttfR[index] = 0;
                 if (Min_nonzero(cycle_counter) >= int.Parse(NumberOfCyclesTextBox.Text))
                 {

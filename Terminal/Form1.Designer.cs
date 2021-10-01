@@ -69,9 +69,17 @@
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabGraphs = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zedGraphMain = new ZedGraph.ZedGraphControl();
+            this.LineNamesBtn = new System.Windows.Forms.Button();
+            this.MaxPercentile_textBox = new System.Windows.Forms.TextBox();
+            this.Increment_textBox = new System.Windows.Forms.TextBox();
+            this.MinPercentile_textBox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.ButtonPlot = new System.Windows.Forms.Button();
             this.tabTerminal = new System.Windows.Forms.TabPage();
             this.TextBox_Console = new System.Windows.Forms.TextBox();
@@ -103,17 +111,11 @@
             this.label11 = new System.Windows.Forms.Label();
             this.textLabel2 = new System.Windows.Forms.Label();
             this.tabAbout = new System.Windows.Forms.TabPage();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.label23 = new System.Windows.Forms.Label();
-            this.MinPercentile_textBox = new System.Windows.Forms.TextBox();
-            this.MaxPercentile_textBox = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.form1BindingSource2 = new System.Windows.Forms.BindingSource(this.components);
-            this.form1BindingSource3 = new System.Windows.Forms.BindingSource(this.components);
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -128,10 +130,6 @@
             this.tabLog.SuspendLayout();
             this.tabModem.SuspendLayout();
             this.tabAbout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -413,6 +411,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
@@ -428,74 +427,93 @@
             this.Column9,
             this.Column10,
             this.Column11,
-            this.Column12});
+            this.Column12,
+            this.Column13});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(810, 569);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // Column1
             // 
             this.Column1.HeaderText = "Column1";
             this.Column1.Name = "Column1";
+            this.Column1.Width = 21;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Column2";
             this.Column2.Name = "Column2";
+            this.Column2.Width = 21;
             // 
             // Column3
             // 
             this.Column3.HeaderText = "Column3";
             this.Column3.Name = "Column3";
+            this.Column3.Width = 21;
             // 
             // Column4
             // 
             this.Column4.HeaderText = "Column4";
             this.Column4.Name = "Column4";
+            this.Column4.Width = 21;
             // 
             // Column5
             // 
             this.Column5.HeaderText = "Column5";
             this.Column5.Name = "Column5";
+            this.Column5.Width = 21;
             // 
             // Column6
             // 
             this.Column6.HeaderText = "Column6";
             this.Column6.Name = "Column6";
+            this.Column6.Width = 21;
             // 
             // Column7
             // 
             this.Column7.HeaderText = "Column7";
             this.Column7.Name = "Column7";
+            this.Column7.Width = 21;
             // 
             // Column8
             // 
             this.Column8.HeaderText = "Column8";
             this.Column8.Name = "Column8";
+            this.Column8.Width = 21;
             // 
             // Column9
             // 
             this.Column9.HeaderText = "Column9";
             this.Column9.Name = "Column9";
+            this.Column9.Width = 21;
             // 
             // Column10
             // 
             this.Column10.HeaderText = "Column10";
             this.Column10.Name = "Column10";
+            this.Column10.Width = 21;
             // 
             // Column11
             // 
             this.Column11.HeaderText = "Column11";
             this.Column11.Name = "Column11";
+            this.Column11.Width = 21;
             // 
             // Column12
             // 
             this.Column12.HeaderText = "Column12";
             this.Column12.Name = "Column12";
+            this.Column12.Width = 21;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Column13";
+            this.Column13.Name = "Column13";
+            this.Column13.Width = 21;
             // 
             // tabGraphs
             // 
@@ -521,9 +539,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.LineNamesBtn);
             this.splitContainer1.Panel2.Controls.Add(this.MaxPercentile_textBox);
+            this.splitContainer1.Panel2.Controls.Add(this.Increment_textBox);
             this.splitContainer1.Panel2.Controls.Add(this.MinPercentile_textBox);
             this.splitContainer1.Panel2.Controls.Add(this.label24);
+            this.splitContainer1.Panel2.Controls.Add(this.label25);
             this.splitContainer1.Panel2.Controls.Add(this.label23);
             this.splitContainer1.Panel2.Controls.Add(this.ButtonPlot);
             this.splitContainer1.Size = new System.Drawing.Size(810, 569);
@@ -545,6 +566,67 @@
             this.zedGraphMain.Size = new System.Drawing.Size(810, 497);
             this.zedGraphMain.TabIndex = 0;
             this.zedGraphMain.UseExtendedPrintDialog = true;
+            // 
+            // LineNamesBtn
+            // 
+            this.LineNamesBtn.Location = new System.Drawing.Point(123, 36);
+            this.LineNamesBtn.Name = "LineNamesBtn";
+            this.LineNamesBtn.Size = new System.Drawing.Size(109, 20);
+            this.LineNamesBtn.TabIndex = 19;
+            this.LineNamesBtn.Text = "Reset File Names";
+            this.LineNamesBtn.UseVisualStyleBackColor = true;
+            this.LineNamesBtn.Click += new System.EventHandler(this.colorbtn_Click);
+            // 
+            // MaxPercentile_textBox
+            // 
+            this.MaxPercentile_textBox.Location = new System.Drawing.Point(84, 36);
+            this.MaxPercentile_textBox.Name = "MaxPercentile_textBox";
+            this.MaxPercentile_textBox.Size = new System.Drawing.Size(33, 20);
+            this.MaxPercentile_textBox.TabIndex = 18;
+            this.MaxPercentile_textBox.Text = "0.95";
+            // 
+            // Increment_textBox
+            // 
+            this.Increment_textBox.Location = new System.Drawing.Point(186, 10);
+            this.Increment_textBox.Name = "Increment_textBox";
+            this.Increment_textBox.Size = new System.Drawing.Size(46, 20);
+            this.Increment_textBox.TabIndex = 17;
+            this.Increment_textBox.Text = "0.05";
+            // 
+            // MinPercentile_textBox
+            // 
+            this.MinPercentile_textBox.Location = new System.Drawing.Point(84, 10);
+            this.MinPercentile_textBox.Name = "MinPercentile_textBox";
+            this.MinPercentile_textBox.Size = new System.Drawing.Size(33, 20);
+            this.MinPercentile_textBox.TabIndex = 17;
+            this.MinPercentile_textBox.Text = "0.05";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(5, 39);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(76, 13);
+            this.label24.TabIndex = 6;
+            this.label24.Text = "Max percentile";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(123, 13);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(57, 13);
+            this.label25.TabIndex = 6;
+            this.label25.Text = "Increment:";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(5, 13);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(73, 13);
+            this.label23.TabIndex = 6;
+            this.label23.Text = "Min percentile";
             // 
             // ButtonPlot
             // 
@@ -771,7 +853,6 @@
             // 
             // ModemPortComboBox
             // 
-            this.ModemPortComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.form1BindingSource2, "Text", true));
             this.ModemPortComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ModemPortComboBox.Enabled = false;
             this.ModemPortComboBox.FormattingEnabled = true;
@@ -860,7 +941,6 @@
             // 
             // textLabel2
             // 
-            this.textLabel2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.form1BindingSource2, "Text", true));
             this.textLabel2.Location = new System.Drawing.Point(8, 20);
             this.textLabel2.Name = "textLabel2";
             this.textLabel2.Size = new System.Drawing.Size(69, 23);
@@ -870,6 +950,7 @@
             // tabAbout
             // 
             this.tabAbout.BackColor = System.Drawing.SystemColors.Control;
+            this.tabAbout.Controls.Add(this.textBox2);
             this.tabAbout.Controls.Add(this.textBox1);
             this.tabAbout.Location = new System.Drawing.Point(4, 22);
             this.tabAbout.Name = "tabAbout";
@@ -878,62 +959,34 @@
             this.tabAbout.TabIndex = 5;
             this.tabAbout.Text = "About";
             // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox2.Enabled = false;
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox2.Location = new System.Drawing.Point(3, 66);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(810, 506);
+            this.textBox2.TabIndex = 0;
+            this.textBox2.Text = "Denis Borodin\r\ndborodin@topcon.com";
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(810, 569);
+            this.textBox1.Size = new System.Drawing.Size(810, 63);
             this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "FT Terminal 1.3.2\r\n19.10.2020\r\n\r\nDenis Borodin\r\ndborodin@topcon.com";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(5, 13);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(73, 13);
-            this.label23.TabIndex = 6;
-            this.label23.Text = "Min percentile";
-            // 
-            // MinPercentile_textBox
-            // 
-            this.MinPercentile_textBox.Location = new System.Drawing.Point(84, 10);
-            this.MinPercentile_textBox.Name = "MinPercentile_textBox";
-            this.MinPercentile_textBox.Size = new System.Drawing.Size(33, 20);
-            this.MinPercentile_textBox.TabIndex = 17;
-            this.MinPercentile_textBox.Text = "0.05";
-            // 
-            // MaxPercentile_textBox
-            // 
-            this.MaxPercentile_textBox.Location = new System.Drawing.Point(84, 36);
-            this.MaxPercentile_textBox.Name = "MaxPercentile_textBox";
-            this.MaxPercentile_textBox.Size = new System.Drawing.Size(33, 20);
-            this.MaxPercentile_textBox.TabIndex = 18;
-            this.MaxPercentile_textBox.Text = "0.99";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(5, 39);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(76, 13);
-            this.label24.TabIndex = 6;
-            this.label24.Text = "Max percentile";
-            // 
-            // form1BindingSource2
-            // 
-            this.form1BindingSource2.DataSource = typeof(Terminal.Form1);
-            // 
-            // form1BindingSource3
-            // 
-            this.form1BindingSource3.DataSource = typeof(Terminal.Form1);
             // 
             // Form1
             // 
@@ -969,10 +1022,6 @@
             this.tabModem.PerformLayout();
             this.tabAbout.ResumeLayout(false);
             this.tabAbout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -985,8 +1034,6 @@
         private System.Windows.Forms.TabPage tabTerminal;
         private System.Windows.Forms.TextBox TextBox_Console;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.BindingSource form1BindingSource;
-        private System.Windows.Forms.BindingSource form1BindingSource1;
         private System.Windows.Forms.TabPage tabMain;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label16;
@@ -1013,10 +1060,8 @@
         private System.Windows.Forms.TextBox LogConsole;
         private System.Windows.Forms.TabPage tabModem;
         private System.Windows.Forms.ComboBox ModemPortComboBox;
-        private System.Windows.Forms.BindingSource form1BindingSource2;
         private System.Windows.Forms.Label textLabel2;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.BindingSource form1BindingSource3;
         private System.Windows.Forms.Button ModemDisconnectBTN;
         private System.Windows.Forms.Button ModemConnectBTN;
         private System.Windows.Forms.Label label11;
@@ -1062,6 +1107,12 @@
         private System.Windows.Forms.TextBox MinPercentile_textBox;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox Increment_textBox;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Button LineNamesBtn;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 

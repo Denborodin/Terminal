@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.Drawing;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Terminal
 {
@@ -32,6 +34,7 @@ namespace Terminal
 
     public partial class Form1 : Form
     {
+        #region Variables definition
         SerialPort[] CurrentPort = new SerialPort[10];
         FileStream[] fstream = new FileStream[10];
         ArrayList Cycles;
@@ -58,12 +61,12 @@ namespace Terminal
                     {
                         Color.Red,
                         Color.Blue,
-                        Color.Olive,
+                        Color.Maroon,
                         Color.Black,
                         Color.Gray,
                         Color.Yellow,
                         Color.Teal,
-                        Color.Maroon,
+                        Color.DarkBlue,
                     };
 
         bool[] rcv_connected = new bool[8];
@@ -90,6 +93,8 @@ namespace Terminal
         Label[] SolutionLabel = new Label[8];
         TextBox[] StatusText = new TextBox[8];
 
+#endregion
+
         public Form1()
         {
             InitializeComponent();
@@ -99,6 +104,14 @@ namespace Terminal
 
         public void CreateComponents()
         {
+            //update version numbers
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            DateTime buildDate = new DateTime(2000, 1, 1)
+                .AddDays(version.Build)
+                .AddSeconds(version.Revision * 2);
+
+            this.Text = "FT Terminal " + version.Major + "." + version.Minor;
+            textBox1.Text = "FT Terminal " + version.Major + "." + version.Minor + "." + version.Build + Environment.NewLine + buildDate.ToString("yyyy-MM-dd HH:mm"); 
             //Create ComPortList comboboxes
             for (int i = 0; i < ComPortList.Length-1; i++)
             {
@@ -246,15 +259,16 @@ namespace Terminal
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.cmd1sett = Command1TextBox.Text;
-            Properties.Settings.Default.cmd2sett = Command2TextBox.Text;
-            Properties.Settings.Default.Save();
             TTFStopButton.PerformClick();
             for (int i = 0; i < 8; i++)
             {
                 if (rcv_connected[i] == true)
                     ButtonClose[i].PerformClick();
             }
+            Properties.Settings.Default.cmd1sett = Command1TextBox.Text;
+            Properties.Settings.Default.cmd2sett = Command2TextBox.Text;
+            Properties.Settings.Default.Save();
+
         }
 
         async void ButtonOpen_Click(object sender, EventArgs e)
@@ -317,11 +331,17 @@ namespace Terminal
             try
             {
                 string data = port.ReadLine();
-                this.BeginInvoke(new SetTextDeleg(Si_DataReceived), new object[] { data, index }); 
+                this.BeginInvoke(new SetTextDeleg(Si_DataReceived), new object[] { data, index });
             }
             catch (Exception ex)
             {
-                this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Error: " + ex.Message + Environment.NewLine, index });
+                try
+                {
+                    this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Error: " + ex.Message + Environment.NewLine, index });
+                }
+                catch (Exception ex1)
+                {
+                }
             }
         }
 
@@ -366,7 +386,7 @@ namespace Terminal
                     }
                     catch (FormatException)
                     {
-                        LogConsole.AppendText("{0} is not in the correct format." + parts[1]);
+                        LogConsole.AppendText(DateTime.Now.ToString() + parts[6] + "is not in the correct format. " + parts +Environment.NewLine);
                     }
 
                     timestamp[i] = timestamp_date.TimeOfDay.TotalSeconds;
@@ -385,6 +405,7 @@ namespace Terminal
                                 if (TTFSWmode[i] == 0)
                                 {
                                     TTFSWmode[i] = 1;
+                                    cycle_counter[i]++;
                                 }
                             }
                             return "Standalone";
@@ -396,7 +417,8 @@ namespace Terminal
                                         {
                                             TTFSWmode[i] = 1;
                                             ttfD[i] = timestamp[i] - ttf_stop_timestamp[i];
-                                        }
+                                        cycle_counter[i]++;
+                                    }
                                     }
                             }
                             return "DGNSS";
@@ -410,6 +432,7 @@ namespace Terminal
                                     {
                                         TTFSWmode[i] = 1;
                                         ttfR[i] = timestamp[i] - ttf_stop_timestamp[i];
+                                        cycle_counter[i]++;
                                     }
                                 }
                             }
@@ -442,6 +465,7 @@ namespace Terminal
 
         public void TTFSWStart_Click(object sender, EventArgs e)
         {
+            Cycles.Clear();
             TTFSW_soltypeList.Enabled = false;
             TTFStartButton.Enabled = false;
             TTFStopButton.Enabled = true;
@@ -495,6 +519,7 @@ namespace Terminal
                     dataGridView1[2, i + 1].Value = receiver_ID[i];
                     dataGridView1[3, i + 1].Value = receiver_FW[i];
                     dataGridView1[11, i + 1].Style.BackColor=colors[i];
+                    dataGridView1[12, i + 1].Value = receiver_model[i] + " " + receiver_FW[i] + " " + receiver_ID[i].Substring(7);
                     openportscount++;
                 }              
                 //Disabling Open/Close buttons
@@ -540,14 +565,38 @@ namespace Terminal
             filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
             WriteCSV(dataGridView1, filename);
             WriteCycles();
-            Cycles.Clear();
-
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.ColumnIndex == 11 & e.RowIndex != 0)
+            {
+                colorDialog1.Color = dataGridView1[e.ColumnIndex, e.RowIndex].Style.BackColor;
+                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    dataGridView1[e.ColumnIndex, e.RowIndex].Style.BackColor = colorDialog1.Color;
+                }
+            }
+            if (e.ColumnIndex == 12 & e.RowIndex !=0)
+            {
+                dataGridView1[e.ColumnIndex, e.RowIndex].ReadOnly = false;
+                dataGridView1.BeginEdit(false);
+            }
         }
+
+        private void colorbtn_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                if (rcv_connected[i] == true)
+                {
+                    dataGridView1[12, i + 1].Value = receiver_model[i] + " " + receiver_FW[i] + " " + receiver_ID[i].Substring(7);
+                }
+            }
+            zedGraphMain.Invalidate();
+        }
+
+
 
 
 
@@ -568,7 +617,12 @@ namespace Terminal
                             {
                                 TTF_Timeout1[i]--;
                                 string str = "Waiting for Timeout 1: " + TTF_Timeout1[i].ToString();
-                                this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
+                                try
+                                {
+                                    this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i }); 
+                                }
+                                finally { }
+                                
                             }
                             else
                             {
@@ -581,7 +635,11 @@ namespace Terminal
                             {
                                 TTF_Timeout2[i]--;
                                 string str = "Waiting for Timeout 2: " + TTF_Timeout2[i].ToString();
-                                this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
+                                try
+                                {
+                                    this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
+                                }
+                                finally { }
                             }
                             else
                             {
@@ -599,7 +657,11 @@ namespace Terminal
                                 {
                                     sleep_timer[i]--;
                                     string str = "Waiting for Sleep timer: " + sleep_timer[i].ToString();
-                                    this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
+                                    try
+                                    {
+                                        this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, i });
+                                    }
+                                    finally { }
                                 }
                                 else
                                 {
@@ -644,9 +706,7 @@ namespace Terminal
                 {
                     Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i] + ttf_stop_timestamp[i]));
                 }
-                
                 this.BeginInvoke(new ProgressUpdate(ProgUpdate));
-                cycle_counter[i]++;
             }
         }
     }

@@ -215,6 +215,8 @@ namespace Terminal
             dataGridView1[9, 0].Value = solution + " TTF (50)";
             dataGridView1[10, 0].Value = solution + " TTF (90%)";
             dataGridView1[11, 0].Value = "Color";
+            dataGridView1[12, 0].Value = "Graph label";
+
         }
     }
 }
