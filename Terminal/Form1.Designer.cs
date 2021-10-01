@@ -286,7 +286,6 @@
             this.Command1TextBox.Size = new System.Drawing.Size(582, 85);
             this.Command1TextBox.TabIndex = 18;
             this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
-            this.Command1TextBox.TextChanged += new System.EventHandler(this.Command1TextBox_TextChanged);
             // 
             // progressBar1
             // 
@@ -883,7 +882,6 @@
             this.label20.Size = new System.Drawing.Size(95, 23);
             this.label20.TabIndex = 3;
             this.label20.Text = "Pause, sec:";
-            this.label20.Click += new System.EventHandler(this.Label11_Click);
             // 
             // label19
             // 
@@ -892,7 +890,6 @@
             this.label19.Size = new System.Drawing.Size(95, 23);
             this.label19.TabIndex = 3;
             this.label19.Text = "Transmit time, sec:";
-            this.label19.Click += new System.EventHandler(this.Label11_Click);
             // 
             // label17
             // 
@@ -901,7 +898,6 @@
             this.label17.Size = new System.Drawing.Size(82, 23);
             this.label17.TabIndex = 3;
             this.label17.Text = "Step, MHz:";
-            this.label17.Click += new System.EventHandler(this.Label11_Click);
             // 
             // label15
             // 
@@ -910,7 +906,6 @@
             this.label15.Size = new System.Drawing.Size(114, 23);
             this.label15.TabIndex = 3;
             this.label15.Text = "End Frequency, MHz:";
-            this.label15.Click += new System.EventHandler(this.Label11_Click);
             // 
             // label13
             // 
@@ -919,7 +914,6 @@
             this.label13.Size = new System.Drawing.Size(114, 23);
             this.label13.TabIndex = 3;
             this.label13.Text = "Start Frequency, MHz:";
-            this.label13.Click += new System.EventHandler(this.Label11_Click);
             // 
             // label21
             // 
@@ -928,7 +922,6 @@
             this.label21.Size = new System.Drawing.Size(82, 23);
             this.label21.TabIndex = 3;
             this.label21.Text = "Link rate, bps";
-            this.label21.Click += new System.EventHandler(this.Label11_Click);
             // 
             // label11
             // 
@@ -937,7 +930,6 @@
             this.label11.Size = new System.Drawing.Size(82, 23);
             this.label11.TabIndex = 3;
             this.label11.Text = "Modem Type:";
-            this.label11.Click += new System.EventHandler(this.Label11_Click);
             // 
             // textLabel2
             // 

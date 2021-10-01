@@ -86,7 +86,7 @@ namespace Terminal
                     {
                         // добавим в список точку
                         list.Add(Percentile(ttfD_.ToArray(),x),x);
-                        LogConsole.AppendText("Graph point" + " x=" + x + " y=" + Percentile(ttfD_.ToArray(), (x)) + Environment.NewLine);
+                        //LogConsole.AppendText("Graph point" + " x=" + x + " y=" + Percentile(ttfD_.ToArray(), (x)) + Environment.NewLine);
                     }
                     break;
                 case 2:
@@ -95,7 +95,7 @@ namespace Terminal
                     {
                         // добавим в список точку
                         list.Add(Percentile(ttfR_.ToArray(),Math.Round(x,2)), Math.Round(x, 2));
-                        LogConsole.AppendText("Graph point" + " x=" + Math.Round(x, 2) + " y=" + Percentile(ttfR_.ToArray(), Math.Round(x, 2)) + Environment.NewLine);
+                        //LogConsole.AppendText("Graph point" + " x=" + Math.Round(x, 2) + " y=" + Percentile(ttfR_.ToArray(), Math.Round(x, 2)) + Environment.NewLine);
                     }
                     break;
                 default:

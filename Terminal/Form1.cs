@@ -386,7 +386,7 @@ namespace Terminal
                     }
                     catch (FormatException)
                     {
-                        LogConsole.AppendText(DateTime.Now.ToString() + parts[6] + "is not in the correct format. " + parts +Environment.NewLine);
+                        LogConsole.AppendText(DateTime.Now.ToString() + " " + parts[6] + " " + "is not in the correct format. " + parts +Environment.NewLine);
                     }
 
                     timestamp[i] = timestamp_date.TimeOfDay.TotalSeconds;
@@ -453,15 +453,6 @@ namespace Terminal
             return "N/A";
         }
 
-        private void Label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Command1TextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         public void TTFSWStart_Click(object sender, EventArgs e)
         {
@@ -582,6 +573,7 @@ namespace Terminal
                 dataGridView1[e.ColumnIndex, e.RowIndex].ReadOnly = false;
                 dataGridView1.BeginEdit(false);
             }
+            dataGridView1[e.ColumnIndex, e.RowIndex].Selected = false;
         }
 
         private void colorbtn_Click(object sender, EventArgs e)
