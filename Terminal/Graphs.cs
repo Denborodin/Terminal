@@ -66,42 +66,55 @@ namespace Terminal
                     ttfR_.Add(TTFtemp.TTFR);
                 }
             }
-
+            if (ttfS_.Count+ ttfD_.Count+ ttfF_.Count+ ttfR_.Count == 0)
+            {
+                return;
+            }
 
             switch (CurrentMode)
             {
                 case 0:
     
                     // Заполняем список точек
-                    for (double x = xmin; x <= xmax; x += increment)
+                    for (double x = xmax; x >= xmin; x -= increment)
                     {
                         // добавим в список точку
-                        list.Add(Percentile(ttfS_.ToArray(),x),x);
+                        if (Percentile(ttfR_.ToArray(), Math.Round(x, 2)) != Percentile(ttfR_.ToArray(), Math.Round(x + increment, 2)))
+                        {
+                            list.Add(Percentile(ttfS_.ToArray(), x), x);
+                        }
                     }
                     break;
                 case 1:
 
                     // Заполняем список точек
-                    for (double x = xmin; x <= xmax; x += increment)
+                    for (double x = xmax; x >= xmin; x -= increment)
                     {
                         // добавим в список точку
-                        list.Add(Percentile(ttfD_.ToArray(),x),x);
+                        if (Percentile(ttfR_.ToArray(), Math.Round(x, 2)) != Percentile(ttfR_.ToArray(), Math.Round(x + increment, 2)))
+                        {
+                            list.Add(Percentile(ttfD_.ToArray(), x), x);
+                        }
                         //LogConsole.AppendText("Graph point" + " x=" + x + " y=" + Percentile(ttfD_.ToArray(), (x)) + Environment.NewLine);
                     }
                     break;
                 case 2:
                     // Заполняем список точек
-                    for (double x = xmin; x <= xmax; x += increment)
+                    for (double x = xmax; x >= xmin; x -= increment)
                     {
                         // добавим в список точку
-                        list.Add(Percentile(ttfR_.ToArray(),Math.Round(x,2)), Math.Round(x, 2));
-                        //LogConsole.AppendText("Graph point" + " x=" + Math.Round(x, 2) + " y=" + Percentile(ttfR_.ToArray(), Math.Round(x, 2)) + Environment.NewLine);
+                        if (Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x, 2)),2)!= Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x+increment, 2)),2))
+                        {
+                            list.Add(Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x, 2)),2), Math.Round(x, 2));
+                            //LogConsole.AppendText("Graph point" + " x=" + Math.Round(x, 2) + " y=" + Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x, 2)),2) + Environment.NewLine);
+                        }
+                        
+                        
                     }
                     break;
                 default:
                     break;
             }
-
 
             LineItem myCurve = pane.AddCurve(dataGridView1[12, i + 1].Value.ToString(), list, dataGridView1[11, i + 1].Style.BackColor, SymbolType.None);
             
