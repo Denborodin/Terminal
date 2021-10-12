@@ -70,7 +70,7 @@ namespace Terminal
                     try
                     {
                         string filename = "Cycles" + " " + ComPortList[i].Text + " " + receiver_model[i] + " " + receiver_ID[i].Substring(7) + " " + DateTime.Now.ToString("MM-dd HH.mm") + ".csv";
-                        filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
+                        filename = @System.IO.Path.Combine(FilepathtextBox3.Text, filename);
 
                         StreamWriter sw_cycles = new StreamWriter(filename);
                         sw_cycles.WriteLine("Cycles Number" + ";" + "ttfS" + ";" + "ttfD" + ";" + "ttfF" + ";" + "ttfR" + ";" + "Start" + ";" + "End");

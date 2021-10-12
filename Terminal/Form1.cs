@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Drawing;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Terminal
 {
@@ -126,6 +126,8 @@ namespace Terminal
                 ComPortList[i].Items.Add("OFF");
                 this.tabMain.Controls.Add(ComPortList[i]);
                 ComPortList[i].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+                openFileDialog1.FileName = "";
+
             }
 
             // ModemTab components init
@@ -227,8 +229,15 @@ namespace Terminal
                 };
                 this.tabMain.Controls.Add(StatusText[i]);
 
+                if (Properties.Settings.Default.LogsFilePath == "")
+                {
+                    Properties.Settings.Default.LogsFilePath = Application.StartupPath.ToString();
+                }
+
                 Command1TextBox.Text = Properties.Settings.Default.cmd1sett;
                 Command2TextBox.Text = Properties.Settings.Default.cmd2sett;
+                FilepathtextBox3.Text = Properties.Settings.Default.LogsFilePath;
+
             }
         }
 
@@ -267,6 +276,7 @@ namespace Terminal
             }
             Properties.Settings.Default.cmd1sett = Command1TextBox.Text;
             Properties.Settings.Default.cmd2sett = Command2TextBox.Text;
+            Properties.Settings.Default.LogsFilePath = FilepathtextBox3.Text;
             Properties.Settings.Default.Save();
 
         }
@@ -322,6 +332,13 @@ namespace Terminal
                     TTFStartButton.Enabled = false;
                     rcv_connected[i] = false;
                     StatusText[i].Text = "Port Closed";
+                    foreach (var item in rcv_connected)
+                    {
+                        if (item)
+                        {
+                            TTFStartButton.Enabled = true;
+                        }
+                    }
                 }
 
         void CurrentPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -497,7 +514,7 @@ namespace Terminal
                     try
                     {
                         filename = ComPortList[i].Text +" "+ receiver_model[i] + " " + receiver_ID[i].Substring(7) + " " + DateTime.Now.ToString("MM-dd HH.mm") + ".gga";
-                        filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
+                        filename = @System.IO.Path.Combine(FilepathtextBox3.Text, filename);
                         fstream[i] = new FileStream(filename, FileMode.Create,FileAccess.ReadWrite,FileShare.Read,bufferSize:8);
                     }
                     catch (Exception ex)
@@ -537,7 +554,7 @@ namespace Terminal
             for (int i = 0; i < 8; i++)
             {
             TTFSWmode[i] = 0;
-                if (fstream[i]!= null)
+                if (rcv_connected[i]==true)
                 {
                     fstream[i].Close();
                     fstream[i] = null;
@@ -553,7 +570,7 @@ namespace Terminal
             string data = TTF_Timeout1.ToString();
             //saving statistics
             filename = "Result" +  " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
-            filename = @System.IO.Path.Combine(Application.StartupPath.ToString(), filename);
+            filename = @System.IO.Path.Combine(FilepathtextBox3.Text.ToString(), filename);
             WriteCSV(dataGridView1, filename);
             WriteCycles();
         }
@@ -588,6 +605,90 @@ namespace Terminal
             zedGraphMain.Invalidate();
         }
 
+        private void ButtonBrowse_Click(object sender, EventArgs e)
+        {
+
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = Application.StartupPath;
+            dialog.IsFolderPicker = true;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                FilepathtextBox3.Text=dialog.FileName;
+            }
+        }
+
+        private void LoadScriptBtn_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader Scriptreader = new StreamReader(openFileDialog1.FileName);
+                string line;
+                int i = 0;
+                Command1TextBox.Text = "";
+                Command2TextBox.Text = "";
+                LogConsole.AppendText(DateTime.Now.ToString() + " Script file parsing sarted: " + openFileDialog1.FileName + Environment.NewLine);
+
+                line = Scriptreader.ReadLine().Substring(11);
+                Timeout1TextBox.Text = line;
+                LogConsole.AppendText("Timeout 1: " + line + Environment.NewLine);
+
+                line = Scriptreader.ReadLine().Substring(11);
+                Timeout2TextBox.Text = line;
+                LogConsole.AppendText("Timeout 2: " + line + Environment.NewLine);
+
+                line = Scriptreader.ReadLine();
+                line = line.Substring(line.Length-1);
+                TTFSW_soltypeList.SelectedIndex = int.Parse(line);
+                LogConsole.AppendText("Solution Type index: " + line + Environment.NewLine);
+
+                line = Scriptreader.ReadLine().Substring(18);
+                NumberOfCyclesTextBox.Text = line;
+                LogConsole.AppendText("Number of cycles: " + line + Environment.NewLine);
+
+                line = Scriptreader.ReadLine();
+                LogConsole.AppendText(line + Environment.NewLine);
+
+                while ((line = Scriptreader.ReadLine()) != "Command 2:")
+                {
+                    Command1TextBox.AppendText(line + Environment.NewLine);
+                    LogConsole.AppendText(line + Environment.NewLine);
+                }
+                LogConsole.AppendText(line + Environment.NewLine);
+
+                while ((line = Scriptreader.ReadLine()) != null)
+                {
+                    Command2TextBox.AppendText(line + Environment.NewLine);
+                    LogConsole.AppendText(line + Environment.NewLine);
+                }
+
+
+            }
+        }
+        private void SaveScriptBtn_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+                StreamWriter Scriptwriter = new StreamWriter(saveFileDialog1.FileName);
+                Scriptwriter.WriteLine("Timeout 1: " + Timeout1TextBox.Text);
+                Scriptwriter.WriteLine("Timeout 2: " + Timeout2TextBox.Text);
+                Scriptwriter.WriteLine("Solution Type: " + TTFSW_soltypeList.Text + " " + TTFSW_soltypeList.SelectedIndex);
+                Scriptwriter.WriteLine("Number of cycles: " + NumberOfCyclesTextBox.Text);
+                Scriptwriter.WriteLine("Command 1:");
+                foreach (var line in Command1TextBox.Lines)
+                {
+                    Scriptwriter.WriteLine(line);
+                }
+                Scriptwriter.WriteLine("Command 2:");
+                foreach (var line in Command2TextBox.Lines)
+                {
+                    Scriptwriter.WriteLine(line);
+                }
+                Scriptwriter.Close();
+            }
+        }
+
 
 
 
@@ -597,7 +698,7 @@ namespace Terminal
         {
             for (int i = 0; i < 8; i++)
             {
-                if (CurrentPort[i]!=null)
+                if (rcv_connected[i]==true)
                 {
                     switch (TTFSWmode[i])
                     {

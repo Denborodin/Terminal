@@ -32,8 +32,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabMain = new System.Windows.Forms.TabPage();
+            this.SaveScriptBtn = new System.Windows.Forms.Button();
+            this.LoadScriptBtn = new System.Windows.Forms.Button();
+            this.ButtonBrowse = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.FilepathtextBox3 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -41,8 +46,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.Command2TextBox = new System.Windows.Forms.TextBox();
-            this.Command1TextBox = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -116,6 +119,10 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.Command2TextBox = new System.Windows.Forms.TextBox();
+            this.Command1TextBox = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -145,15 +152,20 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(824, 601);
+            this.tabControl1.Size = new System.Drawing.Size(824, 627);
             this.tabControl1.TabIndex = 8;
             // 
             // tabMain
             // 
             this.tabMain.BackColor = System.Drawing.Color.Transparent;
             this.tabMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabMain.Controls.Add(this.SaveScriptBtn);
+            this.tabMain.Controls.Add(this.LoadScriptBtn);
+            this.tabMain.Controls.Add(this.ButtonBrowse);
+            this.tabMain.Controls.Add(this.label26);
             this.tabMain.Controls.Add(this.label5);
             this.tabMain.Controls.Add(this.label18);
+            this.tabMain.Controls.Add(this.FilepathtextBox3);
             this.tabMain.Controls.Add(this.label16);
             this.tabMain.Controls.Add(this.label14);
             this.tabMain.Controls.Add(this.label12);
@@ -165,9 +177,48 @@
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(816, 575);
+            this.tabMain.Size = new System.Drawing.Size(816, 601);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "TTFF Test";
+            // 
+            // SaveScriptBtn
+            // 
+            this.SaveScriptBtn.Location = new System.Drawing.Point(705, 574);
+            this.SaveScriptBtn.Name = "SaveScriptBtn";
+            this.SaveScriptBtn.Size = new System.Drawing.Size(97, 22);
+            this.SaveScriptBtn.TabIndex = 52;
+            this.SaveScriptBtn.Text = "Save script...";
+            this.SaveScriptBtn.UseVisualStyleBackColor = true;
+            this.SaveScriptBtn.Click += new System.EventHandler(this.SaveScriptBtn_Click);
+            // 
+            // LoadScriptBtn
+            // 
+            this.LoadScriptBtn.Location = new System.Drawing.Point(602, 574);
+            this.LoadScriptBtn.Name = "LoadScriptBtn";
+            this.LoadScriptBtn.Size = new System.Drawing.Size(97, 22);
+            this.LoadScriptBtn.TabIndex = 51;
+            this.LoadScriptBtn.Text = "Load script...";
+            this.LoadScriptBtn.UseVisualStyleBackColor = true;
+            this.LoadScriptBtn.Click += new System.EventHandler(this.LoadScriptBtn_Click);
+            // 
+            // ButtonBrowse
+            // 
+            this.ButtonBrowse.Location = new System.Drawing.Point(500, 574);
+            this.ButtonBrowse.Name = "ButtonBrowse";
+            this.ButtonBrowse.Size = new System.Drawing.Size(96, 22);
+            this.ButtonBrowse.TabIndex = 50;
+            this.ButtonBrowse.Text = "Browse...";
+            this.ButtonBrowse.UseVisualStyleBackColor = true;
+            this.ButtonBrowse.Click += new System.EventHandler(this.ButtonBrowse_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(8, 578);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(73, 13);
+            this.label26.TabIndex = 49;
+            this.label26.Text = "Log files path:";
             // 
             // label5
             // 
@@ -186,6 +237,14 @@
             this.label18.Size = new System.Drawing.Size(48, 13);
             this.label18.TabIndex = 48;
             this.label18.Text = "Solution:";
+            // 
+            // FilepathtextBox3
+            // 
+            this.FilepathtextBox3.Enabled = false;
+            this.FilepathtextBox3.Location = new System.Drawing.Point(87, 575);
+            this.FilepathtextBox3.Name = "FilepathtextBox3";
+            this.FilepathtextBox3.Size = new System.Drawing.Size(407, 20);
+            this.FilepathtextBox3.TabIndex = 16;
             // 
             // label16
             // 
@@ -261,31 +320,7 @@
             this.groupBox1.Size = new System.Drawing.Size(800, 303);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "TTF switch";
-            // 
-            // Command2TextBox
-            // 
-            this.Command2TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd2sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Command2TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
-            this.Command2TextBox.Multiline = true;
-            this.Command2TextBox.Name = "Command2TextBox";
-            this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Command2TextBox.Size = new System.Drawing.Size(582, 90);
-            this.Command2TextBox.TabIndex = 19;
-            this.Command2TextBox.Text = global::Terminal.Properties.Settings.Default.cmd2sett;
-            // 
-            // Command1TextBox
-            // 
-            this.Command1TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd1sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Command1TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
-            this.Command1TextBox.Multiline = true;
-            this.Command1TextBox.Name = "Command1TextBox";
-            this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Command1TextBox.Size = new System.Drawing.Size(582, 85);
-            this.Command1TextBox.TabIndex = 18;
-            this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
+            this.groupBox1.Text = "Test settings";
             // 
             // progressBar1
             // 
@@ -403,7 +438,7 @@
             this.tabStatistics.Location = new System.Drawing.Point(4, 22);
             this.tabStatistics.Name = "tabStatistics";
             this.tabStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatistics.Size = new System.Drawing.Size(816, 575);
+            this.tabStatistics.Size = new System.Drawing.Size(816, 601);
             this.tabStatistics.TabIndex = 1;
             this.tabStatistics.Text = "Statistics";
             this.tabStatistics.UseVisualStyleBackColor = true;
@@ -432,7 +467,7 @@
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(810, 569);
+            this.dataGridView1.Size = new System.Drawing.Size(810, 595);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
@@ -521,7 +556,7 @@
             this.tabGraphs.Location = new System.Drawing.Point(4, 22);
             this.tabGraphs.Name = "tabGraphs";
             this.tabGraphs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGraphs.Size = new System.Drawing.Size(816, 575);
+            this.tabGraphs.Size = new System.Drawing.Size(816, 601);
             this.tabGraphs.TabIndex = 6;
             this.tabGraphs.Text = "Graphs";
             // 
@@ -546,8 +581,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.label25);
             this.splitContainer1.Panel2.Controls.Add(this.label23);
             this.splitContainer1.Panel2.Controls.Add(this.ButtonPlot);
-            this.splitContainer1.Size = new System.Drawing.Size(810, 569);
-            this.splitContainer1.SplitterDistance = 497;
+            this.splitContainer1.Size = new System.Drawing.Size(810, 595);
+            this.splitContainer1.SplitterDistance = 519;
             this.splitContainer1.TabIndex = 0;
             // 
             // zedGraphMain
@@ -562,7 +597,7 @@
             this.zedGraphMain.ScrollMinX = 0D;
             this.zedGraphMain.ScrollMinY = 0D;
             this.zedGraphMain.ScrollMinY2 = 0D;
-            this.zedGraphMain.Size = new System.Drawing.Size(810, 497);
+            this.zedGraphMain.Size = new System.Drawing.Size(810, 519);
             this.zedGraphMain.TabIndex = 0;
             this.zedGraphMain.UseExtendedPrintDialog = true;
             // 
@@ -643,7 +678,7 @@
             this.tabTerminal.Location = new System.Drawing.Point(4, 22);
             this.tabTerminal.Name = "tabTerminal";
             this.tabTerminal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTerminal.Size = new System.Drawing.Size(816, 575);
+            this.tabTerminal.Size = new System.Drawing.Size(816, 601);
             this.tabTerminal.TabIndex = 2;
             this.tabTerminal.Text = "Terminal";
             this.tabTerminal.UseVisualStyleBackColor = true;
@@ -656,7 +691,7 @@
             this.TextBox_Console.Name = "TextBox_Console";
             this.TextBox_Console.ReadOnly = true;
             this.TextBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_Console.Size = new System.Drawing.Size(810, 569);
+            this.TextBox_Console.Size = new System.Drawing.Size(810, 595);
             this.TextBox_Console.TabIndex = 1;
             // 
             // tabLog
@@ -665,7 +700,7 @@
             this.tabLog.Location = new System.Drawing.Point(4, 22);
             this.tabLog.Name = "tabLog";
             this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(816, 575);
+            this.tabLog.Size = new System.Drawing.Size(816, 601);
             this.tabLog.TabIndex = 3;
             this.tabLog.Text = "Log";
             this.tabLog.UseVisualStyleBackColor = true;
@@ -678,7 +713,7 @@
             this.LogConsole.Name = "LogConsole";
             this.LogConsole.ReadOnly = true;
             this.LogConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.LogConsole.Size = new System.Drawing.Size(810, 569);
+            this.LogConsole.Size = new System.Drawing.Size(810, 595);
             this.LogConsole.TabIndex = 2;
             // 
             // tabModem
@@ -711,7 +746,7 @@
             this.tabModem.Location = new System.Drawing.Point(4, 22);
             this.tabModem.Name = "tabModem";
             this.tabModem.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModem.Size = new System.Drawing.Size(816, 575);
+            this.tabModem.Size = new System.Drawing.Size(816, 601);
             this.tabModem.TabIndex = 4;
             this.tabModem.Text = "Modem Test";
             // 
@@ -796,7 +831,7 @@
             // ModemLog
             // 
             this.ModemLog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ModemLog.Location = new System.Drawing.Point(3, 370);
+            this.ModemLog.Location = new System.Drawing.Point(3, 396);
             this.ModemLog.Multiline = true;
             this.ModemLog.Name = "ModemLog";
             this.ModemLog.ReadOnly = true;
@@ -947,7 +982,7 @@
             this.tabAbout.Location = new System.Drawing.Point(4, 22);
             this.tabAbout.Name = "tabAbout";
             this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbout.Size = new System.Drawing.Size(816, 575);
+            this.tabAbout.Size = new System.Drawing.Size(816, 601);
             this.tabAbout.TabIndex = 5;
             this.tabAbout.Text = "About";
             // 
@@ -961,7 +996,7 @@
             this.textBox2.Location = new System.Drawing.Point(3, 66);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(810, 506);
+            this.textBox2.Size = new System.Drawing.Size(810, 532);
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "Denis Borodin\r\ndborodin@topcon.com";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -980,15 +1015,48 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.DefaultExt = "ftt";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "ftt";
+            this.saveFileDialog1.Filter = "FT Terminal scripts|*.ftt";
+            // 
+            // Command2TextBox
+            // 
+            this.Command2TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd2sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Command2TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
+            this.Command2TextBox.Multiline = true;
+            this.Command2TextBox.Name = "Command2TextBox";
+            this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Command2TextBox.Size = new System.Drawing.Size(582, 90);
+            this.Command2TextBox.TabIndex = 19;
+            this.Command2TextBox.Text = global::Terminal.Properties.Settings.Default.cmd2sett;
+            // 
+            // Command1TextBox
+            // 
+            this.Command1TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd1sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Command1TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
+            this.Command1TextBox.Multiline = true;
+            this.Command1TextBox.Name = "Command1TextBox";
+            this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Command1TextBox.Size = new System.Drawing.Size(582, 85);
+            this.Command1TextBox.TabIndex = 18;
+            this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 601);
+            this.ClientSize = new System.Drawing.Size(824, 627);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(840, 640);
-            this.MinimumSize = new System.Drawing.Size(840, 640);
+            this.MaximumSize = new System.Drawing.Size(840, 866);
+            this.MinimumSize = new System.Drawing.Size(840, 666);
             this.Name = "Form1";
             this.Text = "FT Terminal 1.3.3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1105,6 +1173,13 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button LineNamesBtn;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox FilepathtextBox3;
+        private System.Windows.Forms.Button ButtonBrowse;
+        private System.Windows.Forms.Button SaveScriptBtn;
+        private System.Windows.Forms.Button LoadScriptBtn;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

@@ -37,13 +37,25 @@ namespace Terminal.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("set,lock/glo/fcn,n\r\nset,lock/gps/sat,n")]
+        [global::System.Configuration.DefaultSettingValueAttribute("set,lock/glo/fcn,y\r\nset,lock/gps/sat,y")]
         public string cmd2sett {
             get {
                 return ((string)(this["cmd2sett"]));
             }
             set {
                 this["cmd2sett"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LogsFilePath {
+            get {
+                return ((string)(this["LogsFilePath"]));
+            }
+            set {
+                this["LogsFilePath"] = value;
             }
         }
     }

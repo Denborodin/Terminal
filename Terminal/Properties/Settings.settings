@@ -7,8 +7,11 @@
 set,lock/gps/sat,n</Value>
     </Setting>
     <Setting Name="cmd2sett" Type="System.String" Scope="User">
-      <Value Profile="(Default)">set,lock/glo/fcn,n
-set,lock/gps/sat,n</Value>
+      <Value Profile="(Default)">set,lock/glo/fcn,y
+set,lock/gps/sat,y</Value>
+    </Setting>
+    <Setting Name="LogsFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
