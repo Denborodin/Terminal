@@ -624,7 +624,6 @@ namespace Terminal
             {
                 StreamReader Scriptreader = new StreamReader(openFileDialog1.FileName);
                 string line;
-                int i = 0;
                 Command1TextBox.Text = "";
                 Command2TextBox.Text = "";
                 LogConsole.AppendText(DateTime.Now.ToString() + " Script file parsing sarted: " + openFileDialog1.FileName + Environment.NewLine);
