@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Terminal
 {
@@ -103,26 +105,43 @@ namespace Terminal
         {
             if (CurrentCommandLine[index] < Command1TextBox.Lines.Length)
             {
-                if (Command1TextBox.Lines[CurrentCommandLine[index]].StartsWith("@sleep"))
+                for (int j = CurrentCommandLine[index]; j < Command1TextBox.Lines.Length; j++)
                 {
-                    sleep_timer[index] = Int32.Parse(Command1TextBox.Lines[CurrentCommandLine[index]].Substring(7));
-                    CurrentCommandLine[index]++;
-                    TTFSWmode[index] = 3;
-                    //LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " Sleep timer started" + sleep_timer[index] + Environment.NewLine);
+                    if (Command1TextBox.Lines[j].StartsWith("@sleep"))
+                    {
+                        sleep_timer[index] = Int32.Parse(Command1TextBox.Lines[j].Substring(7));
+                        CurrentCommandLine[index]++;
+                        TTFSWmode[index] = 3;
+                        return;
+                        //LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " Sleep timer started" + sleep_timer[index] + Environment.NewLine);
+                    }
+                    else
+                    {
+                        CurrentPort[index].WriteLine(Command1TextBox.Lines[j]);
+                        this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Command sent: " + Command1TextBox.Lines[j], index });
+                        System.Threading.Thread.Sleep(3);
+                        CurrentCommandLine[index]++;
+                        if (CurrentCommandLine[index] == (Command1TextBox.Lines.Length-1)) CurrentCommandLine[index] = 0;
+                    }
+                
                 }
-                else
-                {
-                    CurrentPort[index].WriteLine(Command1TextBox.Lines[CurrentCommandLine[index]]);
-                    System.Threading.Thread.Sleep(25);
-                    CurrentCommandLine[index]++;
-                }
+                return;
             }
             else
             {
                 CurrentCommandLine[index] = 0;
+                return;
+            }
+        }
+
+        private async void Command1Switch(int index)
+        {
+            if (!SyncCheckBox1.Checked)
+            {
+                SendCommand1(index);
                 TTFSWmode[index] = 2;
                 TTF_Timeout1[index] = int.Parse(Timeout1TextBox.Text);
-                if (cycle_counter[index]!=0)
+                if (cycle_counter[index] != 0)
                 {
                     AddCycleResult(index);
                     StatisticChange(index);
@@ -131,6 +150,53 @@ namespace Terminal
                 if (Min_nonzero(cycle_counter) >= int.Parse(NumberOfCyclesTextBox.Text))
                 {
                     this.BeginInvoke(new MyDelegate(TimedStop));
+                }
+            }
+            else
+            {
+                    int connected_receivers = 0;
+                    int ready_receivers = 0;
+                    for (int i = 0; i < 8; i++)
+                    {
+                    if (rcv_connected[i]) connected_receivers++;
+                    if (RcvGotSol[i]) ready_receivers++;
+
+                }
+                this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " RcvConnected " + connected_receivers, index });
+                this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " ReadyReceivers " + connected_receivers, index });
+                if (connected_receivers == ready_receivers && ready_receivers!=0)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (rcv_connected[i])
+                        {
+                            RcvGotSol[i] = false;
+                            TTFSWmode[i] = 2;
+                            TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
+                            await Task.Run(() => SendCommand1(i));
+                            if (cycle_counter[i] != 0)
+                            {
+                                AddCycleResult(i);
+                                StatisticChange(i);
+                            }
+                            ttfS[i] = 0; ttfD[i] = 0; ttfF[i] = 0; ttfR[i] = 0;
+                            if (Min_nonzero(cycle_counter) >= int.Parse(NumberOfCyclesTextBox.Text))
+                            {
+                                this.BeginInvoke(new MyDelegate(TimedStop));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    RcvGotSol[index] = true;
+                    string str = "Waiting for other receivers";
+                    try
+                    {
+                        this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { str, index });
+                    }
+                    finally { }
+                    this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Receiver waiting for other " + (connected_receivers-ready_receivers), index });
                 }
             }
         }

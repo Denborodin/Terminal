@@ -46,6 +46,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Command2TextBox = new System.Windows.Forms.TextBox();
+            this.Command1TextBox = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.NumberOfCyclesTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -121,8 +123,7 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.Command2TextBox = new System.Windows.Forms.TextBox();
-            this.Command1TextBox = new System.Windows.Forms.TextBox();
+            this.SyncCheckBox1 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -302,6 +303,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.SyncCheckBox1);
             this.groupBox1.Controls.Add(this.Command2TextBox);
             this.groupBox1.Controls.Add(this.Command1TextBox);
             this.groupBox1.Controls.Add(this.progressBar1);
@@ -321,6 +323,30 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Test settings";
+            // 
+            // Command2TextBox
+            // 
+            this.Command2TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd2sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Command2TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
+            this.Command2TextBox.Multiline = true;
+            this.Command2TextBox.Name = "Command2TextBox";
+            this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Command2TextBox.Size = new System.Drawing.Size(582, 90);
+            this.Command2TextBox.TabIndex = 19;
+            this.Command2TextBox.Text = global::Terminal.Properties.Settings.Default.cmd2sett;
+            // 
+            // Command1TextBox
+            // 
+            this.Command1TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd1sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Command1TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
+            this.Command1TextBox.Multiline = true;
+            this.Command1TextBox.Name = "Command1TextBox";
+            this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Command1TextBox.Size = new System.Drawing.Size(582, 85);
+            this.Command1TextBox.TabIndex = 18;
+            this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
             // 
             // progressBar1
             // 
@@ -1024,29 +1050,16 @@
             this.saveFileDialog1.DefaultExt = "ftt";
             this.saveFileDialog1.Filter = "FT Terminal scripts|*.ftt";
             // 
-            // Command2TextBox
+            // SyncCheckBox1
             // 
-            this.Command2TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd2sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Command2TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Command2TextBox.Location = new System.Drawing.Point(6, 156);
-            this.Command2TextBox.Multiline = true;
-            this.Command2TextBox.Name = "Command2TextBox";
-            this.Command2TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Command2TextBox.Size = new System.Drawing.Size(582, 90);
-            this.Command2TextBox.TabIndex = 19;
-            this.Command2TextBox.Text = global::Terminal.Properties.Settings.Default.cmd2sett;
-            // 
-            // Command1TextBox
-            // 
-            this.Command1TextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Terminal.Properties.Settings.Default, "cmd1sett", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Command1TextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Command1TextBox.Location = new System.Drawing.Point(6, 39);
-            this.Command1TextBox.Multiline = true;
-            this.Command1TextBox.Name = "Command1TextBox";
-            this.Command1TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Command1TextBox.Size = new System.Drawing.Size(582, 85);
-            this.Command1TextBox.TabIndex = 18;
-            this.Command1TextBox.Text = global::Terminal.Properties.Settings.Default.cmd1sett;
+            this.SyncCheckBox1.AutoSize = true;
+            this.SyncCheckBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.SyncCheckBox1.Location = new System.Drawing.Point(602, 107);
+            this.SyncCheckBox1.Name = "SyncCheckBox1";
+            this.SyncCheckBox1.Size = new System.Drawing.Size(117, 17);
+            this.SyncCheckBox1.TabIndex = 20;
+            this.SyncCheckBox1.Text = "Synchronous mode";
+            this.SyncCheckBox1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1180,6 +1193,7 @@
         private System.Windows.Forms.Button LoadScriptBtn;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.CheckBox SyncCheckBox1;
     }
 }
 

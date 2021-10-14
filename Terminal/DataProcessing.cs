@@ -96,22 +96,30 @@ namespace Terminal
 
         public double Percentile(double[] sequence, double excelPercentile)
         {
+            try
+            {
 
-            Array.Sort(sequence);
-            int N = sequence.Length;
-            if (N == 0)
-            {
-                return 0;
+                Array.Sort(sequence);
+                int N = sequence.Length;
+                if (N == 0)
+                {
+                    return 0;
+                }
+                double n = (N - 1) * excelPercentile + 1;
+                // Another method: double n = (N + 1) * excelPercentile;
+                if (n == 1d) return sequence[0];
+                else if (n == N) return sequence[N - 1];
+                else
+                {
+                    int k = (int)n;
+                    double d = n - k;
+                    return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
+                }
             }
-            double n = (N - 1) * excelPercentile + 1;
-            // Another method: double n = (N + 1) * excelPercentile;
-            if (n == 1d) return sequence[0];
-            else if (n == N) return sequence[N - 1];
-            else
+            catch (Exception ex)
             {
-                int k = (int)n;
-                double d = n - k;
-                return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return 0;
             }
         }
 

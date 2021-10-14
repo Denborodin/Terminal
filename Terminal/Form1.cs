@@ -48,6 +48,7 @@ namespace Terminal
 
         System.Timers.Timer aTimer;
         int[] TTFSWmode=new int[8]; //0-Waiting for fixed 1 - Got FIX, start timeout 1, 2 - Timeout 1 elapsed, Start Timeout 2, 3 -sleep timer active
+        bool[] RcvGotSol = new bool[8];
         int[] TTF_Timeout1 = new int[8];
         int[] TTF_Timeout2 = new int[8];
         int[] cycle_counter = new int[8];
@@ -356,9 +357,7 @@ namespace Terminal
                 {
                     this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Error: " + ex.Message + Environment.NewLine, index });
                 }
-                catch (Exception ex1)
-                {
-                }
+                finally { }
             }
         }
 
@@ -482,6 +481,7 @@ namespace Terminal
             Command1TextBox.Enabled = false;
             Command2TextBox.Enabled = false;
             NumberOfCyclesTextBox.Enabled = false;
+            SyncCheckBox1.Enabled = false;
             CurrentMode = TTFSW_soltypeList.SelectedIndex;
 
             TableInit(CurrentMode);
@@ -499,6 +499,7 @@ namespace Terminal
                 counter_D[i] = 0;
                 counter_F[i] = 0;
                 counter_R[i] = 0;
+                RcvGotSol[i] = false;
                 ttfS[i] = 0;
                 ttfD[i] = 0;
                 ttfF[i] = 0;
@@ -548,6 +549,7 @@ namespace Terminal
             this.Command1TextBox.Enabled = true;
             this.Command2TextBox.Enabled = true;
             NumberOfCyclesTextBox.Enabled = true;
+            SyncCheckBox1.Enabled = true;
             progressBar1.Value = 0;
             aTimer.Enabled = false;
             aTimer.Close();
@@ -612,7 +614,7 @@ namespace Terminal
             dialog.InitialDirectory = Application.StartupPath;
             dialog.IsFolderPicker = true;
 
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok && !string.IsNullOrWhiteSpace(dialog.FileName))
             {
                 FilepathtextBox3.Text=dialog.FileName;
             }
@@ -620,7 +622,7 @@ namespace Terminal
 
         private void LoadScriptBtn_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(openFileDialog1.FileName))
             {
                 StreamReader Scriptreader = new StreamReader(openFileDialog1.FileName);
                 string line;
@@ -664,9 +666,10 @@ namespace Terminal
 
             }
         }
+
         private void SaveScriptBtn_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(saveFileDialog1.FileName))
             {
 
                 StreamWriter Scriptwriter = new StreamWriter(saveFileDialog1.FileName);
@@ -687,10 +690,6 @@ namespace Terminal
                 Scriptwriter.Close();
             }
         }
-
-
-
-
 
         //Command Timer
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
@@ -719,7 +718,7 @@ namespace Terminal
                             else
                             {
                                 //sent command 1
-                                SendCommand1(i);
+                                Command1Switch(i);
                             }
                             break;
                         case 2: //waiting for timeout 2
