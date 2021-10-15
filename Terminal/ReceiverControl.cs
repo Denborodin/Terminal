@@ -112,18 +112,40 @@ namespace Terminal
                         sleep_timer[index] = Int32.Parse(Command1TextBox.Lines[j].Substring(7));
                         CurrentCommandLine[index]++;
                         TTFSWmode[index] = 3;
+                        long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                        this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Channel " + index + " Sleep timer started " + sleep_timer[index] +" at: " + milliseconds, index });
                         return;
-                        //LogConsole.AppendText(DateTime.Now.ToString() + " Channel " + index + " Sleep timer started" + sleep_timer[index] + Environment.NewLine);
                     }
                     else
                     {
                         CurrentPort[index].WriteLine(Command1TextBox.Lines[j]);
-                        this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Command sent: " + Command1TextBox.Lines[j], index });
-                        System.Threading.Thread.Sleep(3);
+                        long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                        this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Command sent: " + Command1TextBox.Lines[j] + " at: " + milliseconds, index });
+                        //System.Threading.Thread.Sleep(3);
                         CurrentCommandLine[index]++;
                         if (CurrentCommandLine[index] == (Command1TextBox.Lines.Length-1)) CurrentCommandLine[index] = 0;
                     }
-                
+                                    
+                }
+                if (rcv_connected[index])
+                {
+                    TTFSWmode[index] = 2;
+                    TTF_Timeout1[index] = int.Parse(Timeout1TextBox.Text);
+                    if (cycle_counter[index] != 0)
+                    {
+                        AddCycleResult(index);
+                        StatisticChange(index);
+                    }
+                    ttfS[index] = 0; ttfD[index] = 0; ttfF[index] = 0; ttfR[index] = 0;
+                    this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Min_nonzero(cycle_counter) " + Min_nonzero(cycle_counter), index });
+                    if (Min_nonzero(cycle_counter) >= int.Parse(NumberOfCyclesTextBox.Text))
+                    {
+                        TimedStop();
+                    }
+                    CurrentCommandLine[index] = 0;
+                    long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " Command sending completed at: " + milliseconds, index });
+
                 }
                 return;
             }
@@ -149,19 +171,20 @@ namespace Terminal
                 ttfS[index] = 0; ttfD[index] = 0; ttfF[index] = 0; ttfR[index] = 0;
                 if (Min_nonzero(cycle_counter) >= int.Parse(NumberOfCyclesTextBox.Text))
                 {
-                    this.BeginInvoke(new MyDelegate(TimedStop));
+                    TimedStop();
                 }
             }
             else
             {
                     int connected_receivers = 0;
                     int ready_receivers = 0;
+                    RcvGotSol[index] = true;
                     for (int i = 0; i < 8; i++)
                     {
                     if (rcv_connected[i]) connected_receivers++;
                     if (RcvGotSol[i]) ready_receivers++;
+                    }
 
-                }
                 this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " RcvConnected " + connected_receivers, index });
                 this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " ReadyReceivers " + connected_receivers, index });
                 if (connected_receivers == ready_receivers && ready_receivers!=0)
@@ -170,26 +193,13 @@ namespace Terminal
                     {
                         if (rcv_connected[i])
                         {
+                            if (TTFSWmode[i] == 1) await Task.Run(() => SendCommand1(i));
                             RcvGotSol[i] = false;
-                            TTFSWmode[i] = 2;
-                            TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
-                            await Task.Run(() => SendCommand1(i));
-                            if (cycle_counter[i] != 0)
-                            {
-                                AddCycleResult(i);
-                                StatisticChange(i);
-                            }
-                            ttfS[i] = 0; ttfD[i] = 0; ttfF[i] = 0; ttfR[i] = 0;
-                            if (Min_nonzero(cycle_counter) >= int.Parse(NumberOfCyclesTextBox.Text))
-                            {
-                                this.BeginInvoke(new MyDelegate(TimedStop));
-                            }
                         }
                     }
                 }
                 else
                 {
-                    RcvGotSol[index] = true;
                     string str = "Waiting for other receivers";
                     try
                     {

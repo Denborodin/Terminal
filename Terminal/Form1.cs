@@ -269,7 +269,7 @@ namespace Terminal
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
-            TTFStopButton.PerformClick();
+            this.Invoke(new MethodInvoker(TTFStopButton.PerformClick));
             for (int i = 0; i < 8; i++)
             {
                 if (rcv_connected[i] == true)
@@ -537,44 +537,67 @@ namespace Terminal
             }
             progressBar1.Minimum = 0;
             progressBar1.Maximum = int.Parse(NumberOfCyclesTextBox.Text) * openportscount;
+            progressBar1.Value = 0;
+            progressBar1.Refresh();
+            progressBar1.Update();
         }
 
         public void TTFSWStop_Click(object sender, EventArgs e)
         {
+
             TTFSW_soltypeList.Enabled = true;
             TTFStartButton.Enabled = true;
             TTFStopButton.Enabled = false;
             Timeout1TextBox.Enabled = true;
             Timeout2TextBox.Enabled = true;
-            this.Command1TextBox.Enabled = true;
-            this.Command2TextBox.Enabled = true;
+            Command1TextBox.Enabled = true;
+            Command2TextBox.Enabled = true;
             NumberOfCyclesTextBox.Enabled = true;
             SyncCheckBox1.Enabled = true;
-            progressBar1.Value = 0;
             aTimer.Enabled = false;
             aTimer.Close();
+            progressBar1.Value = 0;
+            this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " progressBar1.Value = 0 ", 0 });
+            progressBar1.Refresh();
+            progressBar1.Update();
+
             for (int i = 0; i < 8; i++)
             {
-            TTFSWmode[i] = 0;
-                if (rcv_connected[i]==true)
+                TTFSWmode[i] = 0;
+                if (rcv_connected[i] == true)
                 {
-                    fstream[i].Close();
-                    fstream[i] = null;
                     ButtonClose[i].Enabled = true;
-                    SendCommand2(i);
-                    this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Waiting for solution", i }); ;
+                    try
+                    {
+                        this.fstream[i].Close();
+                        SendCommand2(i);
+                        this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Connected", i });
+                    }
+                    catch (Exception ex)
+                    {
+                        LogConsole.AppendText(DateTime.Now.ToString() + "File close error: " + ex.Message + Environment.NewLine);
+                    }
+                    fstream[i] = null;
                 }
                 else
                 {
                     ButtonOpen[i].Enabled = true;
                 }
-            }    
+            }
             string data = TTF_Timeout1.ToString();
             //saving statistics
-            filename = "Result" +  " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
+            filename = "Result" + " " + DateTime.Now.ToString("yyyy-MM-dd HH.mm") + ".csv";
             filename = @System.IO.Path.Combine(FilepathtextBox3.Text.ToString(), filename);
             WriteCSV(dataGridView1, filename);
             WriteCycles();
+            for (int i = 0; i < 8; i++)
+            {
+                
+                if (rcv_connected[i] == true)
+                {
+
+                }
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -756,6 +779,8 @@ namespace Terminal
                                 }
                                 else
                                 {
+                                    TTFSWmode[i] = 2;
+                                    TTF_Timeout1[i] = int.Parse(Timeout1TextBox.Text);
                                     SendCommand1(i);
                                 }
                             }
@@ -767,7 +792,18 @@ namespace Terminal
 
         void TimedStop()
         {
-            TTFStopButton.PerformClick();
+            for (int i = 0; i < 8; i++)
+            {
+                if (rcv_connected[i] == true)
+                {
+                    if (cycle_counter[i] == int.Parse(NumberOfCyclesTextBox.Text) && ttfS[i] != 0)
+                    {
+                        AddCycleResult(i);
+                        StatisticChange(i);
+                    }
+                }
+            }
+            this.Invoke(new MethodInvoker(TTFStopButton.PerformClick));
         }
 
         void STUpdate (string str, int i)
@@ -785,6 +821,7 @@ namespace Terminal
             if (progressBar1.Value < progressBar1.Maximum)
             {
                 progressBar1.Value++;
+                this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " progressBar1.Value =  " + progressBar1.Value, 0 });
             }
             
         }
@@ -798,6 +835,7 @@ namespace Terminal
                     Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i] + ttf_stop_timestamp[i]));
                 }
                 this.BeginInvoke(new ProgressUpdate(ProgUpdate));
+               
             }
         }
     }
