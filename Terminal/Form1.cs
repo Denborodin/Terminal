@@ -536,7 +536,8 @@ namespace Terminal
                 ButtonOpen[i].Enabled = false;
             }
             progressBar1.Minimum = 0;
-            progressBar1.Maximum = int.Parse(NumberOfCyclesTextBox.Text) * openportscount;
+            progressBar1.Maximum = (int.Parse(NumberOfCyclesTextBox.Text) * openportscount);
+            this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " progressBar1.Maximum = " + int.Parse(NumberOfCyclesTextBox.Text) * openportscount, 0 });
             progressBar1.Value = 0;
             progressBar1.Refresh();
             progressBar1.Update();
@@ -567,11 +568,11 @@ namespace Terminal
                 if (rcv_connected[i] == true)
                 {
                     ButtonClose[i].Enabled = true;
+                    this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Connected", i });
                     try
                     {
                         this.fstream[i].Close();
                         SendCommand2(i);
-                        this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Connected", i });
                     }
                     catch (Exception ex)
                     {
@@ -590,14 +591,6 @@ namespace Terminal
             filename = @System.IO.Path.Combine(FilepathtextBox3.Text.ToString(), filename);
             WriteCSV(dataGridView1, filename);
             WriteCycles();
-            for (int i = 0; i < 8; i++)
-            {
-                
-                if (rcv_connected[i] == true)
-                {
-
-                }
-            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -741,6 +734,11 @@ namespace Terminal
                             else
                             {
                                 //sent command 1
+                                if (cycle_counter[i] != 0 && ttfS[i] != 0)
+                                {
+                                    AddCycleResult(i);
+                                    StatisticChange(i);
+                                }
                                 Command1Switch(i);
                             }
                             break;
@@ -800,6 +798,7 @@ namespace Terminal
                     {
                         AddCycleResult(i);
                         StatisticChange(i);
+                        this.BeginInvoke(new StatusUpdate(STUpdate), new object[] { "Connected", i });
                     }
                 }
             }
@@ -823,7 +822,12 @@ namespace Terminal
                 progressBar1.Value++;
                 this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " progressBar1.Value =  " + progressBar1.Value, 0 });
             }
-            
+            if (progressBar1.Value >= progressBar1.Maximum)
+            {
+                progressBar1.Value = 0;
+                this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " progressBar1.Value =  " + progressBar1.Value, 0 });
+            }
+
         }
 
         void AddCycleResult(int i)
@@ -834,6 +838,7 @@ namespace Terminal
                 {
                     Cycles.Add(new TTFcycle(cycle_counter[i], i, ttfS[i], ttfD[i], ttfF[i], ttfR[i], ttf_stop_timestamp[i], ttfR[i] + ttf_stop_timestamp[i]));
                 }
+                ttfS[i] = 0; ttfD[i] = 0; ttfF[i] = 0; ttfR[i] = 0;
                 this.BeginInvoke(new ProgressUpdate(ProgUpdate));
                
             }

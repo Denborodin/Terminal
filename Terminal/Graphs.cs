@@ -95,7 +95,7 @@ namespace Terminal
                         {
                             list.Add(Percentile(ttfD_.ToArray(), x), x);
                         }
-                        //LogConsole.AppendText("Graph point" + " x=" + x + " y=" + Percentile(ttfD_.ToArray(), (x)) + Environment.NewLine);
+                        LogConsole.AppendText("Graph point" + " x=" + x + " y=" + Percentile(ttfD_.ToArray(), (x)) + Environment.NewLine);
                     }
                     break;
                 case 2:
@@ -106,7 +106,7 @@ namespace Terminal
                         if (Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x, 2)),2)!= Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x+increment, 2)),2))
                         {
                             list.Add(Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x, 2)),2), Math.Round(x, 2));
-                            //LogConsole.AppendText("Graph point" + " x=" + Math.Round(x, 2) + " y=" + Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x, 2)),2) + Environment.NewLine);
+                            LogConsole.AppendText("Graph point" + " x=" + Math.Round(x, 2) + " y=" + Math.Round(Percentile(ttfR_.ToArray(), Math.Round(x, 2)),2) + Environment.NewLine);
                         }
                         
                         
