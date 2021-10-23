@@ -707,6 +707,7 @@ namespace Terminal
             }
         }
 
+
         //Command Timer
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {

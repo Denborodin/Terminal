@@ -46,6 +46,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.SyncCheckBox1 = new System.Windows.Forms.CheckBox();
             this.Command2TextBox = new System.Windows.Forms.TextBox();
             this.Command1TextBox = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -91,14 +92,33 @@
             this.tabLog = new System.Windows.Forms.TabPage();
             this.LogConsole = new System.Windows.Forms.TextBox();
             this.tabModem = new System.Windows.Forms.TabPage();
-            this.PowerTextBox = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
+            this.ModemSetgroupBox = new System.Windows.Forms.GroupBox();
+            this.SatelSettingsSet = new System.Windows.Forms.Button();
+            this.SatelPowercomboBox1 = new System.Windows.Forms.ComboBox();
+            this.SatelSpancomboBox1 = new System.Windows.Forms.ComboBox();
+            this.SatelSettingsGet = new System.Windows.Forms.Button();
+            this.SatelSpanCombobox = new System.Windows.Forms.ComboBox();
+            this.SatelModeCombobox = new System.Windows.Forms.ComboBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.SatelFreqTxtbox = new System.Windows.Forms.TextBox();
+            this.ModemTestgroupBox2 = new System.Windows.Forms.GroupBox();
             this.ModemStopBtn = new System.Windows.Forms.Button();
+            this.PowerTextBox = new System.Windows.Forms.TextBox();
             this.ModemStartBtn = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.PauseTimeTxt = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.TransmitTimeTxt = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.FrqStepTxt = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.FrqStopTxt = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.FrqStartTxt = new System.Windows.Forms.TextBox();
             this.ModemLog = new System.Windows.Forms.TextBox();
             this.ModemDisconnectBTN = new System.Windows.Forms.Button();
@@ -107,11 +127,6 @@
             this.ModemTypeList = new System.Windows.Forms.ComboBox();
             this.ModemPortComboBox = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.textLabel2 = new System.Windows.Forms.Label();
@@ -123,7 +138,6 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.SyncCheckBox1 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -137,6 +151,8 @@
             this.tabTerminal.SuspendLayout();
             this.tabLog.SuspendLayout();
             this.tabModem.SuspendLayout();
+            this.ModemSetgroupBox.SuspendLayout();
+            this.ModemTestgroupBox2.SuspendLayout();
             this.tabAbout.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -323,6 +339,17 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Test settings";
+            // 
+            // SyncCheckBox1
+            // 
+            this.SyncCheckBox1.AutoSize = true;
+            this.SyncCheckBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.SyncCheckBox1.Location = new System.Drawing.Point(602, 107);
+            this.SyncCheckBox1.Name = "SyncCheckBox1";
+            this.SyncCheckBox1.Size = new System.Drawing.Size(117, 17);
+            this.SyncCheckBox1.TabIndex = 20;
+            this.SyncCheckBox1.Text = "Synchronous mode";
+            this.SyncCheckBox1.UseVisualStyleBackColor = true;
             // 
             // Command2TextBox
             // 
@@ -745,15 +772,8 @@
             // tabModem
             // 
             this.tabModem.BackColor = System.Drawing.SystemColors.Control;
-            this.tabModem.Controls.Add(this.PowerTextBox);
-            this.tabModem.Controls.Add(this.label22);
-            this.tabModem.Controls.Add(this.ModemStopBtn);
-            this.tabModem.Controls.Add(this.ModemStartBtn);
-            this.tabModem.Controls.Add(this.PauseTimeTxt);
-            this.tabModem.Controls.Add(this.TransmitTimeTxt);
-            this.tabModem.Controls.Add(this.FrqStepTxt);
-            this.tabModem.Controls.Add(this.FrqStopTxt);
-            this.tabModem.Controls.Add(this.FrqStartTxt);
+            this.tabModem.Controls.Add(this.ModemSetgroupBox);
+            this.tabModem.Controls.Add(this.ModemTestgroupBox2);
             this.tabModem.Controls.Add(this.ModemLog);
             this.tabModem.Controls.Add(this.ModemDisconnectBTN);
             this.tabModem.Controls.Add(this.ModemConnectBTN);
@@ -761,11 +781,6 @@
             this.tabModem.Controls.Add(this.ModemTypeList);
             this.tabModem.Controls.Add(this.ModemPortComboBox);
             this.tabModem.Controls.Add(this.label9);
-            this.tabModem.Controls.Add(this.label20);
-            this.tabModem.Controls.Add(this.label19);
-            this.tabModem.Controls.Add(this.label17);
-            this.tabModem.Controls.Add(this.label15);
-            this.tabModem.Controls.Add(this.label13);
             this.tabModem.Controls.Add(this.label21);
             this.tabModem.Controls.Add(this.label11);
             this.tabModem.Controls.Add(this.textLabel2);
@@ -776,26 +791,177 @@
             this.tabModem.TabIndex = 4;
             this.tabModem.Text = "Modem Test";
             // 
-            // PowerTextBox
+            // ModemSetgroupBox
             // 
-            this.PowerTextBox.Location = new System.Drawing.Point(374, 132);
-            this.PowerTextBox.Name = "PowerTextBox";
-            this.PowerTextBox.Size = new System.Drawing.Size(42, 20);
-            this.PowerTextBox.TabIndex = 10;
-            this.PowerTextBox.Text = "1000";
+            this.ModemSetgroupBox.Controls.Add(this.SatelSettingsSet);
+            this.ModemSetgroupBox.Controls.Add(this.SatelPowercomboBox1);
+            this.ModemSetgroupBox.Controls.Add(this.SatelSpancomboBox1);
+            this.ModemSetgroupBox.Controls.Add(this.SatelSettingsGet);
+            this.ModemSetgroupBox.Controls.Add(this.SatelSpanCombobox);
+            this.ModemSetgroupBox.Controls.Add(this.SatelModeCombobox);
+            this.ModemSetgroupBox.Controls.Add(this.label31);
+            this.ModemSetgroupBox.Controls.Add(this.label30);
+            this.ModemSetgroupBox.Controls.Add(this.label29);
+            this.ModemSetgroupBox.Controls.Add(this.label28);
+            this.ModemSetgroupBox.Controls.Add(this.label27);
+            this.ModemSetgroupBox.Controls.Add(this.SatelFreqTxtbox);
+            this.ModemSetgroupBox.Location = new System.Drawing.Point(11, 116);
+            this.ModemSetgroupBox.Name = "ModemSetgroupBox";
+            this.ModemSetgroupBox.Size = new System.Drawing.Size(799, 118);
+            this.ModemSetgroupBox.TabIndex = 12;
+            this.ModemSetgroupBox.TabStop = false;
+            this.ModemSetgroupBox.Text = "Satel modem settings";
             // 
-            // label22
+            // SatelSettingsSet
             // 
-            this.label22.Location = new System.Drawing.Point(254, 132);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(103, 23);
-            this.label22.TabIndex = 9;
-            this.label22.Text = "Transmit power, W:";
+            this.SatelSettingsSet.Enabled = false;
+            this.SatelSettingsSet.Location = new System.Drawing.Point(718, 64);
+            this.SatelSettingsSet.Name = "SatelSettingsSet";
+            this.SatelSettingsSet.Size = new System.Drawing.Size(75, 46);
+            this.SatelSettingsSet.TabIndex = 8;
+            this.SatelSettingsSet.Text = "Set";
+            this.SatelSettingsSet.UseVisualStyleBackColor = true;
+            this.SatelSettingsSet.Click += new System.EventHandler(this.SatelSettingsSet_Click);
+            // 
+            // SatelPowercomboBox1
+            // 
+            this.SatelPowercomboBox1.FormattingEnabled = true;
+            this.SatelPowercomboBox1.Items.AddRange(new object[] {
+            "100",
+            "200",
+            "500",
+            "1000"});
+            this.SatelPowercomboBox1.Location = new System.Drawing.Point(300, 16);
+            this.SatelPowercomboBox1.Name = "SatelPowercomboBox1";
+            this.SatelPowercomboBox1.Size = new System.Drawing.Size(88, 21);
+            this.SatelPowercomboBox1.TabIndex = 0;
+            this.SatelPowercomboBox1.Text = "100";
+            // 
+            // SatelSpancomboBox1
+            // 
+            this.SatelSpancomboBox1.FormattingEnabled = true;
+            this.SatelSpancomboBox1.Items.AddRange(new object[] {
+            "ON",
+            "OFF"});
+            this.SatelSpancomboBox1.Location = new System.Drawing.Point(87, 73);
+            this.SatelSpancomboBox1.Name = "SatelSpancomboBox1";
+            this.SatelSpancomboBox1.Size = new System.Drawing.Size(88, 21);
+            this.SatelSpancomboBox1.TabIndex = 0;
+            this.SatelSpancomboBox1.Text = "OFF";
+            // 
+            // SatelSettingsGet
+            // 
+            this.SatelSettingsGet.Enabled = false;
+            this.SatelSettingsGet.Location = new System.Drawing.Point(718, 12);
+            this.SatelSettingsGet.Name = "SatelSettingsGet";
+            this.SatelSettingsGet.Size = new System.Drawing.Size(75, 46);
+            this.SatelSettingsGet.TabIndex = 8;
+            this.SatelSettingsGet.Text = "Get";
+            this.SatelSettingsGet.UseVisualStyleBackColor = true;
+            this.SatelSettingsGet.Click += new System.EventHandler(this.SatelSettingsGet_Click);
+            // 
+            // SatelSpanCombobox
+            // 
+            this.SatelSpanCombobox.FormattingEnabled = true;
+            this.SatelSpanCombobox.Items.AddRange(new object[] {
+            "12.5 KHz",
+            "25 KHz"});
+            this.SatelSpanCombobox.Location = new System.Drawing.Point(87, 46);
+            this.SatelSpanCombobox.Name = "SatelSpanCombobox";
+            this.SatelSpanCombobox.Size = new System.Drawing.Size(88, 21);
+            this.SatelSpanCombobox.TabIndex = 0;
+            this.SatelSpanCombobox.Text = "12.5 KHz";
+            // 
+            // SatelModeCombobox
+            // 
+            this.SatelModeCombobox.FormattingEnabled = true;
+            this.SatelModeCombobox.Items.AddRange(new object[] {
+            "0 - Satel3AS",
+            "1 - PacCrest 4FSK",
+            "2 - PacCrest GMSK",
+            "3 - TrimTalk",
+            "4 - TrimTalk Trimble"});
+            this.SatelModeCombobox.Location = new System.Drawing.Point(87, 18);
+            this.SatelModeCombobox.Name = "SatelModeCombobox";
+            this.SatelModeCombobox.Size = new System.Drawing.Size(88, 21);
+            this.SatelModeCombobox.TabIndex = 0;
+            this.SatelModeCombobox.Text = "0 - Satel3AS";
+            // 
+            // label31
+            // 
+            this.label31.Location = new System.Drawing.Point(203, 22);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(66, 23);
+            this.label31.TabIndex = 3;
+            this.label31.Text = "Power, mW";
+            // 
+            // label30
+            // 
+            this.label30.Location = new System.Drawing.Point(6, 76);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(62, 23);
+            this.label30.TabIndex = 3;
+            this.label30.Text = "FEC";
+            // 
+            // label29
+            // 
+            this.label29.Location = new System.Drawing.Point(6, 49);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(62, 23);
+            this.label29.TabIndex = 3;
+            this.label29.Text = "Span";
+            // 
+            // label28
+            // 
+            this.label28.Location = new System.Drawing.Point(203, 46);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(91, 23);
+            this.label28.TabIndex = 3;
+            this.label28.Text = "Frequency, MHz";
+            // 
+            // label27
+            // 
+            this.label27.Location = new System.Drawing.Point(6, 22);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(62, 23);
+            this.label27.TabIndex = 3;
+            this.label27.Text = "Mode";
+            // 
+            // SatelFreqTxtbox
+            // 
+            this.SatelFreqTxtbox.Location = new System.Drawing.Point(300, 43);
+            this.SatelFreqTxtbox.Name = "SatelFreqTxtbox";
+            this.SatelFreqTxtbox.Size = new System.Drawing.Size(88, 20);
+            this.SatelFreqTxtbox.TabIndex = 7;
+            this.SatelFreqTxtbox.Text = "442.15000";
+            // 
+            // ModemTestgroupBox2
+            // 
+            this.ModemTestgroupBox2.Controls.Add(this.ModemStopBtn);
+            this.ModemTestgroupBox2.Controls.Add(this.PowerTextBox);
+            this.ModemTestgroupBox2.Controls.Add(this.ModemStartBtn);
+            this.ModemTestgroupBox2.Controls.Add(this.label22);
+            this.ModemTestgroupBox2.Controls.Add(this.label19);
+            this.ModemTestgroupBox2.Controls.Add(this.PauseTimeTxt);
+            this.ModemTestgroupBox2.Controls.Add(this.label13);
+            this.ModemTestgroupBox2.Controls.Add(this.TransmitTimeTxt);
+            this.ModemTestgroupBox2.Controls.Add(this.label15);
+            this.ModemTestgroupBox2.Controls.Add(this.FrqStepTxt);
+            this.ModemTestgroupBox2.Controls.Add(this.label17);
+            this.ModemTestgroupBox2.Controls.Add(this.FrqStopTxt);
+            this.ModemTestgroupBox2.Controls.Add(this.label20);
+            this.ModemTestgroupBox2.Controls.Add(this.FrqStartTxt);
+            this.ModemTestgroupBox2.Location = new System.Drawing.Point(9, 257);
+            this.ModemTestgroupBox2.Name = "ModemTestgroupBox2";
+            this.ModemTestgroupBox2.Size = new System.Drawing.Size(799, 118);
+            this.ModemTestgroupBox2.TabIndex = 11;
+            this.ModemTestgroupBox2.TabStop = false;
+            this.ModemTestgroupBox2.Text = "Modem Test";
             // 
             // ModemStopBtn
             // 
             this.ModemStopBtn.Enabled = false;
-            this.ModemStopBtn.Location = new System.Drawing.Point(15, 194);
+            this.ModemStopBtn.Location = new System.Drawing.Point(718, 65);
             this.ModemStopBtn.Name = "ModemStopBtn";
             this.ModemStopBtn.Size = new System.Drawing.Size(75, 46);
             this.ModemStopBtn.TabIndex = 8;
@@ -803,10 +969,18 @@
             this.ModemStopBtn.UseVisualStyleBackColor = true;
             this.ModemStopBtn.Click += new System.EventHandler(this.ModemStopBtn_Click);
             // 
+            // PowerTextBox
+            // 
+            this.PowerTextBox.Location = new System.Drawing.Point(126, 88);
+            this.PowerTextBox.Name = "PowerTextBox";
+            this.PowerTextBox.Size = new System.Drawing.Size(42, 20);
+            this.PowerTextBox.TabIndex = 10;
+            this.PowerTextBox.Text = "1000";
+            // 
             // ModemStartBtn
             // 
             this.ModemStartBtn.Enabled = false;
-            this.ModemStartBtn.Location = new System.Drawing.Point(15, 142);
+            this.ModemStartBtn.Location = new System.Drawing.Point(718, 13);
             this.ModemStartBtn.Name = "ModemStartBtn";
             this.ModemStartBtn.Size = new System.Drawing.Size(75, 46);
             this.ModemStartBtn.TabIndex = 8;
@@ -814,41 +988,89 @@
             this.ModemStartBtn.UseVisualStyleBackColor = true;
             this.ModemStartBtn.Click += new System.EventHandler(this.ModemStartBtn_Click);
             // 
+            // label22
+            // 
+            this.label22.Location = new System.Drawing.Point(6, 91);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(103, 23);
+            this.label22.TabIndex = 9;
+            this.label22.Text = "Transmit power, W:";
+            // 
+            // label19
+            // 
+            this.label19.Location = new System.Drawing.Point(176, 19);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(95, 23);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "Transmit time, sec:";
+            // 
             // PauseTimeTxt
             // 
-            this.PauseTimeTxt.Location = new System.Drawing.Point(523, 83);
+            this.PauseTimeTxt.Location = new System.Drawing.Point(275, 39);
             this.PauseTimeTxt.Name = "PauseTimeTxt";
             this.PauseTimeTxt.Size = new System.Drawing.Size(42, 20);
             this.PauseTimeTxt.TabIndex = 7;
             this.PauseTimeTxt.Text = "60";
             // 
+            // label13
+            // 
+            this.label13.Location = new System.Drawing.Point(6, 19);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(114, 23);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Start Frequency, MHz:";
+            // 
             // TransmitTimeTxt
             // 
-            this.TransmitTimeTxt.Location = new System.Drawing.Point(523, 60);
+            this.TransmitTimeTxt.Location = new System.Drawing.Point(275, 16);
             this.TransmitTimeTxt.Name = "TransmitTimeTxt";
             this.TransmitTimeTxt.Size = new System.Drawing.Size(42, 20);
             this.TransmitTimeTxt.TabIndex = 7;
             this.TransmitTimeTxt.Text = "60";
             // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(6, 42);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(114, 23);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "End Frequency, MHz:";
+            // 
             // FrqStepTxt
             // 
-            this.FrqStepTxt.Location = new System.Drawing.Point(374, 106);
+            this.FrqStepTxt.Location = new System.Drawing.Point(126, 62);
             this.FrqStepTxt.Name = "FrqStepTxt";
             this.FrqStepTxt.Size = new System.Drawing.Size(42, 20);
             this.FrqStepTxt.TabIndex = 7;
             this.FrqStepTxt.Text = "1";
             // 
+            // label17
+            // 
+            this.label17.Location = new System.Drawing.Point(6, 65);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(82, 23);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "Step, MHz:";
+            // 
             // FrqStopTxt
             // 
-            this.FrqStopTxt.Location = new System.Drawing.Point(374, 83);
+            this.FrqStopTxt.Location = new System.Drawing.Point(126, 39);
             this.FrqStopTxt.Name = "FrqStopTxt";
             this.FrqStopTxt.Size = new System.Drawing.Size(42, 20);
             this.FrqStopTxt.TabIndex = 7;
             this.FrqStopTxt.Text = "470";
             // 
+            // label20
+            // 
+            this.label20.Location = new System.Drawing.Point(176, 42);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(95, 23);
+            this.label20.TabIndex = 3;
+            this.label20.Text = "Pause, sec:";
+            // 
             // FrqStartTxt
             // 
-            this.FrqStartTxt.Location = new System.Drawing.Point(374, 60);
+            this.FrqStartTxt.Location = new System.Drawing.Point(126, 16);
             this.FrqStartTxt.Name = "FrqStartTxt";
             this.FrqStartTxt.Size = new System.Drawing.Size(42, 20);
             this.FrqStartTxt.TabIndex = 7;
@@ -868,9 +1090,9 @@
             // ModemDisconnectBTN
             // 
             this.ModemDisconnectBTN.Enabled = false;
-            this.ModemDisconnectBTN.Location = new System.Drawing.Point(475, 17);
+            this.ModemDisconnectBTN.Location = new System.Drawing.Point(727, 58);
             this.ModemDisconnectBTN.Name = "ModemDisconnectBTN";
-            this.ModemDisconnectBTN.Size = new System.Drawing.Size(75, 22);
+            this.ModemDisconnectBTN.Size = new System.Drawing.Size(75, 46);
             this.ModemDisconnectBTN.TabIndex = 5;
             this.ModemDisconnectBTN.Text = "Disconnect";
             this.ModemDisconnectBTN.UseVisualStyleBackColor = true;
@@ -878,9 +1100,9 @@
             // 
             // ModemConnectBTN
             // 
-            this.ModemConnectBTN.Location = new System.Drawing.Point(394, 17);
+            this.ModemConnectBTN.Location = new System.Drawing.Point(727, 6);
             this.ModemConnectBTN.Name = "ModemConnectBTN";
-            this.ModemConnectBTN.Size = new System.Drawing.Size(75, 22);
+            this.ModemConnectBTN.Size = new System.Drawing.Size(75, 46);
             this.ModemConnectBTN.TabIndex = 5;
             this.ModemConnectBTN.Text = "Connect";
             this.ModemConnectBTN.UseVisualStyleBackColor = true;
@@ -893,9 +1115,9 @@
             "4800",
             "9600",
             "19200"});
-            this.LinkRateList.Location = new System.Drawing.Point(96, 106);
+            this.LinkRateList.Location = new System.Drawing.Point(96, 87);
             this.LinkRateList.Name = "LinkRateList";
-            this.LinkRateList.Size = new System.Drawing.Size(121, 21);
+            this.LinkRateList.Size = new System.Drawing.Size(88, 21);
             this.LinkRateList.TabIndex = 4;
             // 
             // ModemTypeList
@@ -908,7 +1130,7 @@
             "R2Lite"});
             this.ModemTypeList.Location = new System.Drawing.Point(96, 60);
             this.ModemTypeList.Name = "ModemTypeList";
-            this.ModemTypeList.Size = new System.Drawing.Size(121, 21);
+            this.ModemTypeList.Size = new System.Drawing.Size(88, 21);
             this.ModemTypeList.TabIndex = 4;
             // 
             // ModemPortComboBox
@@ -923,62 +1145,22 @@
             "Serial C",
             "Serial D",
             "Direct"});
-            this.ModemPortComboBox.Location = new System.Drawing.Point(257, 17);
+            this.ModemPortComboBox.Location = new System.Drawing.Point(309, 17);
             this.ModemPortComboBox.Name = "ModemPortComboBox";
-            this.ModemPortComboBox.Size = new System.Drawing.Size(121, 21);
+            this.ModemPortComboBox.Size = new System.Drawing.Size(88, 21);
             this.ModemPortComboBox.TabIndex = 4;
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(171, 20);
+            this.label9.Location = new System.Drawing.Point(212, 20);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(80, 23);
             this.label9.TabIndex = 3;
             this.label9.Text = "Connected to:";
             // 
-            // label20
-            // 
-            this.label20.Location = new System.Drawing.Point(422, 86);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(95, 23);
-            this.label20.TabIndex = 3;
-            this.label20.Text = "Pause, sec:";
-            // 
-            // label19
-            // 
-            this.label19.Location = new System.Drawing.Point(422, 63);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(95, 23);
-            this.label19.TabIndex = 3;
-            this.label19.Text = "Transmit time, sec:";
-            // 
-            // label17
-            // 
-            this.label17.Location = new System.Drawing.Point(254, 109);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(82, 23);
-            this.label17.TabIndex = 3;
-            this.label17.Text = "Step, MHz:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(254, 86);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(114, 23);
-            this.label15.TabIndex = 3;
-            this.label15.Text = "End Frequency, MHz:";
-            // 
-            // label13
-            // 
-            this.label13.Location = new System.Drawing.Point(254, 63);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(114, 23);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "Start Frequency, MHz:";
-            // 
             // label21
             // 
-            this.label21.Location = new System.Drawing.Point(8, 109);
+            this.label21.Location = new System.Drawing.Point(8, 90);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(82, 23);
             this.label21.TabIndex = 3;
@@ -1050,17 +1232,6 @@
             this.saveFileDialog1.DefaultExt = "ftt";
             this.saveFileDialog1.Filter = "FT Terminal scripts|*.ftt";
             // 
-            // SyncCheckBox1
-            // 
-            this.SyncCheckBox1.AutoSize = true;
-            this.SyncCheckBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.SyncCheckBox1.Location = new System.Drawing.Point(602, 107);
-            this.SyncCheckBox1.Name = "SyncCheckBox1";
-            this.SyncCheckBox1.Size = new System.Drawing.Size(117, 17);
-            this.SyncCheckBox1.TabIndex = 20;
-            this.SyncCheckBox1.Text = "Synchronous mode";
-            this.SyncCheckBox1.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1093,6 +1264,10 @@
             this.tabLog.PerformLayout();
             this.tabModem.ResumeLayout(false);
             this.tabModem.PerformLayout();
+            this.ModemSetgroupBox.ResumeLayout(false);
+            this.ModemSetgroupBox.PerformLayout();
+            this.ModemTestgroupBox2.ResumeLayout(false);
+            this.ModemTestgroupBox2.PerformLayout();
             this.tabAbout.ResumeLayout(false);
             this.tabAbout.PerformLayout();
             this.ResumeLayout(false);
@@ -1194,6 +1369,20 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.CheckBox SyncCheckBox1;
+        private System.Windows.Forms.GroupBox ModemTestgroupBox2;
+        private System.Windows.Forms.GroupBox ModemSetgroupBox;
+        private System.Windows.Forms.ComboBox SatelSpancomboBox1;
+        private System.Windows.Forms.ComboBox SatelSpanCombobox;
+        private System.Windows.Forms.ComboBox SatelModeCombobox;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox SatelFreqTxtbox;
+        private System.Windows.Forms.Button SatelSettingsSet;
+        private System.Windows.Forms.ComboBox SatelPowercomboBox1;
+        private System.Windows.Forms.Button SatelSettingsGet;
     }
 }
 

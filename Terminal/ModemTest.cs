@@ -10,8 +10,6 @@ using System.Timers;
 namespace Terminal
 {
 
-
-
     public partial class Form1 : Form
     {
         public bool SatelRawData = false;
@@ -152,6 +150,8 @@ namespace Terminal
                 await Task.Delay(300);
             }
             ModemStartBtn.Enabled = true;
+            SatelSettingsGet.Enabled = true;
+            SatelSettingsSet.Enabled = true;
         }
 
         
@@ -176,6 +176,15 @@ namespace Terminal
             mTimer.Enabled = true;
             mTime = Convert.ToInt32(PauseTimeTxt.Text);
             mModeSwitch = 0;
+        }
+
+
+        private void SatelSettingsGet_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void SatelSettingsSet_Click(object sender, EventArgs e)
+        {
         }
 
         private void ModemStopBtn_Click(object sender, EventArgs e)
