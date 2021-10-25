@@ -24,7 +24,14 @@ namespace Terminal
             pane.Title.Text = "Time To First Fix distribution";
             pane.YAxis.Scale.Min = 0;
             pane.YAxis.Scale.Max = 1;
-
+            pane.XAxis.MinorTic.IsCrossOutside = false;
+            pane.XAxis.MinorTic.IsOutside = false;
+            pane.XAxis.MajorTic.IsCrossOutside = false;
+            pane.XAxis.MajorTic.IsOutside = false;
+            pane.YAxis.MinorTic.IsCrossOutside = false;
+            pane.YAxis.MinorTic.IsOutside = false;
+            pane.YAxis.MajorTic.IsCrossOutside = false;
+            pane.YAxis.MajorTic.IsOutside = false;
         }
         private void ButtonPlot_Click(object sender, EventArgs e)
         {
