@@ -95,9 +95,9 @@
             this.ModemSetgroupBox = new System.Windows.Forms.GroupBox();
             this.SatelSettingsSet = new System.Windows.Forms.Button();
             this.SatelPowercomboBox1 = new System.Windows.Forms.ComboBox();
-            this.SatelSpancomboBox1 = new System.Windows.Forms.ComboBox();
+            this.SatelFECComboBox = new System.Windows.Forms.ComboBox();
             this.SatelSettingsGet = new System.Windows.Forms.Button();
-            this.SatelSpanCombobox = new System.Windows.Forms.ComboBox();
+            this.SatelSpacingCombobox = new System.Windows.Forms.ComboBox();
             this.SatelModeCombobox = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
@@ -795,9 +795,9 @@
             // 
             this.ModemSetgroupBox.Controls.Add(this.SatelSettingsSet);
             this.ModemSetgroupBox.Controls.Add(this.SatelPowercomboBox1);
-            this.ModemSetgroupBox.Controls.Add(this.SatelSpancomboBox1);
+            this.ModemSetgroupBox.Controls.Add(this.SatelFECComboBox);
             this.ModemSetgroupBox.Controls.Add(this.SatelSettingsGet);
-            this.ModemSetgroupBox.Controls.Add(this.SatelSpanCombobox);
+            this.ModemSetgroupBox.Controls.Add(this.SatelSpacingCombobox);
             this.ModemSetgroupBox.Controls.Add(this.SatelModeCombobox);
             this.ModemSetgroupBox.Controls.Add(this.label31);
             this.ModemSetgroupBox.Controls.Add(this.label30);
@@ -837,17 +837,17 @@
             this.SatelPowercomboBox1.TabIndex = 0;
             this.SatelPowercomboBox1.Text = "100";
             // 
-            // SatelSpancomboBox1
+            // SatelFECComboBox
             // 
-            this.SatelSpancomboBox1.FormattingEnabled = true;
-            this.SatelSpancomboBox1.Items.AddRange(new object[] {
+            this.SatelFECComboBox.FormattingEnabled = true;
+            this.SatelFECComboBox.Items.AddRange(new object[] {
             "ON",
             "OFF"});
-            this.SatelSpancomboBox1.Location = new System.Drawing.Point(87, 73);
-            this.SatelSpancomboBox1.Name = "SatelSpancomboBox1";
-            this.SatelSpancomboBox1.Size = new System.Drawing.Size(88, 21);
-            this.SatelSpancomboBox1.TabIndex = 0;
-            this.SatelSpancomboBox1.Text = "OFF";
+            this.SatelFECComboBox.Location = new System.Drawing.Point(87, 73);
+            this.SatelFECComboBox.Name = "SatelFECComboBox";
+            this.SatelFECComboBox.Size = new System.Drawing.Size(88, 21);
+            this.SatelFECComboBox.TabIndex = 0;
+            this.SatelFECComboBox.Text = "OFF";
             // 
             // SatelSettingsGet
             // 
@@ -860,17 +860,17 @@
             this.SatelSettingsGet.UseVisualStyleBackColor = true;
             this.SatelSettingsGet.Click += new System.EventHandler(this.SatelSettingsGet_Click);
             // 
-            // SatelSpanCombobox
+            // SatelSpacingCombobox
             // 
-            this.SatelSpanCombobox.FormattingEnabled = true;
-            this.SatelSpanCombobox.Items.AddRange(new object[] {
+            this.SatelSpacingCombobox.FormattingEnabled = true;
+            this.SatelSpacingCombobox.Items.AddRange(new object[] {
             "12.5 KHz",
             "25 KHz"});
-            this.SatelSpanCombobox.Location = new System.Drawing.Point(87, 46);
-            this.SatelSpanCombobox.Name = "SatelSpanCombobox";
-            this.SatelSpanCombobox.Size = new System.Drawing.Size(88, 21);
-            this.SatelSpanCombobox.TabIndex = 0;
-            this.SatelSpanCombobox.Text = "12.5 KHz";
+            this.SatelSpacingCombobox.Location = new System.Drawing.Point(87, 46);
+            this.SatelSpacingCombobox.Name = "SatelSpacingCombobox";
+            this.SatelSpacingCombobox.Size = new System.Drawing.Size(88, 21);
+            this.SatelSpacingCombobox.TabIndex = 0;
+            this.SatelSpacingCombobox.Text = "12.5 KHz";
             // 
             // SatelModeCombobox
             // 
@@ -909,7 +909,7 @@
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(62, 23);
             this.label29.TabIndex = 3;
-            this.label29.Text = "Span";
+            this.label29.Text = "Spacing";
             // 
             // label28
             // 
@@ -1371,8 +1371,8 @@
         private System.Windows.Forms.CheckBox SyncCheckBox1;
         private System.Windows.Forms.GroupBox ModemTestgroupBox2;
         private System.Windows.Forms.GroupBox ModemSetgroupBox;
-        private System.Windows.Forms.ComboBox SatelSpancomboBox1;
-        private System.Windows.Forms.ComboBox SatelSpanCombobox;
+        private System.Windows.Forms.ComboBox SatelFECComboBox;
+        private System.Windows.Forms.ComboBox SatelSpacingCombobox;
         private System.Windows.Forms.ComboBox SatelModeCombobox;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label30;

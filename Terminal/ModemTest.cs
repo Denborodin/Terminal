@@ -103,14 +103,17 @@ namespace Terminal
 
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem model: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%D?");
+                    SatelRawData = true;
                     await Task.Delay(50);
 
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem HW: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%H?");
+                    SatelRawData = true;
                     await Task.Delay(50);
 
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem serial: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%S?");
+                    SatelRawData = true;
                     await Task.Delay(50);
 
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem FW version: " + Environment.NewLine);
@@ -118,27 +121,7 @@ namespace Terminal
                     SatelRawData = true;
                     await Task.Delay(50);
 
-                    //Configuring:
 
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting spacing: 12.5 KHz " + Environment.NewLine);
-                    CurrentPort[9].WriteLine("SL&W=1250");
-                    SatelRawData = true;
-                    await Task.Delay(50);
-
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting radio protocol: Satel " + Environment.NewLine);
-                    CurrentPort[9].WriteLine("SL@S=0");
-                    SatelRawData = true;
-                    await Task.Delay(50);
-
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting FEC: ON " + Environment.NewLine);
-                    CurrentPort[9].WriteLine("SL%F=1");
-                    SatelRawData = true;
-                    await Task.Delay(50);
-
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting Transmit power: " + PowerTextBox.Text + Environment.NewLine);
-                    CurrentPort[9].WriteLine("SL%F="+ PowerTextBox.Text);
-                    SatelRawData = true;
-                    await Task.Delay(50);
 
                     break;
                 default:
@@ -181,10 +164,107 @@ namespace Terminal
 
         private void SatelSettingsGet_Click(object sender, EventArgs e)
         {
+
+
         }
 
-        private void SatelSettingsSet_Click(object sender, EventArgs e)
+        async private void SatelSettingsSet_Click(object sender, EventArgs e)
         {
+
+
+            if (ModemPortComboBox.Text != "Direct")
+            {
+                CurrentPort[9].WriteLine("dm,dev/modem/a");
+                System.Threading.Thread.Sleep(25);
+                DChain();
+                await Task.Delay(300);
+            }
+            //Configuring:
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting spacing: " + SatelSpacingCombobox.Text + Environment.NewLine);
+            switch (SatelSpacingCombobox.SelectedIndex)
+            {
+                case 0:
+                    CurrentPort[9].WriteLine("SL&W=1250");
+                    SatelRawData = true;
+                    break;
+                case 1:
+                    CurrentPort[9].WriteLine("SL&W=2500");
+                    SatelRawData = true;
+                    break;
+                default:
+                    break;
+            }
+            await Task.Delay(50);
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting radio protocol: " + SatelModeCombobox.Text + Environment.NewLine);
+            switch (SatelModeCombobox.SelectedIndex)
+            {
+                case 0:
+                    CurrentPort[9].WriteLine("SL@S=0");
+                    SatelRawData = true;
+                    break;
+                case 1:
+                    CurrentPort[9].WriteLine("SL@S=1");
+                    SatelRawData = true;
+                    break;
+                case 2:
+                    CurrentPort[9].WriteLine("SL@S=2");
+                    SatelRawData = true;
+                    break;
+                case 3:
+                    CurrentPort[9].WriteLine("SL@S=3");
+                    SatelRawData = true;
+                    break;
+                case 4:
+                    CurrentPort[9].WriteLine("SL@S=4");
+                    SatelRawData = true;
+                    break;
+                default:
+                    break;
+            }
+            await Task.Delay(50);
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting FEC: " + SatelFECComboBox.Text+ Environment.NewLine);
+            switch (SatelFECComboBox.SelectedIndex)
+            {
+                case 0:
+                    CurrentPort[9].WriteLine("SL%F=1");
+                    SatelRawData = true;
+                    break;
+                case 1:
+                    CurrentPort[9].WriteLine("SL%F=0");
+                    SatelRawData = true;
+                    break;
+                default:
+                    break;
+            }
+            await Task.Delay(50);
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting Transmit power: " + SatelPowercomboBox1.Text + Environment.NewLine);
+            CurrentPort[9].WriteLine("SL%F=" + SatelPowercomboBox1.Text);
+            SatelRawData = true;
+            await Task.Delay(50);
+
+            string data = "SL&F=";
+            SatelRawData = true;
+            data = data + SatelFreqTxtbox.Text;
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting Transmit power: " + SatelFreqTxtbox.Text + Environment.NewLine);
+            CurrentPort[9].WriteLine(data);
+            System.Threading.Thread.Sleep(50);
+
+            Satel_GetSettings();
+
+            if (ModemPortComboBox.Text != "Direct")
+            {
+                DChainOff();
+                await Task.Delay(300);
+            }
+        }
+
+        private void Satel_GetSettings()
+        {
+            
         }
 
         private void ModemStopBtn_Click(object sender, EventArgs e)
