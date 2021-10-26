@@ -17,6 +17,7 @@ namespace Terminal
         public int mTime = 0;
         public int mModeSwitch = 0; //test phase switch, 0 - pause, 1 - transmit
         public int LinkRate;
+        public string SatelResponse = null;
         System.Timers.Timer mTimer;
         public string tr_data; // 100 bytes
         public string ModemType; 
@@ -93,6 +94,8 @@ namespace Terminal
             {
                 CurrentPort[9].WriteLine("dm,dev/modem/a");
                 System.Threading.Thread.Sleep(25);
+                CurrentPort[9].WriteLine("dm,dev/ser/a");
+                System.Threading.Thread.Sleep(25);
                 DChain();
                 await Task.Delay(300);
             }
@@ -104,22 +107,22 @@ namespace Terminal
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem model: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%D?");
                     SatelRawData = true;
-                    await Task.Delay(50);
+                    await Task.Delay(100);
 
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem HW: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%H?");
                     SatelRawData = true;
-                    await Task.Delay(50);
+                    await Task.Delay(100);
 
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem serial: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%S?");
                     SatelRawData = true;
-                    await Task.Delay(50);
+                    await Task.Delay(100);
 
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Modem FW version: " + Environment.NewLine);
                     CurrentPort[9].WriteLine("SL%V?");
                     SatelRawData = true;
-                    await Task.Delay(50);
+                    await Task.Delay(100);
 
 
 
@@ -159,13 +162,6 @@ namespace Terminal
             mTimer.Enabled = true;
             mTime = Convert.ToInt32(PauseTimeTxt.Text);
             mModeSwitch = 0;
-        }
-
-
-        private void SatelSettingsGet_Click(object sender, EventArgs e)
-        {
-
-
         }
 
         async private void SatelSettingsSet_Click(object sender, EventArgs e)
@@ -239,21 +235,65 @@ namespace Terminal
                 default:
                     break;
             }
-            await Task.Delay(50);
+            await Task.Delay(100);
 
             ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting Transmit power: " + SatelPowercomboBox1.Text + Environment.NewLine);
-            CurrentPort[9].WriteLine("SL%F=" + SatelPowercomboBox1.Text);
+            CurrentPort[9].WriteLine("SL@P=" + SatelPowercomboBox1.Text);
             SatelRawData = true;
-            await Task.Delay(50);
+            await Task.Delay(100);
 
             string data = "SL&F=";
             SatelRawData = true;
             data = data + SatelFreqTxtbox.Text;
-            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting Transmit power: " + SatelFreqTxtbox.Text + Environment.NewLine);
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting Frequency: " + SatelFreqTxtbox.Text + Environment.NewLine);
             CurrentPort[9].WriteLine(data);
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(100);
+
+            
+            if (ModemPortComboBox.Text != "Direct")
+            {
+                DChainOff();
+                await Task.Delay(300);
+            }
 
             Satel_GetSettings();
+        }
+
+        async private void Satel_GetSettings()
+        {
+           if (ModemPortComboBox.Text != "Direct")
+            {
+                CurrentPort[9].WriteLine("dm,dev/modem/a");
+                System.Threading.Thread.Sleep(25);
+                CurrentPort[9].WriteLine("dm,dev/ser/a");
+                System.Threading.Thread.Sleep(25);
+                DChain();
+                await Task.Delay(300);
+            }
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Quering spacing " + Environment.NewLine);
+            CurrentPort[9].WriteLine("SL&W?");
+            SatelRawData = true;
+            SatelResponse = "Spacing";
+            await Task.Delay(100);
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Quering Frequency " + Environment.NewLine);
+            CurrentPort[9].WriteLine("SL&F?");
+            SatelRawData = true;
+            SatelResponse = "Frequency";
+            await Task.Delay(100);
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Quering Protocol " + Environment.NewLine);
+            CurrentPort[9].WriteLine("SL@S?");
+            SatelRawData = true;
+            SatelResponse = "Protocol";
+            await Task.Delay(100);
+
+            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Quering Power " + Environment.NewLine);
+            CurrentPort[9].WriteLine("SL@P?");
+            SatelRawData = true;
+            SatelResponse = "Power";
+            await Task.Delay(100);
 
             if (ModemPortComboBox.Text != "Direct")
             {
@@ -262,9 +302,9 @@ namespace Terminal
             }
         }
 
-        private void Satel_GetSettings()
+        private void SatelSettingsGet_Click(object sender, EventArgs e)
         {
-            
+            Satel_GetSettings();
         }
 
         private void ModemStopBtn_Click(object sender, EventArgs e)
@@ -392,7 +432,7 @@ namespace Terminal
             }
         }
         
-        void CurrentPort_ModemDataReceived(object sender, SerialDataReceivedEventArgs e)
+        async void CurrentPort_ModemDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var port = (SerialPort)sender;
             string data = null;
@@ -400,6 +440,7 @@ namespace Terminal
             {
                 if (SatelRawData)
                 {
+                    await Task.Delay(25);
                     data = port.ReadExisting();
                     SatelRawData = false;
                 }
@@ -419,6 +460,168 @@ namespace Terminal
         void ModemDataReceived (string data, int i)
         {
             ModemLog.AppendText(DateTime.Now.ToString() +"  "+ data + Environment.NewLine);
+
+            switch (SatelResponse)
+            {
+                case "FEC":
+                    switch (data.Trim())
+                    {
+                        case "0":
+                            SatelFECComboBox.SelectedIndex = 0;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "FEC is set to OFF" + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        case "1":
+                            SatelFECComboBox.SelectedIndex = 1;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "FEC is set to ON" + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        default:
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "FEC response not recognized" + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                    }
+                    break;
+
+                case "Spacing":
+                    switch (data.Trim())
+                    {
+                        case "12.5 kHz":
+                            SatelSpacingCombobox.SelectedIndex = 0;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Spacing is set to " + data+ Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        case "25.0 kHz":
+                            SatelSpacingCombobox.SelectedIndex = 1;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "FEC is set to " + data+Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        default:
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "FEC response not recognized" + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                    }
+                    break;
+
+                case "Power":
+                    switch (data.Trim())
+                    {
+                        case "10 mW":
+                            SatelPowercomboBox1.SelectedIndex = 0;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Power is set to " +data+ Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        case "50 mW":
+                            SatelPowercomboBox1.SelectedIndex = 1;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Power is set to " + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        case "100 mW":
+                            SatelPowercomboBox1.SelectedIndex = 2;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Power is set to " + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        case "200 mW":
+                            SatelPowercomboBox1.SelectedIndex = 3;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Power is set to " + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        case "500 mW":
+                            SatelPowercomboBox1.SelectedIndex = 4;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Power is set to " + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        case "1000 mW":
+                            SatelPowercomboBox1.SelectedIndex = 5;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Power is set to " + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                        default:
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Power response not recognized: " + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                    }
+                    break;
+
+                case "Frequency":
+
+                    string[] parts = data.Trim().Split(' ');
+                    if (double.TryParse(parts[1], out double freq))
+                    {
+                        SatelFreqTxtbox.Text = freq.ToString("F4");
+                        ModemLog.AppendText(DateTime.Now.ToString() + " " + "Frequency is set to: " + parts[1] + Environment.NewLine);
+                        SatelRawData = false;
+                        SatelResponse = null;
+                        break;
+                    }
+                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Frequency response not recognized: " + parts[1] + Environment.NewLine);
+                    SatelRawData = false;
+                    SatelResponse = null;
+                    break;
+
+                case "Protocol":
+                    switch (data)
+                    {
+                        case "0":
+                            SatelModeCombobox.SelectedItem = 0;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Protocol is set to Satel3AS" + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+
+                        case "1":
+                            SatelModeCombobox.SelectedItem = 1;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Protocol is set to PacCrest 4FSK" + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+
+                        case "2":
+                            SatelModeCombobox.SelectedItem = 2;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Protocol is set to PacCrest GMSK" + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+
+                        case "3":
+                            SatelModeCombobox.SelectedItem = 3;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Protocol is set to TrimTalk" + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+
+                        case "4":
+                            SatelModeCombobox.SelectedItem = 4;
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Protocol is set to TrimTalk Trimble" + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+
+                        default:
+                            ModemLog.AppendText(DateTime.Now.ToString() + " " + "Protocol response not recognized" + data + Environment.NewLine);
+                            SatelRawData = false;
+                            SatelResponse = null;
+                            break;
+                    }
+                    break;
+                case null:
+                    break;
+                default:
+                    break;
+            }
         }
 
         void ModemLogUpdate(string str)

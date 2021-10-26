@@ -827,6 +827,9 @@
             // 
             this.SatelPowercomboBox1.FormattingEnabled = true;
             this.SatelPowercomboBox1.Items.AddRange(new object[] {
+            "10",
+            "20",
+            "50",
             "100",
             "200",
             "500",
