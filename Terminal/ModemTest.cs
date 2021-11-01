@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace Terminal
         public string tr_data; // 100 bytes
         public string ModemType;
         public string ModemPort;
+        public string ModemFilename;
         private void ModemConnectBTN_Click(object sender, EventArgs e)
         {
 
@@ -98,7 +100,7 @@ namespace Terminal
             }
             catch (Exception ex)
             {
-                ModemLog.AppendText(DateTime.Now.ToString() + " " + "Communications error: " + ex + Environment.NewLine);
+                ModemLogUpdate("Communications error: " + ex);
                 return null;
             }
 
@@ -110,7 +112,7 @@ namespace Terminal
             }
             if (CurrentPort[9].BytesToRead <= 0)
             {
-                ModemLog.AppendText(DateTime.Now.ToString() + " " + "Communication timout, no response for command: " + data + Environment.NewLine);
+                ModemLogUpdate("Communication timout, no response for command: " + data);
             }
             else
             {
@@ -121,7 +123,7 @@ namespace Terminal
                 }
                 catch (TimeoutException ex)
                 {
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Communications error: " +ex+ Environment.NewLine);
+                    ModemLogUpdate("Communications error: " + ex);
                     return null;
                 }
             }
@@ -204,10 +206,11 @@ namespace Terminal
             Satel_SetSettings();
             CurrentFrequency = Convert.ToInt32(FrqStartTxt.Text);
             //start log
-            string str = DateTime.Now.Minute+"."+ DateTime.Now.Second;
+            ModemFilename = "Modem_test_" + DateTime.Now.Hour + "." + DateTime.Now.Minute+"."+ DateTime.Now.Second;
+
             for (int i = 0; i < 3; i++)
             {
-                response = SendData("%%create,Modem_test_" + str+".tps");
+                response = SendData("%%create," + ModemFilename + ".tps");
                 if (response != null)
                 {
                     break;
@@ -222,7 +225,7 @@ namespace Terminal
                 }
             }
             System.Threading.Thread.Sleep(25);
-            ModemLog.AppendText("Receiver log started, filename: Modem_test_" + str + " Receiver reply: " + response);
+            ModemLogUpdate("Receiver log started, filename: " + ModemFilename + " Receiver reply: " + response);
             //starting command timer
             mModeSwitch = 0;
             mTimer = new System.Timers.Timer(1000);
@@ -611,7 +614,9 @@ namespace Terminal
                 }
             }
             System.Threading.Thread.Sleep(25);
-            ModemLog.AppendText("Receiver log stopped, " +" Receiver reply: " + response);
+            ModemLogUpdate("Receiver log stopped, " +" Receiver reply: " + response);
+            ModemLogSave();
+            ModemLog.Text = "";
 
         }
 
@@ -644,8 +649,11 @@ namespace Terminal
                     this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "response: "+ response });
                     if (response.Trim() == "OK")
                         {
-                            CurrentPort[9].WriteLine("%%event,\"_SIT=" + CurrentFrequency.ToString() + "\"");
-                            this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Frequency set OK" });
+                        CurrentPort[9].WriteLine("%%event,\"_SIT=" + CurrentFrequency.ToString() + "\"");
+                        CurrentPort[9].WriteLine("%%event,\"_DYM=DYNAMIC\"");
+                        Thread.Sleep(25);
+                        CurrentPort[9].DiscardInBuffer();
+                        this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Frequency set OK" });
                             mModeSwitch = 1;
                             this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Transmission started" });
                             mTime = Convert.ToInt32(TransmitTimeTxt.Text);
@@ -663,7 +671,12 @@ namespace Terminal
                         }
                         break;
                     case 1: //Transmition end
-                        if (CurrentFrequency < Convert.ToInt32(FrqStopTxt.Text))
+                    DChainOff();
+                    Thread.Sleep(25);
+                    CurrentPort[9].WriteLine("%%event,\"_DYM=STATIC\"");
+                    Thread.Sleep(25);
+                    CurrentPort[9].DiscardInBuffer();
+                    if (CurrentFrequency < Convert.ToInt32(FrqStopTxt.Text))
                         {
                             CurrentFrequency = CurrentFrequency + Convert.ToInt32(FrqStepTxt.Text);
                             this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Transmission stopped" });
@@ -734,7 +747,7 @@ namespace Terminal
              switch (ModemPort)
             {
                 case "Modem A":
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Setting daisy chain to Modem A" + Environment.NewLine);
+                    ModemLogUpdate("Setting daisy chain to Modem A");
                     //this.BeginInvoke(new MLogUpdate(ModemLogUpdate), new object[] { "Setting daisy chain to Modem A"});
                     CurrentPort[9].WriteLine("set,/par/dev/modem/a/echo,/dev/ser/a");
                     System.Threading.Thread.Sleep(25);
@@ -760,7 +773,7 @@ namespace Terminal
             switch (ModemPort)
             {
                 case "Modem A":
-                    ModemLog.AppendText(DateTime.Now.ToString() + " " + "Removing daisy chain to Modem A" + Environment.NewLine);
+                    ModemLogUpdate("Removing daisy chain to Modem A");
                     for (int j = 0; j < 128; j++)
                     {
                         data1 = data1 + Convert.ToChar(0x01);
@@ -797,10 +810,25 @@ namespace Terminal
             ModemLog.AppendText(DateTime.Now.ToString() + " " + str + Environment.NewLine);
         }
 
+        void ModemLogSave()
+        {
+            ModemFilename = ModemFilename + ".log";
+            filename = @System.IO.Path.Combine(FilepathtextBox3.Text.ToString(), ModemFilename);
+
+            StreamWriter swOut = new StreamWriter(ModemFilename);
+
+            foreach (var line in ModemLog.Lines)
+            {
+                swOut.WriteLine(line);
+            }
+
+            swOut.Close();
+        }
+
         void TestCompleted()
         {
             ModemStopBtn.PerformClick();
-            ModemLog.AppendText("Modem Test Completed"  +Environment.NewLine);
+            ModemLogUpdate("Modem Test Completed");
         }
 
     }

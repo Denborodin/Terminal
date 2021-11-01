@@ -558,7 +558,7 @@ namespace Terminal
             aTimer.Enabled = false;
             aTimer.Close();
             progressBar1.Value = 0;
-            this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " progressBar1.Value = 0 ", 0 });
+            //this.BeginInvoke(new StatusUpdate(LogUpdate), new object[] { " progressBar1.Value = 0 ", 0 });
             progressBar1.Refresh();
             progressBar1.Update();
 
