@@ -442,7 +442,7 @@ namespace Terminal
                 {
                     ModemLog.AppendText(DateTime.Now.ToString() + " " + "Quering Frequency succesfully: " + response.Trim() + Environment.NewLine);
                     string[] parts = response.Trim().Split(' ');
-                    if (double.TryParse(parts[1], out double freq))
+                    if (double.TryParse(parts[2], out double freq))
                     {
                         SatelFreqTxtbox.Text = freq.ToString("F4");
                         ModemLog.AppendText(DateTime.Now.ToString() + " " + "Frequency is set to: " + parts[1] + Environment.NewLine);
